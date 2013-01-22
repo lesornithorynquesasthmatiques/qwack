@@ -39,7 +39,7 @@ public class Options {
 	/*private*/ @VisibleForTesting String mongoCollectionName = "data";
 
     @Option(name = "-?", aliases = {"--help"}, usage = "Displays usage help") 
-    /*private*/ @VisibleForTesting boolean help;
+    private boolean help;
 
     public File getH5file() {
 		return h5file;

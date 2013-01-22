@@ -10,9 +10,9 @@ import ncsa.hdf.object.h5.H5File;
 
 import org.junit.Test;
 
-public class SimpleCompoundTypeReadTest {
+public class SimpleReadTest {
 	
-	private static final String FILENAME = "src/test/resources/sensors2.h5";
+	private static final String FILENAME = "src/test/resources/sensors.h5";
 
 	private static String DATASETNAME = "Sensors/SENSORS";
 

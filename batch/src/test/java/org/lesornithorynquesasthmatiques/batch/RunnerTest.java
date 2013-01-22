@@ -11,7 +11,7 @@ import org.lesornithorynquesasthmatiques.mongo.MongoTestsSupport;
 
 public class RunnerTest {
 
-	private static final String FILENAME = "src/test/resources/sensors2.h5";
+	private static final String FILENAME = "src/test/resources/sensors.h5";
 
 	private static String DATASET_PATH = "Sensors/SENSORS";
 
