@@ -11,10 +11,10 @@ import com.google.common.annotations.VisibleForTesting;
 
 public class Options {
 	
-	@Option(name = "-f", aliases = {"--file"}, usage = "Full path to HDF5 file") 
+	@Option(name = "-f", aliases = {"--file"}, usage = "Full path to HDF5 file", required = true) 
 	/*private*/ @VisibleForTesting File h5file = null;
 
-	@Option(name = "-s", aliases = {"--dataset"}, usage = "Full path to HDF5 dataset inside file") 
+	@Option(name = "-s", aliases = {"--dataset"}, usage = "Full path to HDF5 dataset inside file", required = true) 
 	/*private*/ @VisibleForTesting String datasetPath = null;
 
 	@Option(name = "-z", aliases = {"--chunk-size"}, usage = "Chunk size, default: 100") 

@@ -21,7 +21,7 @@ public class Main {
 
 	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-	private final Options options;
+	private Options options;
 
 	private long start;
 
@@ -32,21 +32,17 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		Options options = new Options();
-		options.populate(args);
-		Main main = new Main(options);
-		int status = main.run();
+		Main main = new Main();
+		int status = main.run(args);
 		System.exit(status);
 	}
 
-	private Main(Options options) {
-		this.options = options;
-	}
-
-	public int run() throws Exception {
+	public int run(String[] args) throws Exception {
+		this.options = new Options();
+		options.populate(args);
 		int status = -1;
-		if (this.options.isHelp()) {
-			this.options.printUsage(System.out);
+		if (options.isHelp()) {
+			options.printUsage(System.out);
 			status = 0;
 		} else {
 			logStart();
@@ -64,18 +60,18 @@ public class Main {
 		return status;
 	}
 
-	public Options getOptions() {
-		return options;
-	}
-
 	private void logStart() {
 		this.start = System.currentTimeMillis();
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Starting Batch");
 			LOG.info("File: {}", options.getH5file());
+			LOG.info("Dataset Path: {}", options.getDatasetPath());
+			LOG.info("Chunk Size: {}", options.getChunkSize());
 			LOG.info("Mongo host: {}", options.getMongoHost());
 			LOG.info("Mongo port: {}", options.getMongoPort());
 			LOG.info("Mongo user: {}", options.getMongoUser());
+			LOG.info("Mongo DB: {}", options.getMongoDatabaseName());
+			LOG.info("Mongo Collection: {}", options.getMongoCollectionName());
 		}
 	}
 
