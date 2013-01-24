@@ -10,9 +10,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
-import org.lesornithorynquesasthmatiques.converter.SensorConverter;
+import org.lesornithorynquesasthmatiques.converter.CityConverter;
 import org.lesornithorynquesasthmatiques.hdf.HDF5Reader;
-import org.lesornithorynquesasthmatiques.model.Sensor;
+import org.lesornithorynquesasthmatiques.model.City;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,15 +55,15 @@ public class Main {
 					options.getH5file(), 
 					options.getDatasetPath(), 
 					options.getChunkSize());
-				SensorConverter converter = new SensorConverter();
-				MongoWriter<Sensor> writer = new MongoWriter<Sensor>(
+				CityConverter converter = new CityConverter();
+				MongoWriter<City> writer = new MongoWriter<City>(
 					options.getMongoHost(), 
 					options.getMongoPort(), 
 					options.getMongoUser(), 
 					options.getMongoPassword(), 
 					options.getMongoDatabaseName(), 
 					options.getMongoCollectionName());
-				Runner<Sensor> runner = new Runner<Sensor>();
+				Runner<City> runner = new Runner<City>();
 				runner.setReader(reader);
 				runner.setConverter(converter);
 				runner.setWriter(writer);

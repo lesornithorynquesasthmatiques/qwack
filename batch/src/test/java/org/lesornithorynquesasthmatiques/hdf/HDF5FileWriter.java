@@ -1,4 +1,4 @@
-package org.lesornithorynquesasthmatiques.batch;
+package org.lesornithorynquesasthmatiques.hdf;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -16,10 +16,11 @@ import ncsa.hdf.object.h5.H5File;
 import com.google.common.base.Splitter;
 
 /**
+ * A small tool to generate H5 files from flat CSV files.
  * @author Alexandre Dutra
  *
  */
-public class WriteTest {
+public class HDF5FileWriter {
 
 	public static void main(String[] args) throws Exception {
 		H5File h5file = new H5File("cities" + System.currentTimeMillis() + ".h5", FileFormat.WRITE);
@@ -27,8 +28,8 @@ public class WriteTest {
         h5file.open();
         Group root = (Group) ((javax.swing.tree.DefaultMutableTreeNode) h5file.getRootNode()).getUserObject(); 
         Group group = h5file.createGroup( "GEONAMES", root); 
-        int linesToRead = 133222;
-    	int chunkSize = 1000;
+        int linesToRead = 4;
+    	int chunkSize = 2;
         H5CompoundDS dataset = (H5CompoundDS) h5file.createCompoundDS(
         		"FR", 
         		group, 
@@ -81,7 +82,7 @@ public class WriteTest {
         		new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
         		null);
         
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\Téléchargements\\FR\\FR.txt"), "UTF-8"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\Téléchargements\\FR\\FR-small.txt"), "UTF-8"));
     	Splitter splitter = Splitter.on("\t");
 
 		int[] geonameids = new int[chunkSize];

@@ -9,22 +9,22 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.base.Strings;
 import com.mongodb.DB;
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 
 /**
- * A helper that holds a singleton instance of {@link Mongo}.
+ * A helper that holds a singleton instance of {@link MongoClient}.
  * 
  * @author Alexandre Dutra
  *
  */
 public class MongoHelper {
 
-	private static Mongo mongo;
+	private static MongoClient mongo;
 	
 	public static void initMongo(String mongoHost, Integer mongoPort, String mongoUser, String mongoPassword) throws UnknownHostException, MongoException {
 		if(mongo == null) {
-			mongo = new Mongo(mongoHost, mongoPort);
+			mongo = new MongoClient(mongoHost, mongoPort);
 			mongoUser = Strings.emptyToNull(mongoUser);
 			if (mongoUser != null) {
 				DB adminDb = mongo.getDB("admin");
@@ -38,7 +38,7 @@ public class MongoHelper {
 		}
 	}
 
-	public static Mongo getMongo() {
+	public static MongoClient getMongo() {
 		return mongo;
 	}
 
@@ -55,7 +55,7 @@ public class MongoHelper {
 	 * Back-door for unit tests.
 	 * @param mongo
 	 */
-	static void setMongo(Mongo mongo) {
+	static void setMongo(MongoClient mongo) {
 		MongoHelper.mongo = mongo;
 	}
 

@@ -8,11 +8,16 @@ import ncsa.hdf.object.FileFormat;
 import ncsa.hdf.object.h5.H5CompoundDS;
 import ncsa.hdf.object.h5.H5File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @author Alexandre Dutra
  *
  */
 public class HDF5Reader {
+
+	private static final Logger LOG = LoggerFactory.getLogger(HDF5Reader.class);
 
 	private final File file;
 
@@ -46,6 +51,7 @@ public class HDF5Reader {
 	}
 
 	public DataSubset readNextChunk() throws Exception {
+		LOG.info("Reading up to {} items from offset {}", chunkSize, currentRow);
 		//this needs to be called every time we want to getData()
 		//let's hope it doesn't affect performance...
 		dataset.init();
@@ -61,6 +67,10 @@ public class HDF5Reader {
 		List<Object> data = (List<Object>) dataset.getData();
 		currentRow += selecteds[0];
 		return new DataSubset(data);
+	}
+
+	public int itemsRead() {
+		return currentRow;
 	}
 
 	public void close() throws HDF5Exception {

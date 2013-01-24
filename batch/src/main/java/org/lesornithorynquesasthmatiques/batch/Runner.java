@@ -6,12 +6,16 @@ import org.lesornithorynquesasthmatiques.converter.Converter;
 import org.lesornithorynquesasthmatiques.hdf.HDF5Reader;
 import org.lesornithorynquesasthmatiques.hdf.DataSubset;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Alexandre Dutra
  *
  */
 public class Runner<T> {
+
+	private static final Logger LOG = LoggerFactory.getLogger(Runner.class);
 
 	private HDF5Reader reader;
 	
@@ -42,6 +46,7 @@ public class Runner<T> {
 			writer.write(sensors);
 		}
 		
+		LOG.info("Items read: {}", reader.itemsRead());
 		reader.close();
 		
 	}

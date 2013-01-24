@@ -3,7 +3,6 @@ package org.lesornithorynquesasthmatiques.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.lesornithorynquesasthmatiques.hdf.DataSubset;
 import org.lesornithorynquesasthmatiques.model.City;
@@ -50,8 +49,7 @@ public class CityConverter implements Converter<City> {
 			city.setName(name);
 			city.setAsciiName(asciiname);
 			city.setAlternateNames(alternatename == null || alternatename.isEmpty() ? null : Sets.newLinkedHashSet(SPLITTER.split(alternatename)));
-			city.setLatitude(latitude);
-			city.setLongitude(longitude);
+			city.setLocation(new double[]{longitude, latitude});
 			city.setFeatureClass(feature_class);
 			city.setFeatureCode(feature_code);
 			city.setCountryCode(country_code);
@@ -63,7 +61,7 @@ public class CityConverter implements Converter<City> {
 			city.setPopulation(population);
 			city.setElevation(elevation);
 			city.setDem(dem);
-			city.setTimezone(timezone == null || timezone.isEmpty() ? null : DateTimeZone.forID(timezone));
+			city.setTimezone(timezone);
 			city.setModificationDate(modification_date == null || modification_date.isEmpty() ? null : new LocalDate(modification_date));
 			
 			cities.add(city);

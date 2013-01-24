@@ -43,11 +43,13 @@ public class HDF5ReaderTest {
 		assertThat(data.getValue(1, 0)).isEqualTo(-1610350592);
 		assertThat(data.getValue(2, 0)).isEqualTo(50593792);
 		assertThat(reader.hasMoreChunks()).isTrue();
+		assertThat(reader.itemsRead()).isEqualTo(3);
 		data = reader.readNextChunk();
 		assertThat(data.getRows()).isEqualTo(1);
 		assertThat(data.getColumns()).isEqualTo(4);
 		assertThat(data.getValue(0, 0)).isEqualTo(553975808);
 		assertThat(reader.hasMoreChunks()).isFalse();
+		assertThat(reader.itemsRead()).isEqualTo(4);
 	}
 
 	@Test

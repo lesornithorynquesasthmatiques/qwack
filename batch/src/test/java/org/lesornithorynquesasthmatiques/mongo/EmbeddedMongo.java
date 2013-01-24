@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
@@ -22,12 +22,12 @@ import de.flapdoodle.embed.process.io.progress.IProgressListener;
 import de.flapdoodle.embed.process.runtime.Network;
 
 /**
- * Special subclass of {@link Mongo} that
+ * Special subclass of {@link MongoClient} that
  * launches an embedded Mongod server instance in a separate process.
  * 
  * @author Alexandre Dutra
  */
-public class EmbeddedMongo extends Mongo {
+public class EmbeddedMongo extends MongoClient {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EmbeddedMongo.class);
 
@@ -37,7 +37,7 @@ public class EmbeddedMongo extends Mongo {
 
 	public static final WriteConcern DEFAULT_WRITE_CONCERN = WriteConcern.FSYNC_SAFE;
 	
-	public static final Version DEFAULT_VERSION = Version.V2_0_5;
+	public static final Version DEFAULT_VERSION = Version.V2_2_1;
 
 	public EmbeddedMongo() throws MongoException, IOException {
 		this(DEFAULT_HOST, DEFAULT_PORT);

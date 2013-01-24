@@ -2,15 +2,18 @@ package org.lesornithorynquesasthmatiques.model;
 
 import java.util.Set;
 
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.jongo.marshall.jackson.id.Id;
 
 public class City {
 
+	/**
+	 * Mongo identifier.
+	 */
+	@Id
+    private String id;
+	
 	/** integer id of record in geonames database */
-	@JsonProperty("_id")
 	private int geonameId;
 	
 	/** name of geographical point (utf8) varchar(200) */
@@ -22,11 +25,12 @@ public class City {
 	/** alternatenames, comma separated varchar(5000) */
 	private Set<String> alternateNames;
 	
-	/** latitude in decimal degrees (wgs84) */
-	private double latitude;
-	
-	/** longitude in decimal degrees (wgs84) */
-	private double longitude;
+	/** 
+	 * Location in decimal degrees (wgs84).
+	 * MUST be stored in [longitude, latitude] format
+	 * see http://docs.mongodb.org/manual/core/geospatial-indexes/#GeospatialIndexing-NewSphericalModel
+	 */
+	private double[] location;
 	
 	/** see http://www.geonames.org/export/codes.html, char(1) */
 	private String featureClass;
@@ -74,11 +78,22 @@ public class City {
 	 */
 	private int dem;
 	
-	/** the timezone id (see file timeZone.txt) varchar(40) */
-	private DateTimeZone timezone;
+	/** 
+	 * the timezone id (see file timeZone.txt) varchar(40)
+	 * DateTimeZone not handled by Jackson joda-module 
+	 */
+	private String timezone;
 	
 	/** // date of last modification in yyyy-MM-dd format */
 	private LocalDate modificationDate;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public int getGeonameId() {
 		return geonameId;
@@ -112,20 +127,16 @@ public class City {
 		this.alternateNames = alternateNames;
 	}
 
-	public double getLatitude() {
-		return latitude;
+	public double[] getLocation() {
+		return location;
 	}
 
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
+	public void setLocation(double longitude, double latitude) {
+		this.location = new double[]{longitude, latitude};
 	}
 
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public void setLocation(double[] location) {
+		this.location = location;
 	}
 
 	public String getFeatureClass() {
@@ -216,11 +227,11 @@ public class City {
 		this.dem = dem;
 	}
 
-	public DateTimeZone getTimezone() {
+	public String getTimezone() {
 		return timezone;
 	}
 
-	public void setTimezone(DateTimeZone timezone) {
+	public void setTimezone(String timezone) {
 		this.timezone = timezone;
 	}
 

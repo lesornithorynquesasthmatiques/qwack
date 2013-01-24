@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import com.mongodb.DB;
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
 import com.mongodb.WriteConcern;
 
 /**
@@ -53,7 +53,7 @@ public class MongoTestsHelper extends MongoHelper implements TestRule {
 			 * de.flapdoodle.embed.process.store.LocalArtifactStore#getArtifact(IDownloadConfig,  Distribution)
 			 * to get the full path of the file to download, then download it manually and place it (and if necessary rename it) there.
 			 */
-			Mongo mongo = new EmbeddedMongo(port);
+			MongoClient mongo = new EmbeddedMongo(port);
 			mongo.setWriteConcern(WriteConcern.FSYNC_SAFE);
 			LOG.info("Mongo successfully started on port {}", port);
 			MongoHelper.setMongo(mongo);

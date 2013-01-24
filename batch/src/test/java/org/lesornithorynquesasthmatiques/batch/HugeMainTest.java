@@ -1,17 +1,20 @@
 package org.lesornithorynquesasthmatiques.batch;
 import static org.fest.assertions.api.Assertions.*;
 
-import java.util.Iterator;
-
-import org.jongo.MongoCollection;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.lesornithorynquesasthmatiques.model.City;
 import org.lesornithorynquesasthmatiques.mongo.MongoTestsHelper;
 
-public class MainTest {
+/**
+ * CAUTION: VERY long test. Should only be run for benchmark purposes.
+ * @author Alexandre Dutra
+ *
+ */
+@Ignore
+public class HugeMainTest {
 
-	private static final String FILENAME = "src/test/resources/FR-small.h5";
+	private static final String FILENAME = "src/test/resources/FR-all.h5";
 
 	private static String DATASET_PATH = "GEONAMES/FR";
 
@@ -19,14 +22,14 @@ public class MainTest {
 	public MongoTestsHelper mongoHelper = new MongoTestsHelper();
 	
 	@Test
-	public void should_read_and_write_4_objects() throws Exception {
+	public void benchmark() throws Exception {
 		//Given
 		String[] args = new String[]{
 			"--file"       , FILENAME, 
 			"--dataset"    , DATASET_PATH, 
 			"--host"       , MongoTestsHelper.getMongoHost(), 
 			"--port"       , Integer.toString(MongoTestsHelper.getMongoPort()), 
-			"--chunk-size" , "2", 
+			"--chunk-size" , "1000", 
 			"--database"   , MongoTestsHelper.getDb().getName(), 
 			"--collection" , "cities"
 		};
@@ -35,13 +38,6 @@ public class MainTest {
 		int status = main.run(args);
 		//Then
 		assertThat(status).isEqualTo(0);
-		MongoCollection cities = MongoTestsHelper.getJongo().getCollection("cities");
-		Iterator<City> it = cities.find().sort("{_id:1}").as(City.class).iterator();
-		assertThat(it.next().getName()).isEqualTo("Paris");
-		assertThat(it.next().getName()).isEqualTo("Neuilly-sur-Seine");
-		assertThat(it.next().getName()).isEqualTo("Lille");
-		assertThat(it.next().getName()).isEqualTo("Lyon");
-		assertThat(it.hasNext()).isFalse();
 	}
 
 }

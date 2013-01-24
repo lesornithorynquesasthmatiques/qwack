@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -15,7 +17,9 @@ import com.mongodb.MongoException;
  *
  */
 public class MongoWriter<T> {
-	
+
+	private static final Logger LOG = LoggerFactory.getLogger(MongoWriter.class);
+
 	private final String mongoHost; 
 	
 	private final Integer mongoPort; 
@@ -52,6 +56,7 @@ public class MongoWriter<T> {
 	}
 	
 	public void write(List<T> objects) {
+		LOG.info("Writing {} objects", objects.size());
 		//FIXME Can't Jongo optimize this??
 		for (T o : objects) {
 			collection.save(o);
