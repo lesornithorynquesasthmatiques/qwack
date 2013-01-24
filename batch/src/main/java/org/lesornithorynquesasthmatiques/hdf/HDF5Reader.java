@@ -1,6 +1,7 @@
 package org.lesornithorynquesasthmatiques.hdf;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import ncsa.hdf.hdf5lib.exceptions.HDF5Exception;
@@ -66,7 +67,9 @@ public class HDF5Reader {
 		@SuppressWarnings("unchecked")
 		List<Object> data = (List<Object>) dataset.getData();
 		currentRow += selecteds[0];
-		return new DataSubset(data);
+		//it is VITAL to create a defensive copy of this list
+		//because the dataset instance holds a pointer to it.
+		return new DataSubset(new ArrayList<Object>(data));
 	}
 
 	public int itemsRead() {

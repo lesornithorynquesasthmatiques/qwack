@@ -45,12 +45,13 @@ public class RunnerTest {
 		runner.setConverter(converter);
 		runner.setWriter(writer);
 		//When
+		runner.init();
 		runner.run();
 		//Then
 		MongoCollection sensors = MongoTestsHelper.getJongo().getCollection("sensors");
 		long count = sensors.count();
 		assertThat(count).isEqualTo(4);
-		Iterator<Sensor> it = sensors.find().sort("{_id:1}").as(Sensor.class).iterator();
+		Iterator<Sensor> it = sensors.find().sort("{serial_no:1}").as(Sensor.class).iterator();
 		assertThat(it.next().getSerial_no()).isEqualTo(-2130444288);
 		assertThat(it.next().getSerial_no()).isEqualTo(-1610350592);
 		assertThat(it.next().getSerial_no()).isEqualTo(50593792);
@@ -76,16 +77,17 @@ public class RunnerTest {
 		runner.setConverter(converter);
 		runner.setWriter(writer);
 		//When
+		runner.init();
 		runner.run();
 		//Then
 		MongoCollection cities = MongoTestsHelper.getJongo().getCollection("cities");
 		long count = cities.count();
 		assertThat(count).isEqualTo(4);
-		Iterator<City> it = cities.find().sort("{_id:1}").as(City.class).iterator();
-		assertThat(it.next().getName()).isEqualTo("Paris");
-		assertThat(it.next().getName()).isEqualTo("Neuilly-sur-Seine");
+		Iterator<City> it = cities.find().sort("{name:1}").as(City.class).iterator();
 		assertThat(it.next().getName()).isEqualTo("Lille");
 		assertThat(it.next().getName()).isEqualTo("Lyon");
+		assertThat(it.next().getName()).isEqualTo("Neuilly-sur-Seine");
+		assertThat(it.next().getName()).isEqualTo("Paris");
 		assertThat(it.hasNext()).isFalse();
 	}
 

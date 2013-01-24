@@ -67,6 +67,7 @@ public class Main {
 				runner.setReader(reader);
 				runner.setConverter(converter);
 				runner.setWriter(writer);
+				runner.init();
 				runner.run();
 				status = 0;
 			} catch (Exception e) {

@@ -36,11 +36,11 @@ public class MainTest {
 		//Then
 		assertThat(status).isEqualTo(0);
 		MongoCollection cities = MongoTestsHelper.getJongo().getCollection("cities");
-		Iterator<City> it = cities.find().sort("{_id:1}").as(City.class).iterator();
-		assertThat(it.next().getName()).isEqualTo("Paris");
-		assertThat(it.next().getName()).isEqualTo("Neuilly-sur-Seine");
+		Iterator<City> it = cities.find().sort("{name:1}").as(City.class).iterator();
 		assertThat(it.next().getName()).isEqualTo("Lille");
 		assertThat(it.next().getName()).isEqualTo("Lyon");
+		assertThat(it.next().getName()).isEqualTo("Neuilly-sur-Seine");
+		assertThat(it.next().getName()).isEqualTo("Paris");
 		assertThat(it.hasNext()).isFalse();
 	}
 
