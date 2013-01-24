@@ -10,6 +10,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
+import org.lesornithorynquesasthmatiques.converter.SensorConverter;
+import org.lesornithorynquesasthmatiques.hdf.HDF5Reader;
+import org.lesornithorynquesasthmatiques.model.Sensor;
+import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +51,22 @@ public class Main {
 		} else {
 			logStart();
 			try {
-				Runner runner = new Runner(options);
+				HDF5Reader reader = new HDF5Reader(
+					options.getH5file(), 
+					options.getDatasetPath(), 
+					options.getChunkSize());
+				SensorConverter converter = new SensorConverter();
+				MongoWriter<Sensor> writer = new MongoWriter<Sensor>(
+					options.getMongoHost(), 
+					options.getMongoPort(), 
+					options.getMongoUser(), 
+					options.getMongoPassword(), 
+					options.getMongoDatabaseName(), 
+					options.getMongoCollectionName());
+				Runner<Sensor> runner = new Runner<Sensor>();
+				runner.setReader(reader);
+				runner.setConverter(converter);
+				runner.setWriter(writer);
 				runner.run();
 				status = 0;
 			} catch (Exception e) {

@@ -2,33 +2,33 @@ package org.lesornithorynquesasthmatiques.batch;
 
 import java.util.List;
 
-import org.lesornithorynquesasthmatiques.model.Sensor;
+import org.lesornithorynquesasthmatiques.converter.Converter;
+import org.lesornithorynquesasthmatiques.hdf.HDF5Reader;
+import org.lesornithorynquesasthmatiques.hdf.DataSubset;
+import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
 
 /**
  * @author Alexandre Dutra
  *
  */
-public class Runner {
+public class Runner<T> {
 
-	private final HDF5Reader reader;
+	private HDF5Reader reader;
 	
-	private final Converter converter;
+	private Converter<T> converter;
 	
-	private final MongoWriter<Sensor> writer;
+	private MongoWriter<T> writer;
 	
-	public Runner(Options options) {
-		this.reader = new HDF5Reader(
-				options.getH5file(), 
-				options.getDatasetPath(), 
-				options.getChunkSize());
-		this.converter = new Converter();
-		this.writer = new MongoWriter<Sensor>(
-				options.getMongoHost(), 
-				options.getMongoPort(), 
-				options.getMongoUser(), 
-				options.getMongoPassword(), 
-				options.getMongoDatabaseName(), 
-				options.getMongoCollectionName());
+	public void setReader(HDF5Reader reader) {
+		this.reader = reader;
+	}
+
+	public void setConverter(Converter<T> converter) {
+		this.converter = converter;
+	}
+
+	public void setWriter(MongoWriter<T> writer) {
+		this.writer = writer;
 	}
 
 	public void run() throws Exception {
@@ -37,8 +37,8 @@ public class Runner {
 		writer.init();
 		
 		while(reader.hasMoreChunks()) {
-			List<Object> data = reader.readNextChunk();
-			List<Sensor> sensors = converter.convertData(data);
+			DataSubset rs = reader.readNextChunk();
+			List<T> sensors = converter.convert(rs);
 			writer.write(sensors);
 		}
 		
