@@ -15,22 +15,16 @@
 		<!-- versions -->
 		<hdf.version>2.9</hdf.version>
 		<junit.version>4.10</junit.version>
-		<festassert.version>2.0M7</festassert.version>
-		<festutil.version>1.2.2</festutil.version>
-		<festreflect.version>1.4</festreflect.version>
+		<festassert.version>2.0M8</festassert.version>
 		<mockito.version>1.9.0</mockito.version>
-		<embedmongo.version>1.25</embedmongo.version>
-		<!-- 2.9.0 is causing DBPortPool connection timeouts in batch unit tests -->
-		<mongo.version>2.8.0</mongo.version>
+		<embedmongo.version>1.28</embedmongo.version>
+		<mongo.version>2.10.1</mongo.version>
 		<jongo.version>0.3</jongo.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.6</logback.version>
 		<guava.version>11.0</guava.version>
-		<json-unit.version>0.0.6</json-unit.version>
 		<joda.version>2.1</joda.version>
 		<jackson.version>2.1.0</jackson.version>
-		<commons-lang.version>2.6</commons-lang.version>
-		<commons-io.version>2.3</commons-io.version>
 	</properties>
 	
 	<dependencies>
@@ -64,13 +58,19 @@
 			<artifactId>jongo</artifactId>
 			<version>${jongo.version}</version>
 		</dependency>
-		
-		<dependency>
-		  <groupId>com.fasterxml.jackson.datatype</groupId>
-		  <artifactId>jackson-datatype-joda</artifactId>
-		  <version>${jackson.version}</version>
-		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+	
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-joda</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -110,33 +110,19 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.easytesting</groupId>
-			<artifactId>fest-reflect</artifactId>
-			<version>${festreflect.version}</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>net.javacrumbs.json-unit</groupId>
-			<artifactId>json-unit</artifactId>
-			<version>${json-unit.version}</version>
-			<scope>test</scope>
-		</dependency>		
-
-		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-    		<artifactId>de.flapdoodle.embed.mongo</artifactId>
-			<version>${embedmongo.version}</version>
-			<scope>test</scope>
+		    <groupId>de.flapdoodle.embed</groupId>
+		    <artifactId>de.flapdoodle.embed.mongo</artifactId>
+		    <version>${embedmongo.version}</version>
+		    <scope>test</scope>
 		</dependency>
-
+		
 		<!-- Bridge from JUL to SLF4J (captures output from Embedmongo) -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
