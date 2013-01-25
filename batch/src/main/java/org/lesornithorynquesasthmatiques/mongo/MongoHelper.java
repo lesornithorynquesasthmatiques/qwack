@@ -10,7 +10,10 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.base.Strings;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoException;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
 
 /**
  * A helper that holds a singleton instance of {@link MongoClient}.
@@ -22,9 +25,14 @@ public class MongoHelper {
 
 	private static MongoClient mongo;
 	
-	public static void initMongo(String mongoHost, Integer mongoPort, String mongoUser, String mongoPassword) throws UnknownHostException, MongoException {
+	public static void initMongo(String mongoHost, Integer mongoPort, String mongoUser, String mongoPassword, String writeConcern) throws UnknownHostException, MongoException {
 		if(mongo == null) {
-			mongo = new MongoClient(mongoHost, mongoPort);
+			MongoClientOptions options = new MongoClientOptions.Builder()
+				.writeConcern(WriteConcern.valueOf(writeConcern))
+				.build()
+			;
+			ServerAddress serverAddress = new ServerAddress(mongoHost, mongoPort);
+			mongo = new MongoClient(serverAddress, options);
 			mongoUser = Strings.emptyToNull(mongoUser);
 			if (mongoUser != null) {
 				DB adminDb = mongo.getDB("admin");
@@ -32,7 +40,7 @@ public class MongoHelper {
 					char[] password = Strings.isNullOrEmpty(mongoPassword) ? null : mongoPassword.toCharArray();
 					boolean success = adminDb.authenticate(mongoUser, password);
 					if (!success) throw new IllegalArgumentException(
-							String.format("Could not authenticate with user '%s', check your configuration", mongoUser));
+						String.format("Could not authenticate with user '%s', check your configuration", mongoUser));
 				}
 			}
 		}

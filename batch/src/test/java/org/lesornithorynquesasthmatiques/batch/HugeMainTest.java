@@ -14,7 +14,7 @@ import org.lesornithorynquesasthmatiques.mongo.MongoTestsHelper;
 @Ignore
 public class HugeMainTest {
 
-	private static final String FILENAME = "src/test/resources/FR-all.h5";
+	private static final String FILENAME = "src/test/resources/hdf/FR-all.h5";
 
 	private static String DATASET_PATH = "GEONAMES/FR";
 
@@ -27,10 +27,10 @@ public class HugeMainTest {
 		String[] args = new String[]{
 			"--file"       , FILENAME, 
 			"--dataset"    , DATASET_PATH, 
-			"--host"       , MongoTestsHelper.getMongoHost(), 
-			"--port"       , Integer.toString(MongoTestsHelper.getMongoPort()), 
+			"--host"       , mongoHelper.getMongoHost(), 
+			"--port"       , Integer.toString(mongoHelper.getMongoPort()), 
 			"--chunk-size" , "1000", 
-			"--database"   , MongoTestsHelper.getDb().getName(), 
+			"--database"   , mongoHelper.getDb().getName(), 
 			"--collection" , "cities"
 		};
 		//When

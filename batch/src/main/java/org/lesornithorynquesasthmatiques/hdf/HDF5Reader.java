@@ -45,14 +45,18 @@ public class HDF5Reader {
 	public void init() throws Exception {
 		openFile();
 		initDataset();
+		LOG.info("DataSet initialized, size: {}", getDataSetSize());
 	}
 
+	public long getDataSetSize(){
+		return dataset.getDims()[0];
+	}
+	
 	public boolean hasMoreChunks() {
 		return currentRow < rows;
 	}
 
 	public DataSubset readNextChunk() throws Exception {
-		LOG.info("Reading up to {} items from offset {}", chunkSize, currentRow);
 		//dunno why, but this needs to be called every time we want to getData()
 		//let's hope it doesn't affect performance...
 		dataset.init();
@@ -68,6 +72,9 @@ public class HDF5Reader {
 		@SuppressWarnings("unchecked")
 		List<Object> data = (List<Object>) dataset.getData();
 		currentRow += selecteds[0];
+		if(LOG.isInfoEnabled()) {
+			LOG.info("Read progress: {}%", (int) ((double) currentRow / (double) getDataSetSize() * 100d));
+		}
 		//it is VITAL to create a defensive copy of this list
 		//because the dataset instance holds a pointer to it.
 		return new DataSubset(new ArrayList<Object>(data));

@@ -7,36 +7,43 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-import com.google.common.annotations.VisibleForTesting;
-
 public class Options {
 	
 	@Option(name = "-f", aliases = {"--file"}, usage = "Full path to HDF5 file", required = true) 
-	/*private*/ @VisibleForTesting File h5file = null;
+	private File h5file = null;
 
-	@Option(name = "-s", aliases = {"--dataset"}, usage = "Full path to HDF5 dataset inside file", required = true) 
-	/*private*/ @VisibleForTesting String datasetPath = null;
+	@Option(name = "-ds", aliases = {"--dataset"}, usage = "Full path to HDF5 dataset inside file", required = true) 
+	private String datasetPath = null;
 
-	@Option(name = "-z", aliases = {"--chunk-size"}, usage = "Chunk size, default: 100") 
-	/*private*/ @VisibleForTesting int chunkSize = 100;
+	@Option(name = "-cs", aliases = {"--chunk-size"}, usage = "Chunk size, default: 1000") 
+	private int chunkSize = 1000;
+
+	@Option(name = "-ps", aliases = {"--pool-size"}, usage = "Thread pool size, default: available CPUs") 
+	private int poolSize = Runtime.getRuntime().availableProcessors();
+
+	@Option(name = "-qs", aliases = {"--queue-size"}, usage = "Thread pool queue size, default: 1000") 
+	private int queueSize = 1000;
 
 	@Option(name = "-h", aliases = {"--host"}, usage = "Mongo host, default: 127.0.0.1") 
-	/*private*/ @VisibleForTesting String mongoHost = "127.0.0.1";
+	private String mongoHost = "127.0.0.1";
 
 	@Option(name = "-p", aliases = {"--port"}, usage = "Mongo port, default: 27017") 
-	/*private*/ @VisibleForTesting Integer mongoPort = 27017;
+	private Integer mongoPort = 27017;
 
 	@Option(name = "-u", aliases = {"--user"}, usage = "Mongo user, default: blank") 
-	/*private*/ @VisibleForTesting String mongoUser = "";
+	private String mongoUser = "";
 
-	@Option(name = "-w", aliases = {"--password"}, usage = "Mongo password, default: blank") 
-	/*private*/ @VisibleForTesting String mongoPassword = "";
+	@Option(name = "-pw", aliases = {"--password"}, usage = "Mongo password, default: blank") 
+	private String mongoPassword = "";
+
+	@Option(name = "-wc", aliases = {"--write-concern"}, usage = "Mongo write concern, default: UNACKNOWLEDGED") 
+	private String mongoWriteConcern = "UNACKNOWLEDGED";
 
 	@Option(name = "-d", aliases = {"--database"}, usage = "Mongo database, default: main") 
-	/*private*/ @VisibleForTesting String mongoDatabaseName = "main";
+	private String mongoDatabaseName = "main";
 
 	@Option(name = "-c", aliases = {"--collection"}, usage = "Mongo password, default: data") 
-	/*private*/ @VisibleForTesting String mongoCollectionName = "data";
+	private String mongoCollectionName = "data";
 
     @Option(name = "-?", aliases = {"--help"}, usage = "Displays usage help") 
     private boolean help;
@@ -53,6 +60,14 @@ public class Options {
 		return chunkSize;
 	}
 
+	public int getPoolSize() {
+		return poolSize;
+	}
+
+	public int getQueueSize() {
+		return queueSize;
+	}
+
 	public String getMongoHost() {
 		return mongoHost;
 	}
@@ -67,6 +82,10 @@ public class Options {
 
 	public String getMongoPassword() {
 		return mongoPassword;
+	}
+
+	public String getMongoWriteConcern() {
+		return mongoWriteConcern;
 	}
 
 	public String getMongoDatabaseName() {

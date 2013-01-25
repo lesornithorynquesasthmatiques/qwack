@@ -12,7 +12,7 @@ import org.junit.Test;
 
 public class SimpleReadTest {
 	
-	private static final String FILENAME = "src/test/resources/sensors.h5";
+	private static final String FILENAME = "src/test/resources/hdf/sensors.h5";
 
 	private static String DATASETNAME = "Sensors/SENSORS";
 

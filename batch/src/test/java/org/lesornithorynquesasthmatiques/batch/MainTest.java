@@ -11,7 +11,7 @@ import org.lesornithorynquesasthmatiques.mongo.MongoTestsHelper;
 
 public class MainTest {
 
-	private static final String FILENAME = "src/test/resources/FR-small.h5";
+	private static final String FILENAME = "src/test/resources/hdf/FR-small.h5";
 
 	private static String DATASET_PATH = "GEONAMES/FR";
 
@@ -24,10 +24,10 @@ public class MainTest {
 		String[] args = new String[]{
 			"--file"       , FILENAME, 
 			"--dataset"    , DATASET_PATH, 
-			"--host"       , MongoTestsHelper.getMongoHost(), 
-			"--port"       , Integer.toString(MongoTestsHelper.getMongoPort()), 
+			"--host"       , mongoHelper.getMongoHost(), 
+			"--port"       , Integer.toString(mongoHelper.getMongoPort()), 
 			"--chunk-size" , "2", 
-			"--database"   , MongoTestsHelper.getDb().getName(), 
+			"--database"   , mongoHelper.getDb().getName(), 
 			"--collection" , "cities"
 		};
 		//When
@@ -35,7 +35,7 @@ public class MainTest {
 		int status = main.run(args);
 		//Then
 		assertThat(status).isEqualTo(0);
-		MongoCollection cities = MongoTestsHelper.getJongo().getCollection("cities");
+		MongoCollection cities = mongoHelper.getJongo().getCollection("cities");
 		Iterator<City> it = cities.find().sort("{name:1}").as(City.class).iterator();
 		assertThat(it.next().getName()).isEqualTo("Lille");
 		assertThat(it.next().getName()).isEqualTo("Lyon");

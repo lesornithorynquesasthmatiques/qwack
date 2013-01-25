@@ -37,14 +37,13 @@ public class GeoSpatialTest {
 	
 	@Before
 	public void setUp(){
-		cities = MongoTestsHelper.getJongo().getCollection("cities");
+		cities = mongoHelper.getJongo().getCollection("cities");
 		cities.insert("{name: 'Paris', location: [2.3486, 48.8534]}");
 		cities.insert("{name: 'Neuilly-sur-Seine', location: [2.26965, 48.8846]}");
 		cities.insert("{name: 'Lille', location: [3.05858, 50.63297]}");
 		cities.insert("{name: 'Lyon', location: [4.84139, 45.75889]}");
-		//ensure indexes 2d
-		//6378.137 km
-		DBCollection coll = MongoTestsHelper.getDb().getCollection("cities");
+		//TODO ensure indexes 2d
+		DBCollection coll = mongoHelper.getDb().getCollection("cities");
 		coll.ensureIndex(new BasicDBObject("location", "2d"));
 	}
 	
@@ -73,7 +72,7 @@ public class GeoSpatialTest {
 			and("near").is(position).
 			and("maxDistance").is(300/EARTH_RADIUS).
 			and("distanceMultiplier").is(EARTH_RADIUS).get();
-		CommandResult cr = MongoTestsHelper.getDb().command(query);
+		CommandResult cr = mongoHelper.getDb().command(query);
 		BasicDBList results = (BasicDBList) cr.get("results");
 		assertThat(results.size()).isEqualTo(3);
 	}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+     For more details about configurations options that may appear in
+     this file, see http://wiki.apache.org/solr/SolrConfigXml.
+-->
+
+<config>
+	<abortOnConfigurationError>${solr.abortOnConfigurationError:true}
+	</abortOnConfigurationError>
+	<luceneMatchVersion>LUCENE_41</luceneMatchVersion>
+	<dataDir>${solr.data.dir:}</dataDir>
+	<directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.RAMDirectoryFactory}" />
+	<indexConfig>
+		<ramBufferSizeMB>16</ramBufferSizeMB>
+		<maxBufferedDocs>100</maxBufferedDocs>
+	</indexConfig>
+
+	<query>
+		<maxBooleanClauses>16</maxBooleanClauses>
+		<enableLazyFieldLoading>true</enableLazyFieldLoading>
+		<queryResultWindowSize>1</queryResultWindowSize>
+		<queryResultMaxDocsCached>10</queryResultMaxDocsCached>
+	</query>
+
+	<requestDispatcher handleSelect="true">
+		<requestParsers enableRemoteStreaming="true" multipartUploadLimitInKB="2048000" />
+		<httpCaching never304="true">
+			<cacheControl>max-age=30, public</cacheControl>
+		</httpCaching>
+	</requestDispatcher>
+
+	<requestHandler name="search" class="solr.SearchHandler"
+		default="true">
+		<lst name="defaults">
+			<str name="echoParams">explicit</str>
+			<int name="rows">10</int>
+		</lst>
+	</requestHandler>
+
+	<requestHandler name="/update" class="solr.XmlUpdateRequestHandler">
+	</requestHandler>
+
+	<!-- Binary Update Request Handler http://wiki.apache.org/solr/javabin -->
+	<requestHandler name="/update/javabin" class="solr.BinaryUpdateRequestHandler" />
+
+	<!-- JSON Update Request Handler http://wiki.apache.org/solr/UpdateJSON -->
+	<requestHandler name="/update/json" class="solr.JsonUpdateRequestHandler"
+		startup="lazy" />
+
+	<requestHandler name="/analysis/field" startup="lazy"
+		class="solr.FieldAnalysisRequestHandler" />
+
+	<requestHandler name="/analysis/document"
+		class="solr.DocumentAnalysisRequestHandler" startup="lazy" />
+
+	<requestHandler name="/admin/" class="solr.admin.AdminHandlers" />
+
+	<!-- ping/healthcheck -->
+	<requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+		<lst name="invariants">
+			<str name="q">solrpingquery</str>
+		</lst>
+		<lst name="defaults">
+			<str name="echoParams">all</str>
+		</lst>
+	</requestHandler>
+
+	<!-- Echo the request contents back to the client -->
+	<requestHandler name="/debug/dump" class="solr.DumpRequestHandler">
+		<lst name="defaults">
+			<str name="echoParams">explicit</str>
+			<str name="echoHandler">true</str>
+		</lst>
+	</requestHandler>
+
+	<queryResponseWriter name="json" class="solr.JSONResponseWriter">
+	</queryResponseWriter>
+
+
+	<!-- Legacy config for the admin interface -->
+	<admin>
+		<defaultQuery>*:*</defaultQuery>
+	</admin>
+
+</config>

@@ -26,10 +26,11 @@ public class MongoWriterTest {
 	public void should_write_one_sensor() throws UnknownHostException, MongoException {
 		
 		MongoWriter<Sensor> mongoWriter = new MongoWriter<Sensor>(
-				MongoTestsHelper.getMongoHost(), 
-				MongoTestsHelper.getMongoPort(), 
+				mongoHelper.getMongoHost(), 
+				mongoHelper.getMongoPort(), 
 				null, null, 
-				MongoTestsHelper.getDb().getName(), 
+				mongoHelper.getMongoWriteConcern().toString(),
+				mongoHelper.getDb().getName(), 
 				"sensors");
 		
 		Sensor expected = new Sensor();
@@ -41,7 +42,7 @@ public class MongoWriterTest {
 		mongoWriter.init();
 		mongoWriter.write(Collections.singletonList(expected));
 		
-		MongoCollection sensors = MongoTestsHelper.getJongo().getCollection("sensors");
+		MongoCollection sensors = mongoHelper.getJongo().getCollection("sensors");
 		Sensor actual = sensors.findOne("{location: 'Test'}").as(Sensor.class);
 		
 		assertThat(actual).isEqualsToByComparingFields(expected);
@@ -51,32 +52,33 @@ public class MongoWriterTest {
 	public void should_write_4_cities() throws UnknownHostException, MongoException {
 		
 		MongoWriter<City> mongoWriter = new MongoWriter<City>(
-				MongoTestsHelper.getMongoHost(), 
-				MongoTestsHelper.getMongoPort(), 
+				mongoHelper.getMongoHost(), 
+				mongoHelper.getMongoPort(), 
 				null, null, 
-				MongoTestsHelper.getDb().getName(), 
+				mongoHelper.getMongoWriteConcern().toString(),
+				mongoHelper.getDb().getName(), 
 				"cities");
 		
 		City paris = new City();
 		paris.setName("Paris");
-		paris.setLocation(2.3486, 48.8534);
+		paris.setLocation(48.8534, 2.3486);
 
 		City neuilly = new City();
 		neuilly.setName("Neuilly-sur-Seine");
-		neuilly.setLocation(2.26965, 48.8846);
+		neuilly.setLocation(48.8846, 2.26965);
 
 		City lille = new City();
 		lille.setName("Lille");
-		lille.setLocation(3.05858, 50.63297);
+		lille.setLocation(50.63297, 3.05858);
 
 		City lyon = new City();
 		lyon.setName("Lyon");
-		lyon.setLocation(4.84139, 45.75889);
+		lyon.setLocation(45.75889, 4.84139);
 
 		mongoWriter.init();
 		mongoWriter.write(Lists.newArrayList(paris, neuilly, lille, lyon));
 		
-		MongoCollection cities = MongoTestsHelper.getJongo().getCollection("cities");
+		MongoCollection cities = mongoHelper.getJongo().getCollection("cities");
 		City actual = cities.findOne("{name: 'Paris'}").as(City.class);
 		
 		assertThat(actual).isEqualsToByComparingFields(paris);

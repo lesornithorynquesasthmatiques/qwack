@@ -2,6 +2,7 @@ package org.lesornithorynquesasthmatiques.model;
 
 import java.util.Set;
 
+import org.apache.solr.client.solrj.beans.Field;
 import org.joda.time.LocalDate;
 import org.jongo.marshall.jackson.id.Id;
 
@@ -11,12 +12,14 @@ public class City {
 	 * Mongo identifier.
 	 */
 	@Id
+	@Field
     private String id;
 	
 	/** integer id of record in geonames database */
 	private int geonameId;
 	
 	/** name of geographical point (utf8) varchar(200) */
+	@Field("name")
 	private String name;
 	
 	/** name of geographical point in plain ascii characters, varchar(200) */
@@ -87,6 +90,21 @@ public class City {
 	/** date of last modification in yyyy-MM-dd format */
 	private LocalDate modificationDate;
 
+	public City() {
+	}
+
+	/**
+	 * Convenience constructor for tests.
+	 * @param id
+	 * @param name
+	 * @param location
+	 */
+	public City(String id, String name, double latitude, double longitude) {
+		this.id = id;
+		this.name = name;
+		this.location = new double[] {longitude, latitude};
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -131,7 +149,12 @@ public class City {
 		return location;
 	}
 
-	public void setLocation(double longitude, double latitude) {
+	/**
+	 * Constructs a location given its latitude and longitude.
+	 * @param latitude
+	 * @param longitude
+	 */
+	public void setLocation(double latitude, double longitude) {
 		this.location = new double[]{longitude, latitude};
 	}
 
@@ -139,6 +162,28 @@ public class City {
 		this.location = location;
 	}
 
+	/**
+	 * Return a string representation of the location
+	 * for Solr indexation (lat,long).
+	 * @return
+	 */
+	public String getSolrLocation() {
+		return location[1] + "," + location[0];
+	}
+	
+	/**
+	 * @param solrLocation a string representation of the location
+	 * for Solr indexation (lat,long).
+	 */
+	@Field("location")
+	public void setSolrLocation(String solrLocation) {
+		if(solrLocation == null) this.location = null;
+		else {
+			String[] tokens = solrLocation.split(",");
+			this.location = new double[]{ Double.parseDouble(tokens[1]), Double.parseDouble(tokens[0])};
+		}
+	}
+	
 	public String getFeatureClass() {
 		return featureClass;
 	}

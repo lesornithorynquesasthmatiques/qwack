@@ -20,6 +20,7 @@
 		<embedmongo.version>1.28</embedmongo.version>
 		<mongo.version>2.10.1</mongo.version>
 		<jongo.version>0.3</jongo.version>
+		<solr.version>4.1.0</solr.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.6</logback.version>
 		<guava.version>11.0</guava.version>
@@ -72,6 +73,18 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-core</artifactId>
+			<version>${solr.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-jdk14</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
@@ -123,6 +136,13 @@
 		    <scope>test</scope>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-test-framework</artifactId>
+			<version>${solr.version}</version>
+			<scope>test</scope>
+		</dependency>
+            
 		<!-- Bridge from JUL to SLF4J (captures output from Embedmongo) -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -181,11 +201,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.0</version>
 				<configuration>
 					<encoding>UTF-8</encoding>
 					<source>1.7</source>
 					<target>1.7</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.12.3</version>
+				<configuration>
+					<!-- HDF5Reader is sensitive to this setting -->
+					<argLine>-Dfile.encoding=UTF-8</argLine>
 				</configuration>
 			</plugin>
 			

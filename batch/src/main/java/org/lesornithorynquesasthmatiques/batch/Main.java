@@ -4,6 +4,9 @@
 package org.lesornithorynquesasthmatiques.batch;
 
 import java.util.Locale;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
@@ -51,22 +54,12 @@ public class Main {
 		} else {
 			logStart();
 			try {
-				HDF5Reader reader = new HDF5Reader(
-					options.getH5file(), 
-					options.getDatasetPath(), 
-					options.getChunkSize());
-				CityConverter converter = new CityConverter();
-				MongoWriter<City> writer = new MongoWriter<City>(
-					options.getMongoHost(), 
-					options.getMongoPort(), 
-					options.getMongoUser(), 
-					options.getMongoPassword(), 
-					options.getMongoDatabaseName(), 
-					options.getMongoCollectionName());
 				Runner<City> runner = new Runner<City>();
-				runner.setReader(reader);
-				runner.setConverter(converter);
-				runner.setWriter(writer);
+				runner.setReader(newHDF5Reader());
+				runner.setConverter(new CityConverter());
+				runner.setMongoWriter(newMongoWriter());
+				runner.setConversionPool(newThreadPool());
+				runner.setMongoPool(newThreadPool());
 				runner.init();
 				runner.run();
 				status = 0;
@@ -78,6 +71,35 @@ public class Main {
 			}
 		}
 		return status;
+	}
+
+	private HDF5Reader newHDF5Reader() {
+		HDF5Reader reader = new HDF5Reader(
+			options.getH5file(), 
+			options.getDatasetPath(), 
+			options.getChunkSize());
+		return reader;
+	}
+
+	private MongoWriter<City> newMongoWriter() {
+		MongoWriter<City> writer = new MongoWriter<City>(
+			options.getMongoHost(), 
+			options.getMongoPort(), 
+			options.getMongoUser(), 
+			options.getMongoPassword(),
+			options.getMongoWriteConcern(),
+			options.getMongoDatabaseName(), 
+			options.getMongoCollectionName());
+		return writer;
+	}
+
+	private ThreadPoolExecutor newThreadPool() {
+		return new ThreadPoolExecutor(
+			options.getPoolSize(), 
+			options.getPoolSize(), 
+			0L, TimeUnit.MILLISECONDS,
+			new ArrayBlockingQueue<Runnable>(options.getQueueSize()), 
+			new ThreadPoolExecutor.CallerRunsPolicy());
 	}
 
 	private void logStart() {

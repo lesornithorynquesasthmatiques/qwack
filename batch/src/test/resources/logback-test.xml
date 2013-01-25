@@ -3,13 +3,16 @@
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5p | %-15thread | %C.%M | %msg%n</pattern>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5p | %C.%M | %msg%n</pattern>
 		</encoder>
 	</appender>
 
 	<!-- set both loggers "INFO" to see Mongo ouptut -->
 	<logger name="org.lesornithorynquesasthmatiques.mongo" level="WARN" />
 	<logger name="de.flapdoodle.embed.mongo" level="WARN" />
+	
+	<!-- set logger below to "INFO" to see Solr ouptut -->
+	<logger name="org.apache.solr" level="WARN" />
 	
 	<root level="INFO">
 		  <appender-ref ref="STDOUT" /> 

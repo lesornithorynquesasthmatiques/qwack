@@ -8,7 +8,7 @@ import org.junit.Test;
 
 public class HDF5ReaderTest {
 
-	private static final String FILENAME = "src/test/resources/sensors.h5";
+	private static final String FILENAME = "src/test/resources/hdf/sensors.h5";
 
 	private static String DATASET_PATH = "Sensors/SENSORS";
 

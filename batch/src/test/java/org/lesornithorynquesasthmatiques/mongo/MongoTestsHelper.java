@@ -54,7 +54,7 @@ public class MongoTestsHelper extends MongoHelper implements TestRule {
 			 * to get the full path of the file to download, then download it manually and place it (and if necessary rename it) there.
 			 */
 			MongoClient mongo = new EmbeddedMongo(port);
-			mongo.setWriteConcern(WriteConcern.FSYNC_SAFE);
+			mongo.setWriteConcern(WriteConcern.FSYNCED);
 			LOG.info("Mongo successfully started on port {}", port);
 			MongoHelper.setMongo(mongo);
 		} catch (Exception e) {
@@ -62,26 +62,30 @@ public class MongoTestsHelper extends MongoHelper implements TestRule {
 		}
 	}
 	
-	public static String getMongoHost() {
-		return getMongo().getAddress().getHost();
-	}
-	
-	public static int getMongoPort() {
-		return getMongo().getAddress().getPort();
-	}
-
-	public static DB getDb() {
-		return db;
-	}
-
-	public static Jongo getJongo() {
-		return getJongo(db);
-	}
-	
 	public MongoTestsHelper() {
 		setUpTestDatabase();
 	}
 
+	public String getMongoHost() {
+		return getMongo().getAddress().getHost();
+	}
+	
+	public int getMongoPort() {
+		return getMongo().getAddress().getPort();
+	}
+
+	public WriteConcern getMongoWriteConcern() {
+		return getMongo().getWriteConcern();
+	}
+	
+	public DB getDb() {
+		return db;
+	}
+
+	public Jongo getJongo() {
+		return getJongo(db);
+	}
+	
 	@Override
 	public Statement apply(final Statement base, final Description description) {
 		return new Statement() {

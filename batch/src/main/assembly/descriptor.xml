@@ -42,7 +42,7 @@
             <fileMode>0664</fileMode>
         </fileSet>
         <fileSet>
-            <directory>src/test/resources</directory>
+            <directory>src/test/resources/hdf</directory>
             <includes>
                 <include>*.h5</include>
             </includes>
