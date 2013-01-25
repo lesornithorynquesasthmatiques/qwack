@@ -53,7 +53,7 @@ public class HDF5Reader {
 
 	public DataSubset readNextChunk() throws Exception {
 		LOG.info("Reading up to {} items from offset {}", chunkSize, currentRow);
-		//this needs to be called every time we want to getData()
+		//dunno why, but this needs to be called every time we want to getData()
 		//let's hope it doesn't affect performance...
 		dataset.init();
 		long[] starts = dataset.getStartDims();
@@ -64,6 +64,7 @@ public class HDF5Reader {
 		} else {
 			selecteds[0] = chunkSize;
 		}
+		//It is actually a Vector of arrays of different types
 		@SuppressWarnings("unchecked")
 		List<Object> data = (List<Object>) dataset.getData();
 		currentRow += selecteds[0];

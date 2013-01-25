@@ -84,7 +84,7 @@ public class City {
 	 */
 	private String timezone;
 	
-	/** // date of last modification in yyyy-MM-dd format */
+	/** date of last modification in yyyy-MM-dd format */
 	private LocalDate modificationDate;
 
 	public String getId() {
