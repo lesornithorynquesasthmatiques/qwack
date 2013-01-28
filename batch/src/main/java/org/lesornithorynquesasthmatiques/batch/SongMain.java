@@ -4,6 +4,8 @@
 package org.lesornithorynquesasthmatiques.batch;
 
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Locale;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -14,10 +16,10 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
-import org.lesornithorynquesasthmatiques.converter.CityConverter;
-import org.lesornithorynquesasthmatiques.hdf.HDF5Reader;
-import org.lesornithorynquesasthmatiques.model.City;
+import org.lesornithorynquesasthmatiques.converter.SongConverter;
+import org.lesornithorynquesasthmatiques.model.Song;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
+import org.lesornithorynquesasthmatiques.solr.SolrWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +29,11 @@ import com.mongodb.MongoException;
  * @author Alexandre Dutra
  *
  */
-public class Main {
+public class SongMain {
 
-	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SongMain.class);
 
-	private Options options;
+	private SongOptions options;
 
 	private long start;
 
@@ -42,13 +44,13 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		Main main = new Main();
+		SongMain main = new SongMain();
 		int status = main.run(args);
 		System.exit(status);
 	}
 
 	public int run(String[] args) throws Exception {
-		this.options = new Options();
+		this.options = new SongOptions();
 		options.populate(args);
 		int status = -1;
 		if (options.isHelp()) {
@@ -57,14 +59,24 @@ public class Main {
 		} else {
 			logStart();
 			try {
-				Runner<City> runner = new Runner<City>();
-				runner.setReader(newHDF5Reader());
-				runner.setConverter(new CityConverter());
-				runner.setMongoWriter(newMongoWriter());
-				runner.setConversionPool(newThreadPool());
-				runner.setMongoPool(newThreadPool());
-				runner.init();
-				runner.run();
+				Path directory = options.getDirectory().toPath();
+				H5SongFileScanner scanner = new H5SongFileScanner();
+				scanner.setConverter(new SongConverter());
+				scanner.setMongoWriter(newMongoWriter());
+				scanner.setSolrWriter(newSolrWriter());
+				TaskSynchronizer taskSynchronizer = new TaskSynchronizer();
+				scanner.setTaskSynchronizer(taskSynchronizer);
+				ThreadPoolExecutor pool = newThreadPool();
+				scanner.setTaskPool(pool);
+				Files.walkFileTree(directory, scanner);
+				taskSynchronizer.awaitUntilAllPendingTasksCompleted();
+				pool.shutdown();
+				if( ! pool.awaitTermination(60, TimeUnit.SECONDS)) {
+					throw new IllegalStateException("Thread pool timeout");
+				}
+				LOG.info("Total files processed: {}", scanner.getTotalFiles());
+				LOG.info("Files successfully processed: {}", scanner.getSuccessFiles());
+				LOG.info("Files in error: {}", scanner.getErrorFiles());
 				status = 0;
 			} catch (Exception e) {
 				status = 1;
@@ -76,16 +88,8 @@ public class Main {
 		return status;
 	}
 
-	private HDF5Reader newHDF5Reader() {
-		HDF5Reader reader = new HDF5Reader(
-			options.getH5file(), 
-			options.getDatasetPath(), 
-			options.getChunkSize());
-		return reader;
-	}
-
-	private MongoWriter<City> newMongoWriter() throws UnknownHostException, MongoException {
-		MongoWriter<City> writer = new MongoWriter<City>(
+	private MongoWriter<Song> newMongoWriter() throws UnknownHostException, MongoException {
+		MongoWriter<Song> writer = new MongoWriter<Song>(
 			options.getMongoHost(), 
 			options.getMongoPort(), 
 			options.getMongoUser(), 
@@ -93,6 +97,11 @@ public class Main {
 			options.getMongoWriteConcern(),
 			options.getMongoDatabaseName(), 
 			options.getMongoCollectionName());
+		return writer;
+	}
+
+	private SolrWriter<Song> newSolrWriter() throws UnknownHostException, MongoException {
+		SolrWriter<Song> writer = new SolrWriter<Song>(options.getSolrUrl());
 		return writer;
 	}
 
@@ -109,14 +118,13 @@ public class Main {
 		this.start = System.currentTimeMillis();
 		if (LOG.isInfoEnabled()) {
 			LOG.info("Starting Batch");
-			LOG.info("File: {}", options.getH5file());
-			LOG.info("Dataset Path: {}", options.getDatasetPath());
-			LOG.info("Chunk Size: {}", options.getChunkSize());
+			LOG.info("Directory: {}", options.getDirectory());
 			LOG.info("Mongo host: {}", options.getMongoHost());
 			LOG.info("Mongo port: {}", options.getMongoPort());
 			LOG.info("Mongo user: {}", options.getMongoUser());
 			LOG.info("Mongo DB: {}", options.getMongoDatabaseName());
 			LOG.info("Mongo Collection: {}", options.getMongoCollectionName());
+			LOG.info("Solr URL: {}", options.getSolrUrl());
 		}
 	}
 

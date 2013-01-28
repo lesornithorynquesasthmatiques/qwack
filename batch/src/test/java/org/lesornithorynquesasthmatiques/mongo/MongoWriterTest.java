@@ -39,7 +39,6 @@ public class MongoWriterTest {
 		expected.setTemperature(-15);
 		expected.setPressure(42);
 		
-		mongoWriter.init();
 		mongoWriter.write(Collections.singletonList(expected));
 		
 		MongoCollection sensors = mongoHelper.getJongo().getCollection("sensors");
@@ -75,7 +74,6 @@ public class MongoWriterTest {
 		lyon.setName("Lyon");
 		lyon.setLocation(45.75889, 4.84139);
 
-		mongoWriter.init();
 		mongoWriter.write(Lists.newArrayList(paris, neuilly, lille, lyon));
 		
 		MongoCollection cities = mongoHelper.getJongo().getCollection("cities");

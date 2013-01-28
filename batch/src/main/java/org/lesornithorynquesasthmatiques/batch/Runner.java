@@ -69,8 +69,6 @@ public class Runner<T> {
 
 	public void init() throws Exception {
 		reader.init();
-		mongoWriter.init();
-//		solrWriter.init();
 		taskSynchronizer = new TaskSynchronizer();
 	}
 	
