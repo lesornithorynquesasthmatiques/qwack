@@ -21,7 +21,7 @@ source: http://www.hdfgroup.org/ftp/HDF5/hdf-java/src/hdf-java-2.9-src.tar
 
 ## Building & Running with Maven
 
-You need to install 3 artifacts manually, they are locate inside the binary distribution under "lib" directory:
+You need to install 3 artifacts manually, they are locate inside the binary distribution under "lib" directory or use install_hdf5_libs.sh:
 
     mvn install:install-file -Dfile=/path/to/hdf-java/lib/jhdf5.jar -DgroupId=org.hdfgroup -DartifactId=jhdf5 -Dversion=2.9 -Dpackaging=jar
     mvn install:install-file -Dfile=/path/to/hdf-java/lib/jhdf5obj.jar -DgroupId=org.hdfgroup -DartifactId=jhdf5obj -Dversion=2.9 -Dpackaging=jar
