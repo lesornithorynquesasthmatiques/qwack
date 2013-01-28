@@ -82,7 +82,7 @@ public class HDF5FileWriter {
         		new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, 
         		null);
         
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\Téléchargements\\FR\\FR-small.txt"), "UTF-8"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("D:\\Téléchargements\\FR\\cities.txt"), "UTF-8"));
     	Splitter splitter = Splitter.on("\t");
 
 		int[] geonameids = new int[chunkSize];

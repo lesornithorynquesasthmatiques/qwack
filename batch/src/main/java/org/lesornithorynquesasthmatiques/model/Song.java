@@ -1,6 +1,5 @@
 package org.lesornithorynquesasthmatiques.model;
 
-import org.apache.solr.client.solrj.beans.Field;
 import org.bson.types.ObjectId;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,7 +10,6 @@ public class Song {
 	 * Mongo identifier.
 	 */
 	@JsonProperty("_id")
-	@Field
 	private ObjectId id;
 
 	/** Echo Nest song ID (String) */
@@ -42,6 +40,9 @@ public class Song {
 	
 	/** in seconds (double) */
 	private double duration;
+
+	public Song() {
+	}
 
 	public ObjectId getId() {
 		return id;

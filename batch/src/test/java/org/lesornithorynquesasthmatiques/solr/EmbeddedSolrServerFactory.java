@@ -11,6 +11,12 @@ import org.lesornithorynquesasthmatiques.mongo.EmbeddedMongo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Helper class to leverage the construction of an embedded Solr server for testing purposes.
+ * 
+ * @author Alexandre Dutra
+ *
+ */
 public class EmbeddedSolrServerFactory {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EmbeddedMongo.class);

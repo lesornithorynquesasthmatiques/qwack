@@ -7,8 +7,8 @@ $Revision: 8451 $
 $Date: 2011-10-21 15:31:10 +0200 (ven., 21 oct. 2011) $
 -->
 <schema
-    name="cities"
-    version="0.1">
+    name="songs"
+    version="1.5">
 
     <types>
 
@@ -157,28 +157,55 @@ distCalculator="haversine": Set the distance calculation algorithm. If geo="true
 
 		<!-- query filter fields (not tokenized, indexed, not stored) -->
 
-		<!-- search fields (tokenized, indexed, not stored, not required) -->
+		<!-- search fields (tokenized, indexed, stored, not required) -->
 		
         <field
-            name="name"
+            name="title"
             type="text_general_rev"
             indexed="true"
-            stored="false"
+            stored="true"
             multiValued="false" />
 
+        <field
+            name="release"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
 
-   <field name="store" type="location" indexed="true" stored="false" multiValued="false" />
+        <field
+            name="artist"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
 
-   <!-- Type used to index the lat and lon components for the "location" FieldType -->
-   <dynamicField name="*_coordinate"  type="tdouble" indexed="true"  stored="false" multiValued="false" />
+        <field
+            name="year"
+            type="tint"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
 
-   <field name="location" type="location_rpt" indexed="true" stored="false" multiValued="false"/>
+        <field
+            name="locationName"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+            
+   		<field 
+   			name="location" 
+   			type="location_rpt" 
+   			indexed="true" 
+   			stored="true" 
+   			multiValued="false"/>
 
     </fields>
 
     <uniqueKey>id</uniqueKey>
 
-    <defaultSearchField>name</defaultSearchField>
+    <defaultSearchField>title</defaultSearchField>
 
     <solrQueryParser defaultOperator="OR" />
 

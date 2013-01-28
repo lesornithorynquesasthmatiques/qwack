@@ -13,8 +13,10 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.lesornithorynquesasthmatiques.model.City;
 
+/**
+ * A specialized {@link SolrHelper} for Solr unit tests.
+ */
 public class SolrTestsHelper extends SolrHelper implements TestRule {
 
 	static {
@@ -28,11 +30,15 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 			throw new RuntimeException("Failed to initialize Solr core", e);
 		}
 	}
-	
-	public List<City> queryCities(String queryString) {
+
+	public <T> List<T> query(String queryString, Class<T> clazz) {
+		return query(new SolrQuery(queryString), clazz);
+	}
+
+	public <T> List<T> query(SolrQuery query, Class<T> clazz) {
 		try {
-			QueryResponse response = getSolr().query(new SolrQuery(queryString));
-			return response.getBeans(City.class);
+			QueryResponse response = getSolr().query(query);
+			return response.getBeans(clazz);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

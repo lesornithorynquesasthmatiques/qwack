@@ -92,6 +92,20 @@ public class SolrQueryBuilder {
 	 * @param search
 	 * @return
 	 */
+	public SolrQueryBuilder withRawFilterQueryField(String field, String search) {
+		if(notEmpty(search)) filterQueryFields.put(field, search);
+		return this;
+	}
+
+	/**
+	 * Checks whether the given search is not empty, and if so, adds it as a "raw" query field. 
+	 * The given search is added as is.
+	 * CAUTION: DO NOT use this method to add a user-supplied input to the query.
+	 * 
+	 * @param field
+	 * @param search
+	 * @return
+	 */
 	public SolrQueryBuilder withRawQueryField(String field, String search) {
 		if(notEmpty(search)) queryFields.put(field, search);
 		return this;

@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Generic reader for H5 files. Reads one single dataset by chunks.
+ * 
  * @author Alexandre Dutra
  *
  */

@@ -1,6 +1,8 @@
 package org.lesornithorynquesasthmatiques.model;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"longitude", "latitude", "name"})
 public class Location {
 
 	/** location name (String) */
@@ -11,6 +13,15 @@ public class Location {
 	
 	/** longitude (double) */
 	private double longitude;
+
+	public Location() {
+	}
+
+	public Location(String name, double latitude, double longitude) {
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public String getName() {
 		return name;
