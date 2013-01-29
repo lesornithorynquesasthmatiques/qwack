@@ -8,11 +8,8 @@ public class Location {
 	/** location name (String) */
 	private String name;
 	
-	/** latitude (double) */
-	private Double latitude;
-	
-	/** longitude (double) */
-	private Double longitude;
+	/** longitude x latitude (double) */
+	private double[] coords;
 
 	public String getName() {
 		return name;
@@ -22,21 +19,25 @@ public class Location {
 		this.name = name;
 	}
 
+	public double[] getCoords() {
+		return coords;
+	}
+
+	public void setCoords(double[] coords) {
+		this.coords = coords;
+	}
+
+	public void setCoords(double latitude, double longitude) {
+		//longitude first!
+		this.coords = new double[]{longitude, latitude};
+	}
+
 	public Double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(Double latitude) {
-		this.latitude = latitude;
-	}
-
-	public Double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(Double longitude) {
-		this.longitude = longitude;
+		return this.coords == null ? null : this.coords[1];
 	}
 	
+	public Double getLongitude() {
+		return this.coords == null ? null : this.coords[0];
+	}
 	
 }
