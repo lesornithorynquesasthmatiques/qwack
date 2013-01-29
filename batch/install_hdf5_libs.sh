@@ -1,12 +1,6 @@
 #!/bin/sh
 
-if [ $# -ne 1 ]
-then
-  echo "Specify the hdf5 lib directory"
-  exit 1
-fi
-
-HDF5_DIR=$1
+HDF5_DIR=$PWD/hdf-java/lib
 
 MAVEN_HDF5_GROUPID="org.hdfgroup"
 MAVEN_HDF5_VERSION="2.9"
