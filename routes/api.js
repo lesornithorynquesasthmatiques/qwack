@@ -1,6 +1,6 @@
-/*
- * Serve JSON to our AngularJS client
- */
+'use strict';
+
+var db = require("../db/mongo");
 
 exports.name = function(req, res) {
   res.json({
@@ -8,15 +8,12 @@ exports.name = function(req, res) {
   });
 };
 
-exports.kittensWhoseNameStartsWithFluff = function(db) {
-  return function(req, res) {
-    db.Kitten.find({ name: /^Fluff/ }, function(err, kittens) {
-      if (err) {
-        console.log('arg');
-      }
+exports.loveSongs = function(req, res) {
+  db.Songs.find({ title: /.*love.*/i }, function(err, songs) {
+    if (err) {
+      console.log('arg');
+    }
 
-      console.log(kittens);
-      res.json(kittens);
-    });
-  };
+    res.json(songs);
+  });
 };

@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api'),
@@ -28,11 +30,12 @@ app.configure('production', function() {
 
 // routes
 app.get('/', routes.index);
+app.get('/partials/:name', routes.partials);
 app.get('/api/name', api.name);
-app.get('/mongo/kittensWhoseNameStartsWithFluff', api.kittensWhoseNameStartsWithFluff(db));
+app.get('/api/love-songs', api.loveSongs);
 
 // redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
+//app.get('*', routes.index);
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {

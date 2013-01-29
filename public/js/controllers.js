@@ -1,21 +1,24 @@
 'use strict';
 
-/* Controllers */
-
 function AppCtrl($scope, $http) {
   $http({method: 'GET', url: '/api/name'}).
     success(function(data, status, headers, config) {
         $scope.name = data.name;
       }).
     error(function(data, status, headers, config) {
-        $scope.name = 'Error!';
-      });
+      console.log("ERRORRRRR", data, status, headers, config);
+      $scope.name = 'Error';
+    });
 }
 
-function MyCtrl1() {}
-MyCtrl1.$inject = [];
-
-
-function MyCtrl2() {
+function LoveSongsCtrl($scope, $http) {
+  $http({method: 'GET', url: '/api/love-songs'}).
+    success(function(data, status, headers, config) {
+        $scope.songs = data;
+      }).
+    error(function(data, status, headers, config) {
+      console.log("ERRORRRRR", data, status, headers, config);
+      $scope.songs = [];
+    });
 }
-MyCtrl2.$inject = [];
+//LoveSongsCtrl.$inject = [];

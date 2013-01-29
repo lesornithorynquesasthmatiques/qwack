@@ -1,5 +1,7 @@
+'use strict';
+
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.connect('mongodb://localhost/main');
 
 var db = mongoose.connection;
 
@@ -8,39 +10,38 @@ db.once('open', function() {
     console.log('DB connection is open');
 });
 
-var kittySchema = mongoose.Schema({
-    name: String
+var songSchema = mongoose.Schema({
+    songid: String,
+
+    /** Echo Nest track ID (String) */
+    trackid: String,
+    
+    /** ID from 7digital.com or -1 (int) */
+    tracksdid: Number,
+    
+    /** ID from 7digital.com or -1 (int) */
+    releasesdid: Number,
+    
+    /** song title (String) */
+    title: String,
+    
+    /** album name (String) */
+    release: String,
+    
+//    artist: Artist,
+    
+    /** song release year from MusicBrainz or 0 (int) */
+    year: Number,
+    
+    /** audio hash code (String) */
+    audiomd5: String,
+    
+    /** in seconds (double) */
+    duration: Number
 });
 
-kittySchema.methods.speak = function() {
-    console.log(this.name + " is born!");
-};
+var Songs = mongoose.model('songs', songSchema);
 
-var Kitten = mongoose.model('Kitten', kittySchema);
 
-Kitten.remove();
 
-Kitten.find({ name: /^Fluff/ }, function(err, kittens) {
-    if (err) {
-        console.log('arg');
-        return;
-    }
-
-    console.log(kittens.length);
-    if (kittens && kittens.length > 0) {
-        return;
-    }
-
-    var fluffy = new Kitten({
-        name: 'Fluffy'
-    });
-
-    fluffy.save(function(err, fluffy) {
-        if (err) {
-            console.log('arg');
-        }
-        fluffy.speak();
-    });
-});
-
-exports.Kitten = Kitten;
+exports.Songs = Songs;
