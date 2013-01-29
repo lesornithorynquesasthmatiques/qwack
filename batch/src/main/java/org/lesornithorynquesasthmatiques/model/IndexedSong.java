@@ -26,7 +26,7 @@ public class IndexedSong {
 
 	/** song release year from MusicBrainz or 0 (int) */
 	@Field
-	private int year;
+	private Integer year;
 
 	/** artist name (String) */
 	@Field
@@ -58,9 +58,7 @@ public class IndexedSong {
 		this.release = release;
 		this.artist = artistName;
 		this.locationName = locationName;
-		if( ! Double.isNaN(latitude) && ! Double.isNaN(longitude)){
-			this.location = latitude + "," + longitude;
-		}
+		this.location = latitude + "," + longitude;
 		this.year = year;
 	}
 
@@ -79,7 +77,7 @@ public class IndexedSong {
 			Location location = artist.getLocation();
 			if (location != null) {
 				this.locationName = location.getName();
-				if( location.getLatitude() != null && location.getLongitude() != null){
+				if( location.getCoords() != null){
 				this.location = 
 						location.getLatitude() 
 						+ ","

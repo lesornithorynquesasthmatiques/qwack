@@ -10,11 +10,11 @@ public class Artist {
 	/** ID from musicbrainz.org (String) */
 	private String mbid;
 
-	/** ID from 7digital.com or -1 (int) */
-	private int sdid;
+	/** ID from 7digital.com or -1 (Integer) */
+	private Integer sdid;
 	
-	/** ID from playme.com, or -1 (int) */
-	private int playmeid;
+	/** ID from playme.com, or -1 (Integer) */
+	private Integer playmeid;
 
 	/** artist name (String) */
 	private String name;
@@ -40,19 +40,19 @@ public class Artist {
 		this.mbid = mbid;
 	}
 
-	public int getSdid() {
+	public Integer getSdid() {
 		return sdid;
 	}
 
-	public void setSdid(int sdid) {
+	public void setSdid(Integer sdid) {
 		this.sdid = sdid;
 	}
 
-	public int getPlaymeid() {
+	public Integer getPlaymeid() {
 		return playmeid;
 	}
 
-	public void setPlaymeid(int playmeid) {
+	public void setPlaymeid(Integer playmeid) {
 		this.playmeid = playmeid;
 	}
 

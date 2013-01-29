@@ -2,9 +2,12 @@ package org.lesornithorynquesasthmatiques.converter;
 
 import org.bson.types.ObjectId;
 import org.lesornithorynquesasthmatiques.hdf.DataSubset;
+import org.lesornithorynquesasthmatiques.lang.Numbers;
 import org.lesornithorynquesasthmatiques.model.Artist;
 import org.lesornithorynquesasthmatiques.model.Location;
 import org.lesornithorynquesasthmatiques.model.Song;
+
+import com.google.common.base.Strings;
 
 /**
  * @author Alexandre Dutra
@@ -19,32 +22,34 @@ public class SongConverter {
 		
 		Artist artist = new Artist();
 		song.setArtist(artist);
-		Location location = new Location();
-		artist.setLocation(location);
 		
-		song.setAudiomd5((String) analyzis.getValue(0, 1));
-		song.setDuration((double) analyzis.getValue(0, 3));
-		song.setTrackid((String) analyzis.getValue(0, 30));
+		song.setAudiomd5(Strings.emptyToNull(Strings.emptyToNull((String) analyzis.getValue(0, 1))));
+		song.setDuration(Numbers.infiniteOrNanToNull((double) analyzis.getValue(0, 3)));
+		song.setTrackid(Strings.emptyToNull((String) analyzis.getValue(0, 30)));
 		
-		artist.setSdid((int) metadata.getValue(0, 1));
-		artist.setId((String) metadata.getValue(0, 4));
-		location.setName((String) metadata.getValue(0, 6));
-		double latitude = (double) metadata.getValue(0, 5);
-		double longitude = (double) metadata.getValue(0, 7);
-		if(! Double.isNaN(latitude) && ! Double.isNaN(longitude)){
-			location.setLatitude(latitude);
-			location.setLongitude(longitude);
+		artist.setSdid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 1)));
+		artist.setId(Strings.emptyToNull((String) metadata.getValue(0, 4)));
+		String locationName = Strings.emptyToNull((String) metadata.getValue(0, 6));
+		Double latitude = Numbers.infiniteOrNanToNull((double) metadata.getValue(0, 5));
+		Double longitude = Numbers.infiniteOrNanToNull((double) metadata.getValue(0, 7));
+		if(locationName != null || latitude != null || longitude != null) {
+			Location location = new Location();
+			location.setName(locationName);
+			if(latitude != null || longitude != null){
+				location.setCoords(latitude, longitude);
+			}
+			artist.setLocation(location);
 		}
-		artist.setMbid((String) metadata.getValue(0, 8));
-		artist.setName((String) metadata.getValue(0, 9));
-		artist.setPlaymeid((int) metadata.getValue(0, 10));
-		song.setRelease((String) metadata.getValue(0, 14));
-		song.setReleasesdid((int) metadata.getValue(0, 15));
-		song.setSongid((String) metadata.getValue(0, 17));
-		song.setTitle((String) metadata.getValue(0, 18));
-		song.setTracksdid((int) metadata.getValue(0, 19));
+		artist.setMbid(Strings.emptyToNull((String) metadata.getValue(0, 8)));
+		artist.setName(Strings.emptyToNull((String) metadata.getValue(0, 9)));
+		artist.setPlaymeid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 10)));
+		song.setRelease(Strings.emptyToNull((String) metadata.getValue(0, 14)));
+		song.setReleasesdid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 15)));
+		song.setSongid(Strings.emptyToNull((String) metadata.getValue(0, 17)));
+		song.setTitle(Strings.emptyToNull((String) metadata.getValue(0, 18)));
+		song.setTracksdid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 19)));
 		
-		song.setYear((int) musicBrainz.getValue(0, 1));
+		song.setYear(Numbers.negativeOrZeroToNull((int) musicBrainz.getValue(0, 1)));
 		
 		return song;
 	}

@@ -19,10 +19,10 @@ public class Song {
 	private String trackid;
 	
 	/** ID from 7digital.com or -1 (int) */
-	private int tracksdid;
+	private Integer tracksdid;
 
 	/** ID from 7digital.com or -1 (int) */
-	private int releasesdid;
+	private Integer releasesdid;
 	
 	/** song title (String) */
 	private String title;
@@ -33,13 +33,13 @@ public class Song {
 	private Artist artist;
 
 	/** song release year from MusicBrainz or 0 (int) */
-	private int year;
+	private Integer year;
 	
 	/** audio hash code (String) */
 	private String audiomd5;
 	
 	/** in seconds (double) */
-	private double duration;
+	private Double duration;
 
 	public Song() {
 	}
@@ -68,19 +68,19 @@ public class Song {
 		this.trackid = trackid;
 	}
 
-	public int getTracksdid() {
+	public Integer getTracksdid() {
 		return tracksdid;
 	}
 
-	public void setTracksdid(int tracksdid) {
+	public void setTracksdid(Integer tracksdid) {
 		this.tracksdid = tracksdid;
 	}
 
-	public int getReleasesdid() {
+	public Integer getReleasesdid() {
 		return releasesdid;
 	}
 
-	public void setReleasesdid(int releasesdid) {
+	public void setReleasesdid(Integer releasesdid) {
 		this.releasesdid = releasesdid;
 	}
 
@@ -108,11 +108,11 @@ public class Song {
 		this.artist = artist;
 	}
 
-	public int getYear() {
+	public Integer getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(Integer year) {
 		this.year = year;
 	}
 
@@ -124,11 +124,11 @@ public class Song {
 		this.audiomd5 = audiomd5;
 	}
 
-	public double getDuration() {
+	public Double getDuration() {
 		return duration;
 	}
 
-	public void setDuration(double duration) {
+	public void setDuration(Double duration) {
 		this.duration = duration;
 	}
 	

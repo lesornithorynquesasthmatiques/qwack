@@ -48,10 +48,8 @@ public class SongsGeoSpatialTest {
 		Location losAngeles = new Location();
 		rickAstley.setLocation(losAngeles);
 		losAngeles.setName("Los Angeles");
-		losAngeles.setLatitude(34.052337);
-		losAngeles.setLongitude(-118.243680);
+		losAngeles.setCoords(34.052337,-118.243680);
 		songs.save(neverGonnaGiveYouUp);
-
 		
 		Song laVieEnRose = new Song();
 		laVieEnRose.setTitle("La Vie En Rose");
@@ -61,19 +59,18 @@ public class SongsGeoSpatialTest {
 		Location paris = new Location();
 		edithPiaf.setLocation(paris);
 		paris.setName("Paris");
-		paris.setLatitude(48.8534);
-		paris.setLongitude(2.3486);
+		paris.setCoords(48.8534, 2.3486);
 		songs.save(laVieEnRose);
 
 		DBCollection coll = mongoHelper.getDb().getCollection("songs");
-		coll.ensureIndex(new BasicDBObject("artist.location", "2d"));
+		coll.ensureIndex(new BasicDBObject("artist.location.coords", "2d"));
 	}
 	
 	@Test
 	public void should_find_all_songs_ordered_by_distance_from_los_angeles() throws UnknownHostException, MongoException {
 		//returns all documents near a point, calculating distances using spherical geometry,
 		//ordered by distance, one doc per location found (can lead to duplicates)
-		Iterator<Song> it = songs.find("{ artist.location: { $nearSphere: [-118.243680, 34.052337] } }").as(Song.class).iterator();
+		Iterator<Song> it = songs.find("{ artist.location.coords: { $nearSphere: [-118.243680, 34.052337] } }").as(Song.class).iterator();
 		assertThat(it.next().getTitle()).isEqualTo("Never Gonna Give You Up");
 		assertThat(it.next().getTitle()).isEqualTo("La Vie En Rose");
 		assertThat(it.hasNext()).isFalse();
@@ -115,7 +112,7 @@ public class SongsGeoSpatialTest {
 		positionAndRadius.add(10d/EARTH_RADIUS);
 		DBObject centerSphere = QueryBuilder.start("$centerSphere").is(positionAndRadius).get();
 		DBObject within = QueryBuilder.start("$within").is(centerSphere).get();
-		DBObject query = QueryBuilder.start("artist.location").is(within).get();
+		DBObject query = QueryBuilder.start("artist.location.coords").is(within).get();
 		DBCursor cursor = songs.getDBCollection().find(query);
 		assertThat(cursor.next().get("title")).isEqualTo("La Vie En Rose");
 		assertThat(cursor.hasNext()).isFalse();
