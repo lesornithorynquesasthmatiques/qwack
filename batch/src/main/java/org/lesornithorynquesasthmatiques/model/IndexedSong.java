@@ -79,7 +79,7 @@ public class IndexedSong {
 			Location location = artist.getLocation();
 			if (location != null) {
 				this.locationName = location.getName();
-				if( ! Double.isNaN(location.getLatitude()) && ! Double.isNaN(location.getLongitude())){
+				if( location.getLatitude() != null && location.getLongitude() != null){
 				this.location = 
 						location.getLatitude() 
 						+ ","

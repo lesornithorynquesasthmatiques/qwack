@@ -20,6 +20,7 @@ import org.lesornithorynquesasthmatiques.converter.SongConverter;
 import org.lesornithorynquesasthmatiques.model.IndexedSong;
 import org.lesornithorynquesasthmatiques.model.Song;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
+import org.lesornithorynquesasthmatiques.solr.SolrHelper;
 import org.lesornithorynquesasthmatiques.solr.SolrWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,10 @@ public class SongBatch {
 				ThreadPoolExecutor pool = newThreadPool();
 				scanner.setTaskPool(pool);
 				Files.walkFileTree(directory, scanner);
+				LOG.info("Directory successfully scanned: {}", directory);
+				LOG.info("Committing Solr documents.");
+				SolrHelper.getSolr().commit();
+				LOG.info("Shutting down thread pool.");
 				taskSynchronizer.awaitUntilAllPendingTasksCompleted();
 				pool.shutdown();
 				if( ! pool.awaitTermination(60, TimeUnit.SECONDS)) {

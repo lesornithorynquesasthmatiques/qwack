@@ -9,19 +9,10 @@ public class Location {
 	private String name;
 	
 	/** latitude (double) */
-	private double latitude;
+	private Double latitude;
 	
 	/** longitude (double) */
-	private double longitude;
-
-	public Location() {
-	}
-
-	public Location(String name, double latitude, double longitude) {
-		this.name = name;
-		this.latitude = latitude;
-		this.longitude = longitude;
-	}
+	private Double longitude;
 
 	public String getName() {
 		return name;
@@ -31,19 +22,19 @@ public class Location {
 		this.name = name;
 	}
 
-	public double getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(double latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 
-	public double getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(double longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 	

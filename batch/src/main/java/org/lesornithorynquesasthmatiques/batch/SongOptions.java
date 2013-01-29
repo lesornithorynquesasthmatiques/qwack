@@ -36,11 +36,11 @@ public class SongOptions {
 	@Option(name = "-md", aliases = {"--database"}, usage = "Mongo database, default: main") 
 	private String mongoDatabaseName = "main";
 
-	@Option(name = "-mc", aliases = {"--collection"}, usage = "Mongo password, default: data") 
-	private String mongoCollectionName = "data";
+	@Option(name = "-mc", aliases = {"--collection"}, usage = "Mongo collection, default: songs") 
+	private String mongoCollectionName = "songs";
 
-	@Option(name = "-s", aliases = {"--solr-url"}, usage = "Solr URL, default: http://localhost:8983/solr") 
-	private String solrUrl = "http://localhost:8983/solr";
+	@Option(name = "-s", aliases = {"--solr-url"}, usage = "Solr URL, default: http://localhost:8983/solr/songs") 
+	private String solrUrl = "http://localhost:8983/solr/songs";
 
     @Option(name = "-?", aliases = {"--help"}, usage = "Displays usage help") 
     private boolean help;

@@ -6,7 +6,7 @@ BATCH_HOME=$PWD
 . $BATCH_HOME/bin/functions.sh
 
 BATCH_DESCRIPTION="Qwack H5 File Ingestion Batch"
-BATCH_MAIN_CLASS="org.lesornithorynquesasthmatiques.batch.SongMain"
+BATCH_MAIN_CLASS="org.lesornithorynquesasthmatiques.batch.SongBatch"
 PID_FILE=`basename $0`.pid
 
 launchJavaBatch \
