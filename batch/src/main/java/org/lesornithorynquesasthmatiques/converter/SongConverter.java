@@ -1,7 +1,10 @@
 package org.lesornithorynquesasthmatiques.converter;
 
+import java.nio.file.Path;
+import java.util.Arrays;
+
 import org.bson.types.ObjectId;
-import org.lesornithorynquesasthmatiques.hdf.DataSubset;
+import org.lesornithorynquesasthmatiques.hdf.CompoundDataset;
 import org.lesornithorynquesasthmatiques.lang.Numbers;
 import org.lesornithorynquesasthmatiques.model.Artist;
 import org.lesornithorynquesasthmatiques.model.Location;
@@ -15,7 +18,17 @@ import com.google.common.base.Strings;
  */
 public class SongConverter {
 
-	public Song convert(DataSubset analyzis, DataSubset metadata, DataSubset musicBrainz) {
+	/**
+	 * @param analyzis
+	 * @param metadata
+	 * @param musicBrainz
+	 * @param tags
+	 * @param terms
+	 * @param similarArtists
+	 * @param path
+	 * @return
+	 */
+	public Song convert(CompoundDataset analyzis, CompoundDataset metadata, CompoundDataset musicBrainz, String[] tags, String[] terms, String[] similarArtists, Path path) {
 		
 		Song song = new Song();
 		song.setId(new ObjectId());
@@ -50,6 +63,10 @@ public class SongConverter {
 		song.setTracksdid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 19)));
 		
 		song.setYear(Numbers.negativeOrZeroToNull((int) musicBrainz.getValue(0, 1)));
+		
+		if(tags != null) artist.setMbtags(Arrays.asList(tags));
+		if(terms != null) artist.setTerms(Arrays.asList(terms));
+		if(similarArtists != null) artist.setSimilarArtists(Arrays.asList(similarArtists));
 		
 		return song;
 	}

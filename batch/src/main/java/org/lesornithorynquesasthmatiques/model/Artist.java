@@ -24,6 +24,12 @@ public class Artist {
 	/** tags from musicbrainz.org (List<String>) */
 	private List<String> mbtags;
 
+	/** artist terms */
+	private List<String> terms;
+	
+	/** similar artist IDs */
+	private List<String> similarArtists;
+	
 	public String getId() {
 		return id;
 	}
@@ -78,6 +84,22 @@ public class Artist {
 
 	public void setMbtags(List<String> mbtags) {
 		this.mbtags = mbtags;
+	}
+
+	public List<String> getTerms() {
+		return terms;
+	}
+
+	public void setTerms(List<String> terms) {
+		this.terms = terms;
+	}
+
+	public List<String> getSimilarArtists() {
+		return similarArtists;
+	}
+
+	public void setSimilarArtists(List<String> similarArtists) {
+		this.similarArtists = similarArtists;
 	}
 	
 	

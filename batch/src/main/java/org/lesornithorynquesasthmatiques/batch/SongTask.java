@@ -3,7 +3,7 @@ package org.lesornithorynquesasthmatiques.batch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.lesornithorynquesasthmatiques.converter.SongConverter;
-import org.lesornithorynquesasthmatiques.hdf.DataSubset;
+import org.lesornithorynquesasthmatiques.hdf.CompoundDataset;
 import org.lesornithorynquesasthmatiques.hdf.SongFileReader;
 import org.lesornithorynquesasthmatiques.model.IndexedSong;
 import org.lesornithorynquesasthmatiques.model.Song;
@@ -67,11 +67,14 @@ public class SongTask implements Runnable {
 			LOG.debug("Reading file: {}", reader.getFile());
 			//read
 			reader.open();
-			DataSubset analyzis = reader.readAnalyzis();
-			DataSubset metadata = reader.readMetadata();
-			DataSubset musicBrainz = reader.readMusicBrainz();
+			CompoundDataset analyzis = reader.readAnalyzis();
+			CompoundDataset metadata = reader.readMetadata();
+			CompoundDataset musicBrainz = reader.readMusicBrainz();
+			String[] tags = reader.readMusicBrainzTags();
+			String[] terms = reader.readMetadataArtistTerms();
+			String[] similarArtists = reader.readMetadataSimilarArtists();
 			//convert
-			Song song = converter.convert(analyzis, metadata, musicBrainz);
+			Song song = converter.convert(analyzis, metadata, musicBrainz, tags, terms, similarArtists, reader.getFile());
 			//write
 			mongoWriter.write(song);
 			if(solrWriter != null) solrWriter.write(new IndexedSong(song));
