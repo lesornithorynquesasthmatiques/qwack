@@ -3,12 +3,149 @@
 <!-- 
 Qwack Solr schema
 Version: ${project.version}
-$Revision: 8451 $
-$Date: 2011-10-21 15:31:10 +0200 (ven., 21 oct. 2011) $
 -->
 <schema
     name="songs"
     version="1.5">
+
+    <fields>
+
+        <field
+            name="id"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="true"
+            multiValued="false" />
+
+        <field
+            name="songid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+
+        <field
+            name="trackid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+            
+        <field
+            name="tracksdid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+	
+        <field
+            name="releasesdid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+
+        <field
+            name="title"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+
+        <field
+            name="release"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+
+        <field
+            name="artistName"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+            
+        <field
+            name="artistId"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+            
+        <field
+            name="artistMbid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+
+        <field
+            name="artistSdid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+            
+        <field
+            name="artistPlaymeid"
+            type="string"
+            indexed="true"
+            stored="true"
+            required="false"
+            multiValued="false" />
+
+        <field
+            name="year"
+            type="tint"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+
+        <field
+            name="locationName"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+            
+   		<field 
+   			name="location" 
+   			type="location_rpt" 
+   			indexed="true" 
+   			stored="true" 
+   			multiValued="false"/>
+   			
+   		<field 
+   			name="mbtags" 
+   			type="string" 
+   			indexed="true" 
+   			stored="false" 
+   			multiValued="true"/>
+   			
+   		<field 
+   			name="terms" 
+   			type="string" 
+   			indexed="true" 
+   			stored="false" 
+   			multiValued="true"/>
+   			
+   		<field 
+   			name="similarArtists" 
+   			type="string" 
+   			indexed="true" 
+   			stored="false" 
+   			multiValued="true"/>
+
+    </fields>
 
     <types>
 
@@ -18,22 +155,18 @@ $Date: 2011-10-21 15:31:10 +0200 (ven., 21 oct. 2011) $
             sortMissingLast="true"
             omitNorms="true" />
 
-	    <!-- A specialized field for geospatial search. If indexed, this fieldType must not be multivalued. -->
-	    <fieldType name="location" class="solr.LatLonType" subFieldSuffix="_coordinate"/>
 
-    <!-- An alternative geospatial field type new to Solr 4.  It supports multiValued and polygon shapes.
-      For more information about this and other Spatial fields new to Solr 4, see:
-      http://wiki.apache.org/solr/SolrAdaptersForLuceneSpatial4
-      The following configuration attributes are common to all new spatial field types based on Lucene 4 spatial:
-
-spatialContextFactory: (Spatial4j) If polygons or other WKT formatted shape support is needed, then use the JTS based class as shown above, otherwise this can be omitted. The JTS jar file must be on Solr's classpath as well. Due to a combination of things, JTS can't simply be referenced by a "<lib>" entry in solrconfig.xml; it needs to be in WEB-INF/lib in Solr's war file, basically.
-units="degrees": This parameter is mandatory, and currently the only value supported is "degrees". This affects the interpretation of the maxDistErr attribute, circle radius distances, and other absolute distances. There are approximately 111.2 kilometers in a degree, based on the average earth radius.
-geo="true": Wether the spatial fields' coordinates are latitude / longitude WGS84 based (if true) or whether they are pure Euclidean / Cartesian based. It defaults to true. When set to false, you should indicate worldBounds and probably maxDistErr as well.
-worldBounds="minX minY maxX maxY": Set the valid numerical ranges for x & y. If geo="true" then this is assumed "-180 -90 180 90". When geo="false" this is the limits of a Java double however those values have been shown to not work (yet), so definitely choose your boundaries for non-geospatial uses.
-distCalculator="haversine": Set the distance calculation algorithm. If geo="true" then haversine is the default, otherwise cartesian is. The possible values are: haversine, lawOfCosines (warning: faulty), vincentySphere, cartesian, and cartesian^2.
-    -->
-    <fieldType name="location_rpt" class="solr.SpatialRecursivePrefixTreeFieldType" geo="true" distErrPct="0.025" maxDistErr="0.000009" units="degrees" />
-
+	    <!-- An alternative geospatial field type new to Solr 4.  It supports multiValued and polygon shapes.
+	      For more information about this and other Spatial fields new to Solr 4, see:
+	      http://wiki.apache.org/solr/SolrAdaptersForLuceneSpatial4
+	    -->
+    	<fieldType 
+    		name="location_rpt" 
+    		class="solr.SpatialRecursivePrefixTreeFieldType" 
+    		geo="true" 
+    		distErrPct="0.025" 
+    		maxDistErr="0.000009" 
+    		units="degrees" />
 		
 	    <!--
 	     Numeric field types that index each value at various levels of precision
@@ -59,6 +192,7 @@ distCalculator="haversine": Set the distance calculation algorithm. If geo="true
         <!-- A general text field that has reasonable, generic cross-language defaults: 
             it tokenizes with StandardTokenizer, removes stop words from case-insensitive "stopwords.txt" 
             (empty by default), and down cases. At query time only, it also applies synonyms. -->
+            
         <fieldType
             name="text_general"
             class="solr.TextField"
@@ -141,88 +275,6 @@ distCalculator="haversine": Set the distance calculation algorithm. If geo="true
         </fieldType>
         
     </types>
-
-
-    <fields>
-
-		<!-- ID (not tokenized, indexed, stored) -->
-		
-        <field
-            name="id"
-            type="string"
-            indexed="true"
-            stored="true"
-            required="true"
-            multiValued="false" />
-
-		<!-- query filter fields (not tokenized, indexed, not stored) -->
-
-		<!-- search fields (tokenized, indexed, stored, not required) -->
-		
-        <field
-            name="title"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="release"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="artist"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="year"
-            type="tint"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="locationName"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-            
-   		<field 
-   			name="location" 
-   			type="location_rpt" 
-   			indexed="true" 
-   			stored="true" 
-   			multiValued="false"/>
-   			
-   		<field 
-   			name="mbtags" 
-   			type="text_general_rev" 
-   			indexed="true" 
-   			stored="true" 
-   			multiValued="true"/>
-   			
-   		<field 
-   			name="terms" 
-   			type="text_general_rev" 
-   			indexed="true" 
-   			stored="true" 
-   			multiValued="true"/>
-   			
-   		<field 
-   			name="similarArtists" 
-   			type="text_general_rev" 
-   			indexed="true" 
-   			stored="true" 
-   			multiValued="true"/>
-
-    </fields>
 
     <uniqueKey>id</uniqueKey>
 

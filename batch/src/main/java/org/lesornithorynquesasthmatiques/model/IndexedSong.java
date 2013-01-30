@@ -18,6 +18,22 @@ public class IndexedSong {
 	@Field
 	private String id;
 
+	/** Echo Nest song ID (String) */
+	@Field
+	private String songid;
+	
+	/** Echo Nest track ID (String) */
+	@Field
+	private String trackid;
+	
+	/** ID from 7digital.com or null */
+	@Field
+	private Integer tracksdid;
+
+	/** ID from 7digital.com or null */
+	@Field
+	private Integer releasesdid;
+	
 	/** song title (String) */
 	@Field
 	private String title;
@@ -26,13 +42,29 @@ public class IndexedSong {
 	@Field
 	private String release;
 
-	/** song release year from MusicBrainz or 0 (int) */
+	/** song release year from MusicBrainz */
 	@Field
 	private Integer year;
 
 	/** artist name (String) */
 	@Field
-	private String artist;
+	private String artistName;
+	
+	/** Echo Nest ID (String) */
+	@Field
+	private String artistId;
+
+	/** ID from musicbrainz.org (String) */
+	@Field
+	private String artistMbid;
+
+	/** ID from 7digital.com or -1 (Integer) */
+	@Field
+	private Integer artistSdid;
+	
+	/** ID from playme.com, or -1 (Integer) */
+	@Field
+	private Integer artistPlaymeid;
 
 	@Field
 	private String locationName;
@@ -71,7 +103,7 @@ public class IndexedSong {
 		this.id = id;
 		this.title = title;
 		this.release = release;
-		this.artist = artistName;
+		this.artistName = artistName;
 		this.locationName = locationName;
 		this.location = latitude + "," + longitude;
 		this.year = year;
@@ -83,12 +115,20 @@ public class IndexedSong {
 	 */
 	public IndexedSong(Song original) {
 		this.id = original.getId().toString();
+		this.songid = original.getSongid();
+		this.trackid = original.getTrackid();
+		this.tracksdid = original.getTracksdid();
+		this.releasesdid = original.getReleasesdid();
 		this.title = original.getTitle();
 		this.release = original.getRelease();
 		this.year = original.getYear();
 		Artist artist = original.getArtist();
 		if (artist != null) {
-			this.artist = artist.getName();
+			this.artistName = artist.getName();
+			this.artistId = artist.getId();
+			this.artistMbid = artist.getMbid();
+			this.artistSdid = artist.getSdid();
+			this.artistPlaymeid = artist.getPlaymeid();
 			this.mbtags = artist.getMbtags();
 			this.terms = artist.getTerms();
 			this.similarArtists = artist.getSimilarArtists();
@@ -137,12 +177,104 @@ public class IndexedSong {
 		this.year = year;
 	}
 
-	public String getArtist() {
-		return artist;
+	public String getSongid() {
+		return songid;
 	}
 
-	public void setArtist(String artist) {
-		this.artist = artist;
+	public void setSongid(String songid) {
+		this.songid = songid;
+	}
+
+	public String getTrackid() {
+		return trackid;
+	}
+
+	public void setTrackid(String trackid) {
+		this.trackid = trackid;
+	}
+
+	public Integer getTracksdid() {
+		return tracksdid;
+	}
+
+	public void setTracksdid(Integer tracksdid) {
+		this.tracksdid = tracksdid;
+	}
+
+	public Integer getReleasesdid() {
+		return releasesdid;
+	}
+
+	public void setReleasesdid(Integer releasesdid) {
+		this.releasesdid = releasesdid;
+	}
+
+	public String getArtistName() {
+		return artistName;
+	}
+
+	public void setArtistName(String artistName) {
+		this.artistName = artistName;
+	}
+
+	public String getArtistId() {
+		return artistId;
+	}
+
+	public void setArtistId(String artistId) {
+		this.artistId = artistId;
+	}
+
+	public String getArtistMbid() {
+		return artistMbid;
+	}
+
+	public void setArtistMbid(String artistMbid) {
+		this.artistMbid = artistMbid;
+	}
+
+	public Integer getArtistSdid() {
+		return artistSdid;
+	}
+
+	public void setArtistSdid(Integer artistSdid) {
+		this.artistSdid = artistSdid;
+	}
+
+	public Integer getArtistPlaymeid() {
+		return artistPlaymeid;
+	}
+
+	public void setArtistPlaymeid(Integer artistPlaymeid) {
+		this.artistPlaymeid = artistPlaymeid;
+	}
+
+	public List<String> getMbtags() {
+		return mbtags;
+	}
+
+	public void setMbtags(List<String> mbtags) {
+		this.mbtags = mbtags;
+	}
+
+	public List<String> getTerms() {
+		return terms;
+	}
+
+	public void setTerms(List<String> terms) {
+		this.terms = terms;
+	}
+
+	public List<String> getSimilarArtists() {
+		return similarArtists;
+	}
+
+	public void setSimilarArtists(List<String> similarArtists) {
+		this.similarArtists = similarArtists;
+	}
+
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 
 	public String getLocationName() {

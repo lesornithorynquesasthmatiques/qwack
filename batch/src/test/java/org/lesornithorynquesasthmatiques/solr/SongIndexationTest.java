@@ -43,7 +43,7 @@ public class SongIndexationTest {
 
 	@Test
 	public void should_find_Rick_Astley() {
-		assertThat(solrHelper.count("artist:Astley")).isEqualTo(1);
+		assertThat(solrHelper.count("artistName:Astley")).isEqualTo(1);
 	}
 
 	@Test

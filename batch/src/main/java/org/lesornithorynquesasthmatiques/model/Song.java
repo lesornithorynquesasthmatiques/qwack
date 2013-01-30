@@ -18,10 +18,10 @@ public class Song {
 	/** Echo Nest track ID (String) */
 	private String trackid;
 	
-	/** ID from 7digital.com or -1 (int) */
+	/** ID from 7digital.com or null */
 	private Integer tracksdid;
 
-	/** ID from 7digital.com or -1 (int) */
+	/** ID from 7digital.com or null */
 	private Integer releasesdid;
 	
 	/** song title (String) */
@@ -32,7 +32,7 @@ public class Song {
 	
 	private Artist artist;
 
-	/** song release year from MusicBrainz or 0 (int) */
+	/** song release year from MusicBrainz or null */
 	private Integer year;
 	
 	/** audio hash code (String) */
