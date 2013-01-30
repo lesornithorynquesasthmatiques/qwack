@@ -48,7 +48,7 @@ public class SongIndexationTest {
 
 	@Test
 	public void should_find_Los_Angeles() {
-		SolrQuery query = new SolrQueryBuilder().withRawFilterQueryField("location", "[30,-120 TO 40,-110]").build();
+		SolrQuery query = new SolrQuery("location:[30,-120 TO 40,-110]");
 		List<IndexedSong> docs = solrHelper.query(query, IndexedSong.class);
 		assertThat(docs.size()).isEqualTo(1);
 	}
