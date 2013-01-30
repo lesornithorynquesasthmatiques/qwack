@@ -13,7 +13,64 @@
         </ul>
         <div ng-view=""></div>
     </div>
-    
+	<div ng-controller="MongoSearchCtrl">
+        <h2>Mongo Search</h2>
+       	<form name="searchForm">
+     		Title: <input type="text" name="title" ng-model="title"  />
+     		Album: <input type="text" name="album" ng-model="album"  />
+     		Artist: <input type="text" name="artist" ng-model="artist"  />
+     		City: <input type="text" name="location" ng-model="location"  />
+     		Keyword: <input type="text" name="keyword" ng-model="keyword"  />
+     		<button ng:click="search()">Search Mongo</button>
+	   	</form>
+	   	<table ng-show="songs">
+		    <tr>
+		    	<th>Song ID</th>
+		    	<th>Artist</th>
+		    	<th>Title</th>
+		    	<th>Album</th>
+		    	<th>Year</th>
+		    	<th>City</th>
+		    	<th>Location</th>
+		    </tr>
+		    <tr ng-repeat="song in songs">
+		    	<td>{{song.songid}}</td>
+		    	<td>{{song.artist.name}}</td>
+		    	<td>{{song.title}}</td>
+		    	<td>{{song.release}}</td>
+		    	<td>{{song.year}}</td>
+		    	<td>{{song.artist.location.name}}</td>
+		    	<td>{{song.artist.location.coords}}</td>
+		    </tr>
+		</table>
+	</div>    
+	<div ng-controller="SolrSearchCtrl">
+        <h2>Solr Search</h2>
+       	<form name="searchForm">
+     		<input type="text" name="q" ng-model="q" required style="width:150px;" />
+     		<button ng:click="search()">Search Solr</button>
+	   	</form>
+	   	<table ng-show="songs">
+		    <tr>
+		    	<th>Song ID</th>
+		    	<th>Artist</th>
+		    	<th>Title</th>
+		    	<th>Album</th>
+		    	<th>Year</th>
+		    	<th>City</th>
+		    	<th>Location</th>
+		    </tr>
+		    <tr ng-repeat="song in songs">
+		    	<td>{{song.songid}}</td>
+		    	<td>{{song.artistName}}</td>
+		    	<td>{{song.title}}</td>
+		    	<td>{{song.release}}</td>
+		    	<td>{{song.year}}</td>
+		    	<td>{{song.locationName}}</td>
+		    	<td>{{song.location}}</td>
+		    </tr>
+		</table>
+	</div>    
     <script src="js/lib/angular/angular.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>

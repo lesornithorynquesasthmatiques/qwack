@@ -3,7 +3,8 @@
 var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api'),
-  db = require('./db/mongo');
+  db = require('./db/mongo'),
+  restler = require('restler');
 
 var app = module.exports = express();
 
@@ -33,6 +34,8 @@ app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
 app.get('/api/name', api.name);
 app.get('/api/love-songs', api.loveSongs);
+app.get('/api/solr-search', api.solrSearch);
+app.get('/api/mongo-search', api.mongoSearch);
 
 // redirect all others to the index (HTML5 history)
 //app.get('*', routes.index);

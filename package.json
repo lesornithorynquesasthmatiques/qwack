@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "express": "3.0.0",
-    "mongoose": "3.5.4"
+    "mongoose": "3.5.4",
+    "restler": "2.0.1"
   },
   "devDependencies": {
     "mocha": "1.8.1",
