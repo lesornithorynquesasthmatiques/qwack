@@ -200,6 +200,27 @@ distCalculator="haversine": Set the distance calculation algorithm. If geo="true
    			indexed="true" 
    			stored="true" 
    			multiValued="false"/>
+   			
+   		<field 
+   			name="mbtags" 
+   			type="text_general_rev" 
+   			indexed="true" 
+   			stored="true" 
+   			multiValued="true"/>
+   			
+   		<field 
+   			name="terms" 
+   			type="text_general_rev" 
+   			indexed="true" 
+   			stored="true" 
+   			multiValued="true"/>
+   			
+   		<field 
+   			name="similarArtists" 
+   			type="text_general_rev" 
+   			indexed="true" 
+   			stored="true" 
+   			multiValued="true"/>
 
     </fields>
 

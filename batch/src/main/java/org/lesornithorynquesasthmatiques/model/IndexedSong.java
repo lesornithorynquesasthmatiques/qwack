@@ -1,5 +1,7 @@
 package org.lesornithorynquesasthmatiques.model;
 
+import java.util.List;
+
 import org.apache.solr.client.solrj.beans.Field;
 
 /**
@@ -37,6 +39,19 @@ public class IndexedSong {
 
 	@Field
 	private String location;
+	
+	/** tags from musicbrainz.org (List<String>) */
+	@Field
+	private List<String> mbtags;
+
+	/** artist terms */
+	@Field
+	private List<String> terms;
+	
+	/** similar artist IDs */
+	@Field
+	private List<String> similarArtists;
+	
 
 	public IndexedSong() {
 	}
@@ -74,6 +89,9 @@ public class IndexedSong {
 		Artist artist = original.getArtist();
 		if (artist != null) {
 			this.artist = artist.getName();
+			this.mbtags = artist.getMbtags();
+			this.terms = artist.getTerms();
+			this.similarArtists = artist.getSimilarArtists();
 			Location location = artist.getLocation();
 			if (location != null) {
 				this.locationName = location.getName();

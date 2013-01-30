@@ -19,12 +19,12 @@ public class CompoundDataset {
 		this.data = data;
 	}
 
-	public int getRows(){
+	public int getNumRows(){
 		Object members = data.get(0);
 		return Array.getLength(members);
 	}
 	
-	public int getColumns(){
+	public int getNumColumns(){
 		return data.size();
 	}
 	
