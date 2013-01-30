@@ -21,11 +21,13 @@ source: http://www.hdfgroup.org/ftp/HDF5/hdf-java/src/hdf-java-2.9-src.tar
 
 ## Maven
 
-You need to install 3 artifacts manually, they are locate inside the binary distribution under "lib" directory or use install_hdf5_libs.sh:
+You need to install at least 3 artifacts manually, they are located inside the binary distribution under "lib" directory or use install_hdf5_libs.sh:
 
     mvn install:install-file -Dfile=/path/to/hdf-java/lib/jhdf5.jar -DgroupId=org.hdfgroup -DartifactId=jhdf5 -Dversion=2.9 -Dpackaging=jar
     mvn install:install-file -Dfile=/path/to/hdf-java/lib/jhdf5obj.jar -DgroupId=org.hdfgroup -DartifactId=jhdf5obj -Dversion=2.9 -Dpackaging=jar
     mvn install:install-file -Dfile=/path/to/hdf-java/lib/jhdfobj.jar -DgroupId=org.hdfgroup -DartifactId=jhdfobj -Dversion=2.9 -Dpackaging=jar
+
+They are also included in the project under ./hdf-java/lib.
 
 Or just launch the provided script install_hdf5_libs.sh:
 
@@ -56,9 +58,10 @@ http://www.hdfgroup.org/hdf-java-html/hdf-object/use.html
 2. Run bin/mongod --dbpath /path/to/data/dir/
 3. Ensure indexes by running the script ./src/mongo/indexes.js
 4. Query:
-	use main
-	db.songs.count()
-	db.songs.find({"artist.name" : "Rick Astley"},{"title":1,"release":1,year:1})
+
+	use main;
+	db.songs.count();
+	db.songs.find({"artist.name" : "Rick Astley"},{"title":1,"release":1,year:1});
 
 ### Solr
 
