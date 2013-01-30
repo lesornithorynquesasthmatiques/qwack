@@ -39,7 +39,10 @@ public class SongOptions {
 	@Option(name = "-mc", aliases = {"--collection"}, usage = "Mongo collection, default: songs") 
 	private String mongoCollectionName = "songs";
 
-	@Option(name = "-s", aliases = {"--solr-url"}, usage = "Solr URL, default: http://localhost:8983/solr/songs") 
+	@Option(name = "-ds", aliases = {"--disable-solr"}, usage = "Disable Solr indexation, default: false") 
+	private boolean disableSolr = false;
+
+	@Option(name = "-su", aliases = {"--solr-url"}, usage = "Solr URL, default: http://localhost:8983/solr/songs") 
 	private String solrUrl = "http://localhost:8983/solr/songs";
 
     @Option(name = "-?", aliases = {"--help"}, usage = "Displays usage help") 
@@ -83,6 +86,10 @@ public class SongOptions {
 
 	public String getMongoCollectionName() {
 		return mongoCollectionName;
+	}
+
+	public boolean isDisableSolr() {
+		return disableSolr;
 	}
 
 	public String getSolrUrl() {

@@ -65,15 +65,19 @@ public class SongBatch {
 				SongFileScanner scanner = new SongFileScanner();
 				scanner.setConverter(new SongConverter());
 				scanner.setMongoWriter(newMongoWriter());
-				scanner.setSolrWriter(newSolrWriter());
+				if( ! options.isDisableSolr()){
+					scanner.setSolrWriter(newSolrWriter());
+				}
 				TaskSynchronizer taskSynchronizer = new TaskSynchronizer();
 				scanner.setTaskSynchronizer(taskSynchronizer);
 				ThreadPoolExecutor pool = newThreadPool();
 				scanner.setTaskPool(pool);
 				Files.walkFileTree(directory, scanner);
 				LOG.info("Directory successfully scanned: {}", directory);
-				LOG.info("Committing Solr documents.");
-				SolrHelper.getSolr().commit();
+				if( ! options.isDisableSolr()){
+					LOG.info("Committing Solr documents.");
+					SolrHelper.getSolr().commit();
+				}
 				LOG.info("Shutting down thread pool.");
 				taskSynchronizer.awaitUntilAllPendingTasksCompleted();
 				pool.shutdown();

@@ -74,7 +74,7 @@ public class SongTask implements Runnable {
 			Song song = converter.convert(analyzis, metadata, musicBrainz);
 			//write
 			mongoWriter.write(song);
-			solrWriter.write(new IndexedSong(song));
+			if(solrWriter != null) solrWriter.write(new IndexedSong(song));
 			LOG.debug("File read successfully: {}", reader.getFile());
 			successFiles.incrementAndGet();
 		} catch (Exception e) {
