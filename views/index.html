@@ -23,7 +23,7 @@
      		Keyword: <input type="text" name="keyword" ng-model="keyword"  />
      		<button ng:click="search()">Search Mongo</button>
 	   	</form>
-	   	<table ng-show="songs">
+	   	<table ng-show="response.count > 0">
 		    <tr>
 		    	<th>Song ID</th>
 		    	<th>Artist</th>
@@ -33,7 +33,7 @@
 		    	<th>City</th>
 		    	<th>Location</th>
 		    </tr>
-		    <tr ng-repeat="song in songs">
+		    <tr ng-repeat="song in response.songs">
 		    	<td>{{song.songid}}</td>
 		    	<td>{{song.artist.name}}</td>
 		    	<td>{{song.title}}</td>
@@ -43,6 +43,11 @@
 		    	<td>{{song.artist.location.coords}}</td>
 		    </tr>
 		</table>
+		<div ng-show="response.count > 0">
+			<span>Total: {{response.count}}</span>
+			<button ng:click="previous()" ng-show="offset > 0">Previous</button>
+			<button ng:click="next()" ng-show="response.count > offset + pageSize">Next</button>
+		</div>
 	</div>    
 	<div ng-controller="SolrSearchCtrl">
         <h2>Solr Search</h2>
@@ -50,7 +55,7 @@
      		<input type="text" name="q" ng-model="q" required style="width:150px;" />
      		<button ng:click="search()">Search Solr</button>
 	   	</form>
-	   	<table ng-show="songs">
+	   	<table ng-show="response.docs">
 		    <tr>
 		    	<th>Song ID</th>
 		    	<th>Artist</th>
@@ -60,7 +65,7 @@
 		    	<th>City</th>
 		    	<th>Location</th>
 		    </tr>
-		    <tr ng-repeat="song in songs">
+		    <tr ng-repeat="song in response.docs">
 		    	<td>{{song.songid}}</td>
 		    	<td>{{song.artistName}}</td>
 		    	<td>{{song.title}}</td>
@@ -70,6 +75,11 @@
 		    	<td>{{song.location}}</td>
 		    </tr>
 		</table>
+		<div ng-show="response.numFound > 0">
+			<span>Total: {{response.numFound}}</span>
+			<button ng:click="previous()" ng-show="offset > 0">Previous</button>
+			<button ng:click="next()" ng-show="response.numFound > offset + pageSize">Next</button>
+		</div>
 	</div>    
     <script src="js/lib/angular/angular.js"></script>
     <script src="js/app.js"></script>

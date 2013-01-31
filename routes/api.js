@@ -19,24 +19,30 @@ exports.loveSongs = function(req, res) {
 };
 
 exports.solrSearch = function(req, res) {
+	var offset = req.query.offset || 0;
+	var pageSize = req.query.pageSize || 10;
 	//TODO url encode user input + escape Solr special chars
 	var url = 'http://localhost:8983/solr/songs/select?' +
 	'wt=json&defType=edismax&' +
 	'qf=title+release+artistName+locationName+mbtags&lowercaseOperators=true&q=' + 
-	req.query["q"];
+	encodeURIComponent(req.query["q"]) +
+	'&start=' + encodeURIComponent(offset)
+	'&rows=' + encodeURIComponent(pageSize);
 	console.log(url);
 	rest.get(url)
 	.on('complete', function(result) {
 		if (result instanceof Error) {
 			console.log(result);
 		} else {
-			res.json(result.response.docs);
+			res.json(result.response);
 		}
 	});
 };
 
 exports.mongoSearch = function(req, res) {
 	var query = {};
+	var offset = req.query.offset || 0;
+	var pageSize = req.query.pageSize || 10;
 	if(req.query['title'] != undefined){
 		query.title = new RegExp('.*' + req.query['title'], 'i');
 	}
@@ -52,10 +58,20 @@ exports.mongoSearch = function(req, res) {
 	if(req.query['keyword'] != undefined){
 		query['artist.mbtags'] = new RegExp('.*' + req.query['keyword'], 'i');
 	}
-	db.Songs.find(query, 'songid title release artist.name artist.location year', function(err, songs) {
-	    if (err) {
-	      console.log('arg');
-	    }
-	    res.json(songs);
-	  });
+	//TODO async
+	db.Songs.count(query, function(err, count) {
+		if (err) {
+			console.log('arg');
+		} else {
+			db.Songs.find(query, 'songid title release artist.name artist.location year')
+			.skip(offset).limit(pageSize)
+			.execFind(function(err, songs) {
+				if (err) {
+					console.log('arg');
+				} else {
+					res.json({count: count, songs: songs});
+				}
+			});
+		}
+	});
 };
