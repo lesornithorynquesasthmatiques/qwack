@@ -65,6 +65,8 @@ Example queries:
 
 ### Solr
 
+_Steps 1-5 are automated in ./src/main/solr/setup.sh_ 
+
 1. Unzip `./src/main/solr/qwack-solr.zip`
 2. Copy `./src/main/solr/solr.xml` to `qwack-solr/solr`
 3. Copy `./src/main/solr/solrconfig.xml` to `qwack-solr/solr/songs/conf`
