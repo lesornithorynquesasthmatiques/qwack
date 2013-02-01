@@ -21,15 +21,17 @@ public class EmbeddedSolrServerFactory {
 
 	private static final Logger LOG = LoggerFactory.getLogger(EmbeddedMongo.class);
 
-	public static EmbeddedSolrServer createEmbeddedSolrServer(File solrConfigFile, File schemaFile) throws IOException {
-		
+	public static EmbeddedSolrServer createEmbeddedSolrServer(File confDir) throws IOException {
 		final File solrHome = new File(System.getProperty("java.io.tmpdir"), "solr-" + System.nanoTime());
 		solrHome.mkdirs();
-		
+		File coreDir = new File(solrHome, "collection1");
+		coreDir.mkdirs();
+		File confTargetDir = new File(coreDir, "conf");
+		FileUtils.copyDirectoryToDirectory(confDir, coreDir);
+		File solrConfigFile = new File(confTargetDir, "solrconfig.xml");
+		File schemaFile = new File(confTargetDir, "schema.xml");
 		SolrConfig solrConfig = TestHarness.createConfig(solrHome.getAbsolutePath(), solrConfigFile.getAbsolutePath());
-
 		final TestHarness solrTestHarness = new TestHarness(solrHome.getAbsolutePath(), solrConfig, schemaFile.getAbsolutePath());
-		
 		Runtime.getRuntime().addShutdownHook(new Thread(){
 			@Override
 			public void run() {

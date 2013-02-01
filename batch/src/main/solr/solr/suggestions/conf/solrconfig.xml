@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+     For more details about configurations options that may appear in
+     this file, see http://wiki.apache.org/solr/SolrConfigXml.
+-->
+
+<config>
+  <abortOnConfigurationError>${solr.abortOnConfigurationError:true}</abortOnConfigurationError>
+  <luceneMatchVersion>LUCENE_41</luceneMatchVersion>
+  <lib dir="/home/solr/lib" />
+  <dataDir>${solr.data.dir:}</dataDir>
+  <directoryFactory name="DirectoryFactory"
+                    class="${solr.directoryFactory:solr.StandardDirectoryFactory}"/>
+  <indexConfig>
+    <!-- ramBufferSizeMB sets the amount of RAM that may be used by Lucene
+         indexing for buffering added documents and deletions before they are
+         flushed to the Directory.
+         maxBufferedDocs sets a limit on the number of documents buffered
+         before flushing.
+         If both ramBufferSizeMB and maxBufferedDocs is set, then
+         Lucene will flush based on whichever limit is hit first.  -->
+    <ramBufferSizeMB>1024</ramBufferSizeMB>
+    <maxBufferedDocs>100000</maxBufferedDocs>
+  </indexConfig>
+
+  <!-- The default high-performance update handler -->
+  <updateHandler class="solr.DirectUpdateHandler2">
+    <!--
+       <autoCommit>
+         <maxDocs>10000</maxDocs>
+         <maxTime>1000</maxTime>
+       </autoCommit>
+      -->
+	<updateLog class="solr.FSUpdateLog">
+      <str name="dir">${solr.data.dir:}</str>
+    </updateLog>
+
+  </updateHandler>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       Query section - these settings control query time things like caches
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <query>
+    <maxBooleanClauses>1024</maxBooleanClauses>
+    <filterCache class="solr.FastLRUCache"
+                 size="512"
+                 initialSize="512"
+                 autowarmCount="0"/>
+
+    <queryResultCache class="solr.LRUCache"
+                     size="512"
+                     initialSize="512"
+                     autowarmCount="0"/>
+
+    <documentCache class="solr.LRUCache"
+                   size="512"
+                   initialSize="512"
+                   autowarmCount="0"/>
+
+    <!--
+       <fieldValueCache class="solr.FastLRUCache"
+                        size="512"
+                        autowarmCount="128"
+                        showItems="32" />
+      -->
+
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
+
+   <queryResultWindowSize>50</queryResultWindowSize>
+
+   <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+
+    <listener event="firstSearcher" class="solr.QuerySenderListener">
+      <arr name="queries">
+        <lst>
+          <str name="q">static firstSearcher warming in solrconfig.xml</str>
+        </lst>
+      </arr>
+    </listener>
+
+    <useColdSearcher>false</useColdSearcher>
+
+    <maxWarmingSearchers>2</maxWarmingSearchers>
+
+  </query>
+
+  <requestDispatcher  handleSelect="true">
+    <requestParsers enableRemoteStreaming="true"
+                    multipartUploadLimitInKB="2048000" />
+       <httpCaching never304="true" >
+         <cacheControl>max-age=30, public</cacheControl>
+       </httpCaching>
+  </requestDispatcher>
+
+  <requestHandler name="search" class="solr.SearchHandler">
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <int name="rows">10</int>
+     </lst>
+  </requestHandler>
+
+
+
+  <!-- Default request handler config for auto complete
+       Tune the weights and boosts to adjust behaviour
+  -->
+  <!-- http://www.cominvent.com/2012/01/25/super-flexible-autocomplete-with-solr/ -->
+  <requestHandler class="solr.SearchHandler" name="/ac" default="true" >
+    <lst name="defaults">
+		<str name="defType">dismax</str><!-- edismax does not use pf ??? -->
+		<str name="rows">20</str>
+		<str name="fl">textsuggest,type</str>
+ 		<str name="qf">textsuggest^30 textng^40.0</str>
+		<str name="pf">textnge^60.0</str>
+		<str name="bf">product(log(popularity),100)^60</str>
+		<str name="wt">json</str>
+		<str name="boost">
+			product(
+				map(query($titlequery),0,0,1,$titleboost),
+				map(query($releasequery),0,0,1,$releaseboost),
+				map(query($artistquery),0,0,1,$artistboost),
+				map(query($locationquery),0,0,1,$locationboost),
+				map(query($keywordquery),0,0,1,$keywordboost),
+				$typeboost)</str>
+		<double name="typeboost">1.0</double>
+
+		<str name="titlequery">type:0</str>
+		<double name="titleboost">0.9</double>
+		
+		<str name="releasequery">type:1</str>
+		<double name="releaseboost">0.7</double>
+		
+		<str name="artistquery">type:3</str>
+		<double name="artistboost">0.8</double>
+		
+		<str name="locationquery">type:4</str>
+		<double name="locationboost">0.7</double>
+		
+		<str name="keywordquery">type:5</str>
+		<double name="keywordboost">0.5</double>
+
+		<str name="debugQuery">false</str>
+    </lst>
+  </requestHandler>
+
+
+	<searchComponent class="solr.SpellCheckComponent" name="suggest">
+		<lst name="spellchecker">
+			<str name="name">suggest</str>
+			<str name="classname">org.apache.solr.spelling.suggest.Suggester</str>
+			<str name="lookupImpl">org.apache.solr.spelling.suggest.fst.WFSTLookupFactory</str>
+			<str name="field">textsuggest</str>  <!-- the indexed field to derive suggestions from -->
+			<float name="threshold">0</float>
+			<str name="buildOnCommit">true</str>
+			<!-- <str name="sourceLocation">american-english</str> -->
+		</lst>
+	</searchComponent>
+
+	<requestHandler class="org.apache.solr.handler.component.SearchHandler" name="/suggest">
+		<lst name="defaults">
+			<str name="spellcheck">true</str>
+			<str name="spellcheck.dictionary">suggest</str>
+			<str name="spellcheck.onlyMorePopular">true</str>
+			<str name="spellcheck.count">20</str>
+			<str name="spellcheck.collate">true</str>
+		</lst>
+		<arr name="components">
+			<str>suggest</str>
+		</arr>
+	</requestHandler>
+  
+  <requestHandler name="/update"
+                  class="solr.XmlUpdateRequestHandler">
+    </requestHandler>
+
+  <!-- Binary Update Request Handler
+       http://wiki.apache.org/solr/javabin
+    -->
+  <requestHandler name="/update/javabin"
+                  class="solr.BinaryUpdateRequestHandler" />
+
+  <!-- JSON Update Request Handler
+       http://wiki.apache.org/solr/UpdateJSON
+    -->
+  <requestHandler name="/update/json"
+                  class="solr.JsonUpdateRequestHandler"
+                  startup="lazy" />
+
+  <requestHandler name="/analysis/field"
+                  startup="lazy"
+                  class="solr.FieldAnalysisRequestHandler" />
+
+  <requestHandler name="/analysis/document"
+                  class="solr.DocumentAnalysisRequestHandler"
+                  startup="lazy" />
+
+  <requestHandler name="/admin/"
+                  class="solr.admin.AdminHandlers" />
+
+  <!-- ping/healthcheck -->
+  <requestHandler name="/admin/ping" class="solr.PingRequestHandler">
+    <lst name="invariants">
+      <str name="q">solrpingquery</str>
+    </lst>
+    <lst name="defaults">
+      <str name="echoParams">all</str>
+    </lst>
+  </requestHandler>
+
+  <!-- Echo the request contents back to the client -->
+  <requestHandler name="/debug/dump" class="solr.DumpRequestHandler" >
+    <lst name="defaults">
+     <str name="echoParams">explicit</str>
+     <str name="echoHandler">true</str>
+    </lst>
+  </requestHandler>
+
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+  </queryResponseWriter>
+
+
+  <!-- Legacy config for the admin interface -->
+  <admin>
+    <defaultQuery>*:*</defaultQuery>
+  </admin>
+
+</config>

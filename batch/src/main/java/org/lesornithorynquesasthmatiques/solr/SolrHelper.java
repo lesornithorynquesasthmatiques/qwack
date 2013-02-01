@@ -12,24 +12,44 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
  */
 public class SolrHelper {
 
-	private static SolrServer solr;
+	private static SolrServer songs;
 	
-	public static void initSolr(String solrUrl) {
-		if(solr == null) {
-			solr = new HttpSolrServer(solrUrl);
+	private static SolrServer suggestions;
+	
+	public static void initSongsCore(String solrUrl) {
+		if(songs == null) {
+			songs = new HttpSolrServer(solrUrl);
 		}
 	}
 
-	public static SolrServer getSolr() {
-		return solr;
+	public static void initSuggestionsCore(String solrUrl) {
+		if(suggestions == null) {
+			suggestions = new HttpSolrServer(solrUrl);
+		}
+	}
+
+	public static SolrServer getSongsCore() {
+		return songs;
+	}
+
+	public static SolrServer getSuggestionsCore() {
+		return suggestions;
 	}
 
 	/**
 	 * Back-door for unit tests.
 	 * @param mongo
 	 */
-	static void setSolr(SolrServer solr) {
-		SolrHelper.solr = solr;
+	static void setSongsCore(SolrServer solr) {
+		SolrHelper.songs = solr;
+	}
+	
+	/**
+	 * Back-door for unit tests.
+	 * @param mongo
+	 */
+	static void setSuggestionsCore(SolrServer solr) {
+		SolrHelper.suggestions = solr;
 	}
 
 }

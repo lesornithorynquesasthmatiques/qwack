@@ -4,3 +4,9 @@
 .externalToolBuilders
 target
 logs
+/src/main/solr/solr/songs/data/
+/src/main/solr/solr/suggestions/data/
+/src/main/solr/solr-webapp/
+#/src/main/solr/solr/songs/data/index/
+#/src/main/solr/solr/songs/data/*
+#/src/main/solr/solr/songs/data/index/*

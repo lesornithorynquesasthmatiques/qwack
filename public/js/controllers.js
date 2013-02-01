@@ -26,15 +26,27 @@ function SolrSearchCtrl($scope, $http) {
 	$scope.response = null;
 	$scope.offset = 0;
 	$scope.pageSize = 10;
+	$("#solrSearch").change(function (e) {
+        $scope.$apply(function() {
+            $scope.q = e.target.value;
+        });
+	});
 	$scope.next = function() {
+		$scope.response = null;
 		$scope.offset += 10;
-		$scope.search();
+		$scope.doSearch();
 	}
 	$scope.previous = function() {
+		$scope.response = null;
 		$scope.offset -= 10;
-		$scope.search();
+		$scope.doSearch();
 	}
 	$scope.search = function() {
+		$scope.response = null;
+		$scope.offset = 0;
+		$scope.doSearch();
+	};
+	$scope.doSearch = function() {
 		var params = [];
 		params.push("offset=" + encodeURIComponent($scope.offset));
 		params.push("pageSize=" + encodeURIComponent($scope.pageSize));
@@ -57,14 +69,21 @@ function MongoSearchCtrl($scope, $http) {
 	$scope.offset = 0;
 	$scope.pageSize = 10;
 	$scope.next = function() {
+		$scope.response = null;
 		$scope.offset += 10;
-		$scope.search();
+		$scope.doSearch();
 	}
 	$scope.previous = function() {
+		$scope.response = null;
 		$scope.offset -= 10;
-		$scope.search();
+		$scope.doSearch();
 	}
 	$scope.search = function() {
+		$scope.response = null;
+		$scope.offset = 0;
+		$scope.pageSize = 10;
+	};
+	$scope.doSearch = function() {
 		var params = [];
 		params.push("offset=" + $scope.offset);
 		params.push("pageSize=" + $scope.pageSize);

@@ -42,8 +42,11 @@ public class SongOptions {
 	@Option(name = "-ds", aliases = {"--disable-solr"}, usage = "Disable Solr indexation, default: false") 
 	private boolean disableSolr = false;
 
-	@Option(name = "-su", aliases = {"--solr-url"}, usage = "Solr URL, default: http://localhost:8983/solr/songs") 
-	private String solrUrl = "http://localhost:8983/solr/songs";
+	@Option(name = "-sso", aliases = {"--solr-songs-url"}, usage = "Solr URL for Songs Core, default: http://localhost:8983/solr/songs") 
+	private String solrSongsCoreUrl = "http://localhost:8983/solr/songs";
+
+	@Option(name = "-ssu", aliases = {"--solr-suggestions-url"}, usage = "Solr URL for Suggestions Core, default: http://localhost:8983/solr/suggestions") 
+	private String solrSuggestionsCoreUrl = "http://localhost:8983/solr/suggestions";
 
     @Option(name = "-?", aliases = {"--help"}, usage = "Displays usage help") 
     private boolean help;
@@ -92,8 +95,12 @@ public class SongOptions {
 		return disableSolr;
 	}
 
-	public String getSolrUrl() {
-		return solrUrl;
+	public String getSolrSongsCoreUrl() {
+		return solrSongsCoreUrl;
+	}
+
+	public String getSolrSuggestionsCoreUrl() {
+		return solrSuggestionsCoreUrl;
 	}
 
 	public boolean isHelp() {

@@ -65,14 +65,10 @@ Example queries:
 
 ### Solr
 
-_Steps 1-5 are automated in ./src/main/solr/setup.sh_ 
-
-1. Unzip `./src/main/solr/qwack-solr.zip`
-2. Copy `./src/main/solr/solr.xml` to `qwack-solr/solr`
-3. Copy `./src/main/solr/solrconfig.xml` to `qwack-solr/solr/songs/conf`
-4. Copy `./src/main/solr/schema.xml` to `qwack-solr/solr/songs/conf`
-5. Run `java -Djava.util.logging.config.file=etc/logging.properties -jar start.jar`
-6. Browse `http://localhost:8983/solr/`
+	cd ./src/main/solr
+	java -Djava.util.logging.config.file=etc/logging.properties -jar start.jar
+	
+Browse `http://localhost:8983/solr/`
 
 ### Batch
 

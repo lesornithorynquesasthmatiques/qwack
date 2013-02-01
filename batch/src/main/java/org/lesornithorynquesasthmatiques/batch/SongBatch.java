@@ -17,7 +17,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.lesornithorynquesasthmatiques.converter.SongConverter;
-import org.lesornithorynquesasthmatiques.model.IndexedSong;
 import org.lesornithorynquesasthmatiques.model.Song;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
 import org.lesornithorynquesasthmatiques.solr.SolrHelper;
@@ -76,7 +75,8 @@ public class SongBatch {
 				LOG.info("Directory successfully scanned: {}", directory);
 				if( ! options.isDisableSolr()){
 					LOG.info("Committing Solr documents.");
-					SolrHelper.getSolr().commit();
+					SolrHelper.getSongsCore().commit();
+					SolrHelper.getSuggestionsCore().commit();
 				}
 				LOG.info("Shutting down thread pool.");
 				taskSynchronizer.awaitUntilAllPendingTasksCompleted();
@@ -110,8 +110,8 @@ public class SongBatch {
 		return writer;
 	}
 
-	private SolrWriter<IndexedSong> newSolrWriter() throws UnknownHostException, MongoException {
-		SolrWriter<IndexedSong> writer = new SolrWriter<IndexedSong>(options.getSolrUrl());
+	private SolrWriter newSolrWriter() throws UnknownHostException, MongoException {
+		SolrWriter writer = new SolrWriter(options.getSolrSongsCoreUrl(), options.getSolrSuggestionsCoreUrl());
 		return writer;
 	}
 
@@ -134,7 +134,8 @@ public class SongBatch {
 			LOG.info("Mongo user: {}", options.getMongoUser());
 			LOG.info("Mongo DB: {}", options.getMongoDatabaseName());
 			LOG.info("Mongo Collection: {}", options.getMongoCollectionName());
-			LOG.info("Solr URL: {}", options.getSolrUrl());
+			LOG.info("Solr Songs Core URL: {}", options.getSolrSongsCoreUrl());
+			LOG.info("Solr Suggestions Core URL: {}", options.getSolrSuggestionsCoreUrl());
 		}
 	}
 

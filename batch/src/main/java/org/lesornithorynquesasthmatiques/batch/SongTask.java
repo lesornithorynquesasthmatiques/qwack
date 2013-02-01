@@ -26,7 +26,7 @@ public class SongTask implements Runnable {
 	
 	private MongoWriter<Song> mongoWriter;
 
-	private SolrWriter<IndexedSong> solrWriter;
+	private SolrWriter solrWriter;
 	
 	private TaskSynchronizer taskSynchronizer;
 
@@ -46,7 +46,7 @@ public class SongTask implements Runnable {
 		this.mongoWriter = mongoWriter;
 	}
 
-	public void setSolrWriter(SolrWriter<IndexedSong> solrWriter) {
+	public void setSolrWriter(SolrWriter solrWriter) {
 		this.solrWriter = solrWriter;
 	}
 

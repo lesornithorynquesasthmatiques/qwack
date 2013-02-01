@@ -21,11 +21,14 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 
 	static {
 		try {
-			SolrServer solr = EmbeddedSolrServerFactory.createEmbeddedSolrServer(
-					new File("src/main/solr/solrconfig-test.xml"),
-					new File("src/main/solr/schema.xml")
+			SolrServer songs = EmbeddedSolrServerFactory.createEmbeddedSolrServer(
+					new File("src/main/solr/solr/songs/conf")
 					);
-			SolrHelper.setSolr(solr);
+			SolrHelper.setSongsCore(songs);
+			SolrServer suggestions = EmbeddedSolrServerFactory.createEmbeddedSolrServer(
+					new File("src/main/solr/solr/suggestions/conf")
+					);
+			SolrHelper.setSuggestionsCore(suggestions);
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to initialize Solr core", e);
 		}
@@ -37,7 +40,7 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 
 	public <T> List<T> query(SolrQuery query, Class<T> clazz) {
 		try {
-			QueryResponse response = getSolr().query(query);
+			QueryResponse response = getSongsCore().query(query);
 			return response.getBeans(clazz);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -47,7 +50,7 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 	public long count(String queryString) {
 		QueryResponse response;
 		try {
-			response = getSolr().query(new SolrQuery(queryString));
+			response = getSongsCore().query(new SolrQuery(queryString));
 			return response.getResults().getNumFound();
 		} catch (SolrServerException e) {
 			throw new RuntimeException(e);
@@ -57,20 +60,20 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 	public void addBeansAndCommit(Object... beans) {
 		try {
 			for (Object bean : beans) {
-				getSolr().addBean(bean);
+				getSongsCore().addBean(bean);
 			}
-			getSolr().commit();
+			getSongsCore().commit();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	public UpdateResponse addBeans(Collection<?> beans) throws SolrServerException, IOException {
-		return getSolr().addBeans(beans);
+		return getSongsCore().addBeans(beans);
 	}
 
 	public UpdateResponse addBean(Object obj) throws IOException, SolrServerException {
-		return getSolr().addBean(obj);
+		return getSongsCore().addBean(obj);
 	}
 
 	public UpdateResponse commit(SolrServer core) throws SolrServerException, IOException {
@@ -78,7 +81,7 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 	}
 
 	public UpdateResponse deleteByQuery(String query) throws SolrServerException, IOException {
-		return getSolr().deleteByQuery(query);
+		return getSongsCore().deleteByQuery(query);
 	}
 
 	public Statement apply(final Statement base, Description description) {
@@ -99,7 +102,7 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 	}
 
 	protected void after() throws SolrServerException, IOException {
-		if(SolrHelper.getSolr() != null) SolrHelper.getSolr().deleteByQuery("*:*");
+		if(SolrHelper.getSongsCore() != null) SolrHelper.getSongsCore().deleteByQuery("*:*");
 	}
 	
 }

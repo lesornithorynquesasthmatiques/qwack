@@ -4,8 +4,93 @@
 <meta charset="utf8" />
 <title>Qwack</title>
 <link rel="stylesheet" href="/css/app.css" />
+
+
+<meta charset="utf-8" />
+  <title>jQuery UI Autocomplete - Categories</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+  <style>
+  .ui-menu {
+  	padding: 0 0 0 2px;
+  }
+  .ui-menu-padding {
+  	padding: 0;
+  }
+  .ui-widget {
+font-family: auto;
+font-size: inherit;
+}
+  .ui-autocomplete-category {
+    font-weight: bold;
+  }
+  </style>
+  <script>
+		$.widget("custom.catcomplete", $.ui.autocomplete, {
+			_renderMenu : function(ul, items) {
+				var that = this, currentCategory = -1;
+				var transco = ["Songs", "Albums", "Artists", "Locations", "Keywords"];
+				$.each(items, function(index, item) {
+					if (item.category != currentCategory) {
+						ul.append("<li class='ui-autocomplete-category'>" + transco[item.category] + "</li>");
+						currentCategory = item.category;
+					}
+					that._renderItemData(ul, item);
+				});
+			}
+		});
+		</script>
+  <script>
+  $(function() {
+    $( "#solrSearch" ).catcomplete({
+    	source: function( request, response ) {
+	        $.ajax({
+	          url: "http://localhost:8983/solr/suggestions/ac",
+	          delay: 500,
+	          dataType: "jsonp",
+	          jsonp: 'json.wrf',
+	          data: {
+	            q: request.term
+	          },
+	          success: function( data ) {
+	        	var docs = data.response.docs;
+	        	docs.sort(function(a, b){
+	        		 var nameA = a.type, nameB = b.type;
+	        		 if (nameA < nameB) //sort string ascending
+	        		  return -1 
+	        		 if (nameA > nameB)
+	        		  return 1
+	        		 return 0 //default return value (no sorting)
+	        		})
+	            response( $.map( data.response.docs, function( item ) {
+	              return {
+	                label: item.textsuggest,
+	                value: item.textsuggest,
+	                category: item.type
+	              }
+	            }));
+	          }
+	        });
+	      },
+	      minLength: 3,
+	      select: function( event, ui ) {
+	    	  if(ui.item) {
+	    		  $(this).val(ui.item.label).change();
+	    	  }
+	      },
+	      open: function() {
+	        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+	      },
+	      close: function() {
+	        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+	      }
+    });
+  });
+  </script>
+  
 </head>
-<body>
+<body> 
     <div ng-controller="AppCtrl">
         <h2>Hello {{name}}</h2>
         <ul class="menu">
@@ -52,7 +137,7 @@
 	<div ng-controller="SolrSearchCtrl">
         <h2>Solr Search</h2>
        	<form name="searchForm">
-     		<input type="text" name="q" ng-model="q" required style="width:150px;" />
+     		<input id="solrSearch" type="text" name="q" ng-model="q" required style="width:300px;" />
      		<button ng:click="search()">Search Solr</button>
 	   	</form>
 	   	<table ng-show="response.docs">

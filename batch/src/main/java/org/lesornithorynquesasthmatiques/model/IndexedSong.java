@@ -1,8 +1,14 @@
 package org.lesornithorynquesasthmatiques.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.solr.client.solrj.beans.Field;
+import org.apache.solr.common.SolrInputDocument;
+
+import com.google.common.base.Objects;
 
 /**
  * A simplified view of a song to be indexed by Solr.
@@ -291,6 +297,36 @@ public class IndexedSong {
 
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+
+	public static enum SuggestionType {
+		TITLE, RELEASE, ARTIST, LOCATION, KEYWORD
+	}
+	
+	public List<SolrInputDocument> getSuggestions() {
+		List<SolrInputDocument> suggestions = new ArrayList<>();
+		if(title != null) suggestions.add(toSuggestionDoc(title, SuggestionType.TITLE));
+		if(release != null) suggestions.add(toSuggestionDoc(release, SuggestionType.RELEASE));
+		if(artistName != null) suggestions.add(toSuggestionDoc(artistName, SuggestionType.ARTIST));
+		if(locationName != null) suggestions.add(toSuggestionDoc(locationName, SuggestionType.LOCATION));
+		if(mbtags != null) {
+			for (String	tag : mbtags) {
+				suggestions.add(toSuggestionDoc(tag, SuggestionType.KEYWORD));
+			}
+		}
+		return suggestions;
+	}
+
+	private SolrInputDocument toSuggestionDoc(String textsuggest, SuggestionType type) {
+		Map<String,Object> op = new HashMap<String,Object>(); 
+	    op.put("inc", 1); 
+		SolrInputDocument doc = new SolrInputDocument(); 
+	    doc.addField("id", Objects.hashCode(type, textsuggest)); 
+	    doc.addField("textsuggest", textsuggest); 
+	    doc.addField("type", type.ordinal()); 
+	    doc.addField("popularity", op);
+		return doc;
 	}
 
 }
