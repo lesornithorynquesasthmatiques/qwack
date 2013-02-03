@@ -18,17 +18,37 @@ exports.loveSongs = function(req, res) {
   });
 };
 
+function replaceLuceneSpecialChars(input){
+	var luceneChars = new RegExp('+-!(){}[]^"~*?:\&|'.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1"), "g");
+	return input.replace(luceneChars, "\\$1");
+}
+
+function addRequiredFlagToSearchTerms(input){
+	return input.replace(/(\W|^)(\b)/g, "$1+$2");
+}
+
+var solrUrl = 'http://localhost:8983/solr';
+	
 exports.solrSearch = function(req, res) {
 	var offset = req.query.offset || 0;
 	var pageSize = req.query.pageSize || 10;
-	//TODO url encode user input + escape Solr special chars
-	var url = 'http://localhost:8983/solr/songs/select?' +
-	'wt=json&defType=edismax&' +
-	'qf=title+release+artistName+locationName+mbtags&lowercaseOperators=true&q=' + 
-	encodeURIComponent(req.query["q"]) +
+	var url = solrUrl + '/songs/select?q=' + 
+	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
 	'&start=' + encodeURIComponent(offset)
 	'&rows=' + encodeURIComponent(pageSize);
-	console.log(url);
+	rest.get(url)
+	.on('complete', function(result) {
+		if (result instanceof Error) {
+			console.log(result);
+		} else {
+			res.json(result.response);
+		}
+	});
+};
+
+exports.solrSuggest = function(req, res) {
+	var url = solrUrl + '/suggestions/ac?q=' + 
+	encodeURIComponent(replaceLuceneSpecialChars(req.query["q"]));
 	rest.get(url)
 	.on('complete', function(result) {
 		if (result instanceof Error) {

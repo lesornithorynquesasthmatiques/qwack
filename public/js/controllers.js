@@ -35,12 +35,12 @@ function SolrSearchCtrl($scope, $http) {
 		$scope.response = null;
 		$scope.offset += 10;
 		$scope.doSearch();
-	}
+	};
 	$scope.previous = function() {
 		$scope.response = null;
 		$scope.offset -= 10;
 		$scope.doSearch();
-	}
+	};
 	$scope.search = function() {
 		$scope.response = null;
 		$scope.offset = 0;
@@ -72,16 +72,17 @@ function MongoSearchCtrl($scope, $http) {
 		$scope.response = null;
 		$scope.offset += 10;
 		$scope.doSearch();
-	}
+	};
 	$scope.previous = function() {
 		$scope.response = null;
 		$scope.offset -= 10;
 		$scope.doSearch();
-	}
+	};
 	$scope.search = function() {
 		$scope.response = null;
 		$scope.offset = 0;
 		$scope.pageSize = 10;
+		$scope.doSearch();
 	};
 	$scope.doSearch = function() {
 		var params = [];

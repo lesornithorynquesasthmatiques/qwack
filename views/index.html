@@ -46,15 +46,16 @@ font-size: inherit;
     $( "#solrSearch" ).catcomplete({
     	source: function( request, response ) {
 	        $.ajax({
-	          url: "http://localhost:8983/solr/suggestions/ac",
+	          url: "/api/solr-suggest",
 	          delay: 500,
-	          dataType: "jsonp",
-	          jsonp: 'json.wrf',
+	          dataType: "json",
+	          //dataType: "jsonp",
+	          //jsonp: 'json.wrf',
 	          data: {
 	            q: request.term
 	          },
 	          success: function( data ) {
-	        	var docs = data.response.docs;
+	        	var docs = data.docs;
 	        	docs.sort(function(a, b){
 	        		 var nameA = a.type, nameB = b.type;
 	        		 if (nameA < nameB) //sort string ascending
@@ -62,8 +63,8 @@ font-size: inherit;
 	        		 if (nameA > nameB)
 	        		  return 1
 	        		 return 0 //default return value (no sorting)
-	        		})
-	            response( $.map( data.response.docs, function( item ) {
+	        		});
+	            response( $.map( docs, function( item ) {
 	              return {
 	                label: item.textsuggest,
 	                value: item.textsuggest,
