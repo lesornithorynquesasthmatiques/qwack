@@ -1,6 +1,6 @@
 'use strict';
 
-var webApp = angular.module('webApp', [])
+var qwackApp = angular.module('qwackApp', [])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/', {

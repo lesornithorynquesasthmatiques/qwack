@@ -15,7 +15,11 @@
   
     <!-- Included CSS Files (Compressed) -->
     <link rel="stylesheet" href="stylesheets/foundation.min.css">
+    <link rel="stylesheet" href="stylesheets/general_foundicons.css">
     <link rel="stylesheet" href="stylesheets/app.css"> 
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="stylesheets/general_foundicons_ie7.css">
+    <![endif]-->
 
     <script src="scripts/foundation/modernizr.foundation.js"></script>
 
@@ -29,7 +33,7 @@
     <script src="scripts/foundation/app.js"></script>
 </head>
 
-<body ng-app="webApp">
+<body ng-app="qwackApp">
 
   <!-- Add your site or application content here -->
   <div class="panel" ng-view></div>

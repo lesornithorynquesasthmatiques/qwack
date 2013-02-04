@@ -1,5 +1,5 @@
 'use strict';
 
-webApp.controller('MainCtrl', function($scope) {
+qwackApp.controller('MainCtrl', function($scope) {
   $scope.teamName = 'Qwack';
 });

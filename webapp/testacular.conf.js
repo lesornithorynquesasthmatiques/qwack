@@ -12,6 +12,7 @@ files = [
   'app/scripts/vendor/angular.js',
   'test/vendor/angular-mocks.js',
   'app/scripts/vendor/*.js',
+  'app/scripts/foundation/*.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
