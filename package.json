@@ -9,7 +9,8 @@
     "passport": "0.1.15",
     "passport-local": "0.1.6",
     "socket.io": "0.9.13",
-    "lastfm": "0.8.4"
+    "lastfm": "0.8.4",
+    "connect": "2.7.2"
   },
   "devDependencies": {
     "mocha": "1.8.1",
