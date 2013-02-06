@@ -85,6 +85,7 @@ app.get('/lastfm/artist/:mbid', lastfm.getArtistBio);
 app.get('/api/artists/', api.listArtists);
 app.get('/api/artists/find', api.solrArtistSearch);
 
+app.get('/api/users/', api.listUsers);
 
 // Artistes favoris d'un user
 app.get('/api/user/:userId/starred/', api.listFavArtistsForUser);

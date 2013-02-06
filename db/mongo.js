@@ -78,6 +78,7 @@ var artistSchema = mongoose.Schema({
 });
 
 var userSchema = mongoose.Schema({
+	_id: String,
     email: String,
     password: String,
     city: String,

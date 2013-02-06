@@ -91,7 +91,18 @@ exports.mongoSearch = function(req, res) {
 
 exports.addFavArtistForUser = function(req, res) {
 	  // id d'artiste
+	var artistId = req.params.artistId;
 		// id user
+	var userId = req.params.userId;
+		console.log("addFavArtistForUser user[" + userId + "], artist [" + artistId + "]");
+		
+		var conditions = { _id: userId }
+		  , update = { $inc: { artistId: artistId, creationDate: new Date() }};
+		
+		Users.update(conditions, update, {}, function(err, numAffected){
+			// numAffected is the number of updated documents
+			console.log("Nb document updated  + " + numAffected);
+		});
 	};
 
 exports.removeFavArtistForUser = function(req, res) {
@@ -104,6 +115,14 @@ exports.listFavArtistsForUser = function(req, res) {
 	// id user
 };
 
+exports.listUsers = function(req, res) {
+	db.Users.find(function(err, artists) {
+	    if (err) {
+	      console.log('arg');
+	    }
+	    res.json(artists);
+	  });
+};
 
 exports.solrArtistSearch = function(req, res) {
 	var offset = req.query.offset || 0;
