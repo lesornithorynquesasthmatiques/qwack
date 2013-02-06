@@ -1,6 +1,6 @@
 'use strict';
 
-function ArtistCtrl($scope, Artist) {
+function ArtistCtrl($scope, $http) {
 
     $scope.mbid = 'bfcc6d75-a6a5-4bc6-8282-47aec8531818';
 
