@@ -36,6 +36,7 @@ exports.solrSearch = function(req, res) {
 	});
 };
 
+
 exports.solrSuggest = function(req, res) {
 	var url = solrUrl + '/suggestions/ac?q=' + 
 	encodeURIComponent(replaceLuceneSpecialChars(req.query["q"]));
@@ -84,6 +85,50 @@ exports.mongoSearch = function(req, res) {
 			});
 		}
 	});
+};
+
+
+
+exports.addFavArtistForUser = function(req, res) {
+	  // id d'artiste
+		// id user
+	};
+
+exports.removeFavArtistForUser = function(req, res) {
+	// id d'artiste
+	// id user
+};
+
+exports.listFavArtistsForUser = function(req, res) {
+	// id d'artiste
+	// id user
+};
+
+
+exports.solrArtistSearch = function(req, res) {
+	var offset = req.query.offset || 0;
+	var pageSize = req.query.pageSize || 10;
+	var url = solrUrl + '/artists/select?q=' + 
+	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
+	'&start=' + encodeURIComponent(offset) +
+	'&rows=' + encodeURIComponent(pageSize);
+	rest.get(url)
+	.on('complete', function(result) {
+		if (result instanceof Error) {
+			console.log(result);
+		} else {
+			res.json(result.response);
+		}
+	});
+};
+
+exports.listArtists = function(req, res) {
+	db.Artists.find(function(err, artists) {
+	    if (err) {
+	      console.log('arg');
+	    }
+	    res.json(artists);
+	  });
 };
 
 exports.latestVotes = function(req, res) {
