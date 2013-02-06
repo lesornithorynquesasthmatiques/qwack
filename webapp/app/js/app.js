@@ -8,15 +8,23 @@ angular.module('qwackApp', ['qwackServices'])
         templateUrl: 'partials/login.html',
         controller: 'LoginCtrl'
       })
-      .when('/artists', {
+      .when('/news', {
+        templateUrl: 'partials/news.html',
+        controller: 'NewsCtrl'
+      })
+      .when('/mypage', {
+        templateUrl: 'partials/mypage.html',
+        controller: 'MyPageCtrl'
+      })
+      .when('/artist', {
         templateUrl: 'partials/artist.html',
-        controller: 'ArtistListCtrl'
+        controller: 'ArtistCtrl'
       })
       .when('/register', {
         templateUrl: 'partials/register.html',
         controller: 'RegisterCtrl'
       })
       .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/news'
       });
   }]);

@@ -79,6 +79,15 @@ app.get('/api/solr-search', api.solrSearch);
 app.get('/api/solr-suggest', api.solrSuggest);
 app.get('/partials/:name', routes.partials);
 
+app.get('/api/artists/', api.listArtists);
+app.get('/api/artists/find', api.solrArtistSearch);
+
+
+// Artistes favoris d'un user
+app.get('/api/user/:userId/starred/', api.listFavArtistsForUser);
+app.post('/api/user/:userId/artist/:artistId', api.addFavArtistForUser);
+app.delete('/api/user/:userId/artist/:artistId', api.removeFavArtistForUser);
+
 // redirect all others to the index (HTML5 history)
 //app.get('*', routes.index);
 
