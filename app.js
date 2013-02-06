@@ -106,6 +106,7 @@ app.get('/api/artists/find', api.solrArtistSearch);
 
 app.get('/api/users/', api.listUsers);
 
+app.get('/api/fav-artists/', api.getFavoriteArtistsForUser);
 // Artistes favoris d'un user
 app.get('/api/user/:userId/starred/', api.listFavArtistsForUser);
 app.post('/api/user/:userId/artist/:artistId', api.addFavArtistForUser);
