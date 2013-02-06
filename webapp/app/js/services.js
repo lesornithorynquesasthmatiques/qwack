@@ -8,6 +8,10 @@ angular.module('qwackServices', ['ngResource']).
     query: {method:'GET', params:{artistId:'artists'}, isArray:true}
   });
 }).
+factory('User', function($resource){
+  return $resource('/authentication/register', {}, {
+	  charge: {method:'POST', params:{charge:true}}});
+}).  
 factory('socket', function ($rootScope) {
     var socket = io.connect();
     return {

@@ -91,7 +91,18 @@ exports.mongoSearch = function(req, res) {
 
 exports.addFavArtistForUser = function(req, res) {
 	  // id d'artiste
+	var artistId = req.params.artistId;
 		// id user
+	var userId = req.params.userId;
+		console.log("addFavArtistForUser user[" + userId + "], artist [" + artistId + "]");
+		
+		var conditions = { _id: userId }
+		  , update = { $inc: { artistId: artistId, creationDate: new Date() }};
+		
+		Users.update(conditions, update, {}, function(err, numAffected){
+			// numAffected is the number of updated documents
+			console.log("Nb document updated  + " + numAffected);
+		});
 	};
 
 exports.removeFavArtistForUser = function(req, res) {
@@ -104,6 +115,14 @@ exports.listFavArtistsForUser = function(req, res) {
 	// id user
 };
 
+exports.listUsers = function(req, res) {
+	db.Users.find(function(err, artists) {
+	    if (err) {
+	      console.log('arg');
+	    }
+	    res.json(artists);
+	  });
+};
 
 exports.solrArtistSearch = function(req, res) {
 	var offset = req.query.offset || 0;
@@ -139,8 +158,8 @@ exports.latestVotes = function(req, res) {
       name: "Laurène"
     },
     artist: {
-      id: "sdfgh9876sdf",
-      name: "Black Sabbath"
+      mbid: "1695c115-bf3f-4014-9966-2b0c50179193",
+      name: "Muse"
     },
     time: new Date()
   }, {
@@ -149,8 +168,8 @@ exports.latestVotes = function(req, res) {
       name: "Yann"
     },
     artist: {
-      id: "sdfgh9876sdf",
-      name: "René la Taupe"
+      mbid: "bfcc6d75-a6a5-4bc6-8282-47aec8531818",
+      name: "Cher"
     },
     time: new Date()
   }, {
@@ -159,7 +178,7 @@ exports.latestVotes = function(req, res) {
       name: "Séven"
     },
     artist: {
-      id: "sdfgh9876sdf",
+      mbid: "sdfgh9876sdf",
       name: "La Compagnie Créole"
     },
     time: new Date()
@@ -169,7 +188,7 @@ exports.latestVotes = function(req, res) {
       name: "Clément"
     },
     artist: {
-      id: "sdfgh9876sdf",
+      mbid: "sdfgh9876sdf",
       name: "Édith Piaf"
     },
     time: new Date()
@@ -179,7 +198,7 @@ exports.latestVotes = function(req, res) {
       name: "Loïc"
     },
     artist: {
-      id: "sdfgh9876sdf",
+      mbid: "sdfgh9876sdf",
       name: "Madonna"
     },
     time: new Date()

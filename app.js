@@ -4,6 +4,7 @@ var express = require('express'),
     routes = require('./routes'),
     api = require('./routes/api'),
     lastfm = require('./routes/lastfm'),
+    authentication = require('./routes/authentication'),
     db = require('./db/mongo'),
     restler = require('restler'),
     passport = require('passport'),
@@ -71,6 +72,9 @@ app.post('/login',
     })
 );
 
+
+app.post('/authentication/register', authentication.register);
+
 // routes
 app.get('/', routes.index);
 app.get('/api/latest-votes', api.latestVotes);
@@ -85,11 +89,13 @@ app.get('/lastfm/artist/:mbid', lastfm.getArtistBio);
 app.get('/api/artists/', api.listArtists);
 app.get('/api/artists/find', api.solrArtistSearch);
 
+app.get('/api/users/', api.listUsers);
 
 // Artistes favoris d'un user
 app.get('/api/user/:userId/starred/', api.listFavArtistsForUser);
 app.post('/api/user/:userId/artist/:artistId', api.addFavArtistForUser);
 app.delete('/api/user/:userId/artist/:artistId', api.removeFavArtistForUser);
+
 
 // redirect all others to the index (HTML5 history)
 //app.get('*', routes.index);

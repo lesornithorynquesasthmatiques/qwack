@@ -1,5 +1,5 @@
 <dl class="tabs two-up">
-    <dd class="active"><a href="#">News</a></dd>
+    <dd class="active"><a>News</a></dd>
     <dd><a href="#mypage">My page</a></dd>
 </dl>
 
@@ -7,9 +7,7 @@
     <div class="six columns">
         <div class="panel">
             <h4>What's up ?</h4>
-            <ul>
-                <li data-ng-repeat="vote in latestVotes">{{vote.user.name}} added {{vote.artist.name}}</li>
-            </ul>
+            <div class="news-item" data-ng-repeat="vote in latestVotes">{{vote.user.name}} added <a data-ng-click="openArtistPage(vote.artist.mbid)">{{vote.artist.name}}</a></div>
         </div>
     </div>
     <div class="six columns">
