@@ -8,17 +8,17 @@ var express = require('express'),
     db = require('./db/mongo'),
     restler = require('restler'),
     passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy;
+    LocalStrategy = require('passport-local').Strategy,
+    MemoryStore = require('connect').session.MemoryStore;
 
 var app = module.exports = express();
 
+
 app.configure(function () {
-    // body parsing middleware supporting JSON, urlencoded, and multipart requests
     app.use(express.bodyParser());
-    app.use(express.cookieParser());
-    // allows to fake "PUT" and "DELETE" methods via a "method" attribute in POST requests
     app.use(express.methodOverride());
-    // serves static resources
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: 'applecake', store: new MemoryStore({ reapInterval:  60000 * 10 })}));
     app.use(express.static(__dirname + '/webapp/app'));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -33,12 +33,14 @@ app.configure('production', function () {
     app.use(express.errorHandler());
 });
 
-
 passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'passwd'
     },
     function (username, password, done) {
+        console.log('TRY AUTH');
+        console.log('auth with username : ' + username);
+        console.log('auth with password : ' + password);
         db.Users.findOne({ email: username }, function (err, user) {
             if (err) {
                 return done(err);
@@ -49,17 +51,20 @@ passport.use(new LocalStrategy({
             if (password != user.password) {
                 return done(null, false, { message: 'Incorrect password.' });
             }
+            console.log('AUTHENTICATED');
             return done(null, user);
         });
     }
 ));
 
 passport.serializeUser(function (user, done) {
+    console.log('serialize user :' + user.email);
     done(null, user._id);
 });
 
 
 passport.deserializeUser(function (id, done) {
+    console.log('deserialize user :' + id);
     db.Users.findById(id, function (err, user) {
         done(err, user);
     });
@@ -68,11 +73,21 @@ passport.deserializeUser(function (id, done) {
 // auth POST
 app.post('/login',
     passport.authenticate('local', {
-        successRedirect: '/'
-    })
+        successRedirect: '/',
+        failureFlash: true })
 );
 
+function checkAuth(req, res, next) {
+    if ('/login' == req.url) {
+        res.send(200);
+    } else if (!req.user) {
+        res.send(401);
+    } else {
+        next();
+    }
+}
 
+// check auth
 app.post('/authentication/register', authentication.register);
 
 // routes
@@ -95,7 +110,6 @@ app.get('/api/users/', api.listUsers);
 app.get('/api/user/:userId/starred/', api.listFavArtistsForUser);
 app.post('/api/user/:userId/artist/:artistId', api.addFavArtistForUser);
 app.delete('/api/user/:userId/artist/:artistId', api.removeFavArtistForUser);
-
 
 // redirect all others to the index (HTML5 history)
 //app.get('*', routes.index);

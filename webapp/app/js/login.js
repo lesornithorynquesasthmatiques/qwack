@@ -1,10 +1,5 @@
 'use strict';
 
-function AuthenticationCtrl($scope, $location) {
-  var loggedIn = false;
-  $location.path(loggedIn ? '/news' : '/login');
-}
-
 function LoginCtrl($scope, $http, $location) {
   $scope.user = {
       email: "Saisissez votre email"
@@ -12,6 +7,7 @@ function LoginCtrl($scope, $http, $location) {
   $scope.login = function() {
     $http.post('/login', $scope.user).
       success(function(data, status, headers, config) {
+          console.log('success login')
           $location.path('/news');
         }).
       error(function(data, status, headers, config) {
