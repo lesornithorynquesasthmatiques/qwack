@@ -9,7 +9,11 @@ function RegisterCtrl($scope, $location, User) {
 				email: $scope.email,
 				password: $scope.password,
 				passwordVerify: $scope.passwordConfirmation,
-				city: $scope.town
+				city: {
+					name: $scope.city,
+					lat: $scope.lat,
+					lon: $scope.lon
+				}
 			});
 			
 			user.$save(
@@ -28,6 +32,22 @@ function RegisterCtrl($scope, $location, User) {
 		return $scope.password !== $scope.passwordConfirmation
 	};
 	
+	$("#city").change(function (e) {
+        $scope.$apply(function() {
+            $scope.city = e.target.value;
+        });
+	});
+	$("#lat").change(function (e) {
+        $scope.$apply(function() {
+            $scope.lat = e.target.value;
+        });
+	});
+	$("#lon").change(function (e) {
+        $scope.$apply(function() {
+            $scope.lon = e.target.value;
+        });
+	});
+
 	
 }
 RegisterCtrl.$inject = ['$scope', '$location', 'User'];
