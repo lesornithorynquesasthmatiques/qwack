@@ -3,9 +3,6 @@
 angular.module('qwackApp', ['qwackServices'])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/', {
-        controller: AuthenticationCtrl
-      })
       .when('/login', {
         templateUrl: 'partials/login.html',
         controller: LoginCtrl
@@ -27,6 +24,6 @@ angular.module('qwackApp', ['qwackServices'])
         controller: RegisterCtrl
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
   }]);

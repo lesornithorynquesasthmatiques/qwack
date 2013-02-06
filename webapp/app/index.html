@@ -26,7 +26,7 @@
   <script src="foundation/javascripts/modernizr.foundation.js"></script>
   
 </head>
-<body data-ng-app="qwackApp" data-ng-controller="AuthenticationCtrl">
+<body data-ng-app="qwackApp">
 
   <div class="row">
       <div class="twelve columns">
@@ -49,6 +49,7 @@
 
   <!-- Initialize Angular -->
   <script src="lib/angular/angular.js"></script>
+  <script src="js/app.js"></script>
   <script src="js/artist.js"></script>
   <script src="js/login.js"></script>
   <script src="js/register.js"></script>
@@ -56,12 +57,17 @@
   <script src="js/mypage.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/services.js"></script>
-  <script src="js/app.js"></script>
   <script src="lib/angular/angular-resource.js"></script>
 
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
   <script src="jsui/qwack.js"></script>
+
+  
+    <script>
+    $(window).load(function(){
+    });
+    </script> 
   
 </body>
 </html>
