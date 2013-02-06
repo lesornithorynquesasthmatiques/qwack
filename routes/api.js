@@ -28,6 +28,11 @@ function addRequiredFlagToSearchTerms(input){
 }
 
 var solrUrl = 'http://localhost:8983/solr';
+
+if (process.env.MODE == 'PRODUCTION'){
+	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr/'
+}
+
 	
 exports.solrSearch = function(req, res) {
 	var offset = req.query.offset || 0;
