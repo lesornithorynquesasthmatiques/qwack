@@ -30,7 +30,7 @@ function addRequiredFlagToSearchTerms(input){
 var solrUrl = 'http://localhost:8983/solr';
 
 if (process.env.MODE == 'PRODUCTION'){
-	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr/'
+	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr/';
 }
 
 	
@@ -39,7 +39,7 @@ exports.solrSearch = function(req, res) {
 	var pageSize = req.query.pageSize || 10;
 	var url = solrUrl + '/songs/select?q=' + 
 	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
-	'&start=' + encodeURIComponent(offset)
+	'&start=' + encodeURIComponent(offset) +
 	'&rows=' + encodeURIComponent(pageSize);
 	rest.get(url)
 	.on('complete', function(result) {
@@ -50,6 +50,7 @@ exports.solrSearch = function(req, res) {
 		}
 	});
 };
+
 
 exports.solrSuggest = function(req, res) {
 	var url = solrUrl + '/suggestions/ac?q=' + 
@@ -115,4 +116,31 @@ exports.removeFavArtistForUser = function(req, res) {
 exports.listFavArtistsForUser = function(req, res) {
 	// id d'artiste
 	// id user
+};
+
+
+exports.solrArtistSearch = function(req, res) {
+	var offset = req.query.offset || 0;
+	var pageSize = req.query.pageSize || 10;
+	var url = solrUrl + '/artists/select?q=' + 
+	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
+	'&start=' + encodeURIComponent(offset) +
+	'&rows=' + encodeURIComponent(pageSize);
+	rest.get(url)
+	.on('complete', function(result) {
+		if (result instanceof Error) {
+			console.log(result);
+		} else {
+			res.json(result.response);
+		}
+	});
+};
+
+exports.listArtists = function(req, res) {
+	db.Artists.find(function(err, artists) {
+	    if (err) {
+	      console.log('arg');
+	    }
+	    res.json(artists);
+	  });
 };

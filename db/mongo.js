@@ -51,6 +51,33 @@ var songSchema = mongoose.Schema({
     duration: Number
 });
 
+var artistSchema = mongoose.Schema({
+	 id: String,
+
+	/** ID from musicbrainz.org (String) */
+	mbid: String,
+
+	/** ID from 7digital.com or -1 (Integer) */
+	sdid: Number,
+	
+	/** ID from playme.com, or -1 (Integer) */
+	playmeid: Number,
+
+	/** artist name (String) */
+	name: String,
+	
+	//private Location location;
+	
+	/** tags from musicbrainz.org (List<String>) */
+	mbtags: [String],
+
+	/** artist terms */
+	terms: [String],
+	
+	/** similar artist IDs */
+	similarArtists: [String]
+});
+
 var userSchema = mongoose.Schema({
     email: String,
     password: String,
@@ -59,6 +86,8 @@ var userSchema = mongoose.Schema({
 
 var Songs = mongoose.model('songs', songSchema);
 var Users = mongoose.model('users', userSchema);
+var Artists = mongoose.model('artists', artistSchema);
 
 exports.Songs = Songs;
 exports.Users = Users;
+exports.Artists = Artists;
