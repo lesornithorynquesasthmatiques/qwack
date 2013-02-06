@@ -6,9 +6,9 @@
     <div class="row">
         <div class="twelve columns">
             <div  style="margin-right: 10px;"  class="left">
-                <img src="{{lastFmInfo.artist.image[0]['#text']}}">
+                <img src="{{artist.image[0]['#text']}}">
             </div>
-            <p>{{lastFmInfo.artist.bio.summary}}</p>
+            <p>{{artist.bio.summary}}</p>
         </div>
     </div>
     <div class="row">
@@ -32,10 +32,7 @@
         </div>
         <div class="four columns">
             <ul>
-                <li>Events</li>
-                <li>Events</li>
-                <li>Events</li>
-                <li>Events</li>
+                <li data-ng-repeat="event in events">{{event.startDate}}, {{event.venue.name}}, {{event.venue.location.city}}</li>
             </ul>
         </div>
     </div>

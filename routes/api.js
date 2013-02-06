@@ -139,8 +139,8 @@ exports.latestVotes = function(req, res) {
       name: "Laurène"
     },
     artist: {
-      mbid: "sdfgh9876sdf",
-      name: "Black Sabbath"
+      mbid: "1695c115-bf3f-4014-9966-2b0c50179193",
+      name: "Muse"
     },
     time: new Date()
   }, {
