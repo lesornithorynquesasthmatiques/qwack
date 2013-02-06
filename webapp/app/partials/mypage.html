@@ -14,10 +14,12 @@
 <div class="row">
     <h5>Search results</h5>
     <div class="twelve columns" data-ng-repeat="artist in searchResult.docs">
-        <div  style="margin-right: 10px;"  class="left">
-            <img src="http://placehold.it/80x80&amp;text=[img]">
-        </div>
-        <p>{{artist.name}}</p>
+
+            <div  style="margin-right: 10px;"  class="left">
+                <img src="{{artist.lastfm.image[1]['#text']}}">
+            </div>
+            <p>{{artist.lastfm.bio.summary}}</p>
+
         <button class="button right">Add artist to your list</button>
     </div>
 </div>
