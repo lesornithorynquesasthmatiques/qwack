@@ -9,9 +9,13 @@ function RegisterCtrl($scope, $location, User) {
 				email: $scope.email,
 				password: $scope.password,
 				passwordVerify: $scope.passwordConfirmation,
-				city: $scope.town
+				city: {
+					name: $scope.city,
+					lng: $scope.lng,
+					lat: $scope.lat
+				}
 			});
-			
+			console.log("user to create : " + JSON.stringify(user));
 			user.$save(
 				function(){
 					console.log("user is registred : " + JSON.stringify(user));
@@ -28,6 +32,22 @@ function RegisterCtrl($scope, $location, User) {
 		return $scope.password !== $scope.passwordConfirmation
 	};
 	
+	$("#city").change(function (e) {
+        $scope.$apply(function() {
+            $scope.city = e.target.value;
+        });
+	});
+	$("#lat").change(function (e) {
+        $scope.$apply(function() {
+            $scope.lat = e.target.value;
+        });
+	});
+	$("#lng").change(function (e) {
+        $scope.$apply(function() {
+            $scope.lng = e.target.value;
+        });
+	});
+
 	
 }
 RegisterCtrl.$inject = ['$scope', '$location', 'User'];

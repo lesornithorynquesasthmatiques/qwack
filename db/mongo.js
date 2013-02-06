@@ -84,7 +84,7 @@ var userSchema = mongoose.Schema({
     city: {
         name: String,
         lat: Number,
-        loc: Number
+        lng: Number
 	},
     favArtists:[{ artistId: String, creationDate: Date }]
 });
