@@ -1,8 +1,8 @@
 function RegisterCtrl($scope, $location, User) {
 	
 	$scope.register = function() {
-		if(arePasswordsDifferent()){
-			
+		if($scope.arePasswordsDifferent()){
+			$scope.message = "Password are not identical";
 			console.log("password and password confirmation aren't identical")
 		} else {
 			user = new User({
@@ -18,12 +18,13 @@ function RegisterCtrl($scope, $location, User) {
 					$location.path('/news');
 				},
 				function(){
+					$scope.message = "Registration failed";
 					console.log("Registration failed for user :" + JSON.stringify(user));
 			});
 		}
 	};
 	
-	var arePasswordsDifferent = function() {
+	$scope.arePasswordsDifferent = function() {
 		return $scope.password !== $scope.passwordConfirmation
 	};
 	
