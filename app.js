@@ -37,6 +37,11 @@ app.get('/api/solr-search', api.solrSearch);
 app.get('/api/solr-suggest', api.solrSuggest);
 app.get('/api/mongo-search', api.mongoSearch);
 
+
+app.get('/api/user/:userId/starred/', api.listFavArtistsForUser);
+app.post('/api/user/:userId/artist/:artistId', api.addFavArtistForUser);
+app.delete('/api/user/:userId/artist/:artistId', api.removeFavArtistForUser);
+
 // redirect all others to the index (HTML5 history)
 //app.get('*', routes.index);
 
