@@ -73,12 +73,11 @@ app.post('/login',
 
 // routes
 app.get('/', routes.index);
-app.get('/partials/:name', routes.partials);
-app.get('/api/name', api.name);
-app.get('/api/love-songs', api.loveSongs);
+app.get('/api/latest-votes', api.latestVotes);
+app.get('/api/mongo-search', api.mongoSearch);
 app.get('/api/solr-search', api.solrSearch);
 app.get('/api/solr-suggest', api.solrSuggest);
-app.get('/api/mongo-search', api.mongoSearch);
+app.get('/partials/:name', routes.partials);
 
 app.get('/api/artists/', api.listArtists);
 app.get('/api/artists/find', api.solrArtistSearch);

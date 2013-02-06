@@ -9,33 +9,24 @@ Version: ${project.version}
     version="1.5">
 
     <fields>
-
-        <field
-            name="id"
-            type="string"
-            indexed="true"
-            stored="true"
-            required="true"
-            multiValued="false" />
-
-        <field
-            name="trackid"
-            type="string"
-            indexed="true"
-            stored="true"
-            required="false"
-            multiValued="false" />
-            
-        <field
-            name="tracksdid"
-            type="string"
-            indexed="true"
-            stored="true"
-            required="false"
-            multiValued="false" />
+    
+	    <field
+	        name="id"
+	        type="string"
+	        indexed="true"
+	        stored="true"
+	        required="false"
+	        multiValued="false" />
 	
         <field
-            name="releasesdid"
+            name="name"
+            type="text_general_rev"
+            indexed="true"
+            stored="true"
+            multiValued="false" />
+            
+        <field
+            name="mbid"
             type="string"
             indexed="true"
             stored="true"
@@ -43,28 +34,7 @@ Version: ${project.version}
             multiValued="false" />
 
         <field
-            name="title"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="release"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="artistName"
-            type="text_general_rev"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-            
-        <field
-            name="artistId"
+            name="sdid"
             type="string"
             indexed="true"
             stored="true"
@@ -72,7 +42,7 @@ Version: ${project.version}
             multiValued="false" />
             
         <field
-            name="artistMbid"
+            name="pmid"
             type="string"
             indexed="true"
             stored="true"
@@ -80,37 +50,14 @@ Version: ${project.version}
             multiValued="false" />
 
         <field
-            name="artistSdid"
-            type="string"
-            indexed="true"
-            stored="true"
-            required="false"
-            multiValued="false" />
-            
-        <field
-            name="artistPlaymeid"
-            type="string"
-            indexed="true"
-            stored="true"
-            required="false"
-            multiValued="false" />
-
-        <field
-            name="year"
-            type="tint"
-            indexed="true"
-            stored="true"
-            multiValued="false" />
-
-        <field
-            name="locationName"
+            name="locName"
             type="text_general_rev"
             indexed="true"
             stored="true"
             multiValued="false" />
             
    		<field 
-   			name="location" 
+   			name="loc" 
    			type="location_rpt" 
    			indexed="true" 
    			stored="true" 
@@ -131,7 +78,7 @@ Version: ${project.version}
    			multiValued="true"/>
    			
    		<field 
-   			name="similarArtists" 
+   			name="simArtists" 
    			type="string" 
    			indexed="true" 
    			stored="false" 
@@ -270,7 +217,7 @@ Version: ${project.version}
 
     <uniqueKey>id</uniqueKey>
 
-    <defaultSearchField>title</defaultSearchField>
+    <defaultSearchField>name</defaultSearchField>
 
     <solrQueryParser defaultOperator="OR" />
 

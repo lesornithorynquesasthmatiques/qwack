@@ -35,8 +35,7 @@ public class SongBatchTest {
 			"--directory"  , baseDirHelper.getBaseDirectory().getAbsolutePath(), 
 			"--host"       , mongoHelper.getMongoHost(), 
 			"--port"       , Integer.toString(mongoHelper.getMongoPort()), 
-			"--database"   , mongoHelper.getDb().getName(), 
-			"--collection" , "songs"
+			"--database"   , mongoHelper.getDb().getName()
 		};
 		//When
 		SongBatch main = new SongBatch();

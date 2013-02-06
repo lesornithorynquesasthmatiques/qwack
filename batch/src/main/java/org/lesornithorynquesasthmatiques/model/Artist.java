@@ -2,9 +2,12 @@ package org.lesornithorynquesasthmatiques.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Artist {
 
 	/** Echo Nest ID (String) */
+	@JsonProperty("_id")
 	private String id;
 
 	/** ID from musicbrainz.org (String) */

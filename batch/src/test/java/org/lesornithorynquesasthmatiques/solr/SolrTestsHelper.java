@@ -25,6 +25,10 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 					new File("src/main/solr/solr/songs/conf")
 					);
 			SolrHelper.setSongsCore(songs);
+			SolrServer artists = EmbeddedSolrServerFactory.createEmbeddedSolrServer(
+					new File("src/main/solr/solr/artists/conf")
+					);
+			SolrHelper.setArtistsCore(artists);
 			SolrServer suggestions = EmbeddedSolrServerFactory.createEmbeddedSolrServer(
 					new File("src/main/solr/solr/suggestions/conf")
 					);
@@ -103,6 +107,8 @@ public class SolrTestsHelper extends SolrHelper implements TestRule {
 
 	protected void after() throws SolrServerException, IOException {
 		if(SolrHelper.getSongsCore() != null) SolrHelper.getSongsCore().deleteByQuery("*:*");
+		if(SolrHelper.getArtistsCore() != null) SolrHelper.getArtistsCore().deleteByQuery("*:*");
+		if(SolrHelper.getSuggestionsCore() != null) SolrHelper.getSuggestionsCore().deleteByQuery("*:*");
 	}
 	
 }

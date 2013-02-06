@@ -24,10 +24,6 @@ public class IndexedSong {
 	@Field
 	private String id;
 
-	/** Echo Nest song ID (String) */
-	@Field
-	private String songid;
-	
 	/** Echo Nest track ID (String) */
 	@Field
 	private String trackid;
@@ -120,8 +116,7 @@ public class IndexedSong {
 	 * @param original
 	 */
 	public IndexedSong(Song original) {
-		this.id = original.getId().toString();
-		this.songid = original.getSongid();
+		this.id = original.getId();
 		this.trackid = original.getTrackid();
 		this.tracksdid = original.getTracksdid();
 		this.releasesdid = original.getReleasesdid();
@@ -181,14 +176,6 @@ public class IndexedSong {
 
 	public void setYear(int year) {
 		this.year = year;
-	}
-
-	public String getSongid() {
-		return songid;
-	}
-
-	public void setSongid(String songid) {
-		this.songid = songid;
 	}
 
 	public String getTrackid() {
@@ -323,9 +310,9 @@ public class IndexedSong {
 	    op.put("inc", 1); 
 		SolrInputDocument doc = new SolrInputDocument(); 
 	    doc.addField("id", Objects.hashCode(type, textsuggest)); 
-	    doc.addField("textsuggest", textsuggest); 
-	    doc.addField("type", type.ordinal()); 
-	    doc.addField("popularity", op);
+	    doc.addField("s", textsuggest); 
+	    doc.addField("t", type.ordinal()); 
+	    doc.addField("p", op);
 		return doc;
 	}
 

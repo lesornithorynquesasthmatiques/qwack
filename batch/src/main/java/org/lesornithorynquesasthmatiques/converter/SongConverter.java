@@ -3,7 +3,6 @@ package org.lesornithorynquesasthmatiques.converter;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import org.bson.types.ObjectId;
 import org.lesornithorynquesasthmatiques.hdf.CompoundDataset;
 import org.lesornithorynquesasthmatiques.lang.Numbers;
 import org.lesornithorynquesasthmatiques.model.Artist;
@@ -31,7 +30,7 @@ public class SongConverter {
 	public Song convert(CompoundDataset analyzis, CompoundDataset metadata, CompoundDataset musicBrainz, String[] tags, String[] terms, String[] similarArtists, Path path) {
 		
 		Song song = new Song();
-		song.setId(new ObjectId());
+		song.setId("1");
 		
 		Artist artist = new Artist();
 		song.setArtist(artist);
@@ -58,7 +57,7 @@ public class SongConverter {
 		artist.setPlaymeid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 10)));
 		song.setRelease(Strings.emptyToNull((String) metadata.getValue(0, 14)));
 		song.setReleasesdid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 15)));
-		song.setSongid(Strings.emptyToNull((String) metadata.getValue(0, 17)));
+		song.setId(Strings.emptyToNull((String) metadata.getValue(0, 17)));
 		song.setTitle(Strings.emptyToNull((String) metadata.getValue(0, 18)));
 		song.setTracksdid(Numbers.negativeOrZeroToNull((int) metadata.getValue(0, 19)));
 		

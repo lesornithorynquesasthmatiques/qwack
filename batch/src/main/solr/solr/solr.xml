@@ -30,6 +30,7 @@
   -->
   <cores adminPath="/admin/cores" defaultCoreName="songs">
     <core name="songs" instanceDir="./songs" />
+    <core name="artists" instanceDir="./artists" />
     <core name="suggestions" instanceDir="./suggestions" />
   </cores>
 </solr>

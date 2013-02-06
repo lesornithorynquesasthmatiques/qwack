@@ -32,12 +32,9 @@
          <maxTime>1000</maxTime>
        </autoCommit>
       -->
-	<updateLog class="solr.FSUpdateLog">
-      <str name="dir">${solr.data.dir:}</str>
-    </updateLog>
-
   </updateHandler>
-  
+
+
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        Query section - these settings control query time things like caches
        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
@@ -93,83 +90,16 @@
        </httpCaching>
   </requestDispatcher>
 
-  <requestHandler name="search" class="solr.SearchHandler">
+  <requestHandler name="search" class="solr.SearchHandler" default="true">
      <lst name="defaults">
+       <str name="defType">edismax</str>
        <str name="echoParams">explicit</str>
        <int name="rows">10</int>
+       <str name="wt">json</str>
+       <str name="qf">title release artistName locationName mbtags</str>
      </lst>
   </requestHandler>
 
-
-
-  <!-- Default request handler config for auto complete
-       Tune the weights and boosts to adjust behaviour
-  -->
-  <!-- http://www.cominvent.com/2012/01/25/super-flexible-autocomplete-with-solr/ -->
-  <requestHandler class="solr.SearchHandler" name="/ac" default="true" >
-    <lst name="defaults">
-		<str name="defType">dismax</str><!-- edismax does not use pf ??? -->
-		<str name="rows">20</str>
-		<str name="fl">s,t</str>
- 		<str name="qf">s^30 textng^40.0</str>
-		<str name="pf">textnge^60.0</str>
-		<str name="bf">product(log(p),100)^60</str>
-		<str name="wt">json</str>
-		<str name="boost">
-			product(
-				map(query($titlequery),0,0,1,$titleboost),
-				map(query($releasequery),0,0,1,$releaseboost),
-				map(query($artistquery),0,0,1,$artistboost),
-				map(query($locationquery),0,0,1,$locationboost),
-				map(query($keywordquery),0,0,1,$keywordboost),
-				$typeboost)</str>
-		<double name="typeboost">1.0</double>
-
-		<str name="titlequery">t:0</str>
-		<double name="titleboost">0.9</double>
-		
-		<str name="releasequery">t:1</str>
-		<double name="releaseboost">0.7</double>
-		
-		<str name="artistquery">t:3</str>
-		<double name="artistboost">0.8</double>
-		
-		<str name="locationquery">t:4</str>
-		<double name="locationboost">0.7</double>
-		
-		<str name="keywordquery">t:5</str>
-		<double name="keywordboost">0.5</double>
-
-		<str name="debugQuery">false</str>
-    </lst>
-  </requestHandler>
-
-
-	<searchComponent class="solr.SpellCheckComponent" name="suggest">
-		<lst name="spellchecker">
-			<str name="name">suggest</str>
-			<str name="classname">org.apache.solr.spelling.suggest.Suggester</str>
-			<str name="lookupImpl">org.apache.solr.spelling.suggest.fst.WFSTLookupFactory</str>
-			<str name="field">s</str>  <!-- the indexed field to derive suggestions from -->
-			<float name="threshold">0</float>
-			<str name="buildOnCommit">true</str>
-			<!-- <str name="sourceLocation">american-english</str> -->
-		</lst>
-	</searchComponent>
-
-	<requestHandler class="org.apache.solr.handler.component.SearchHandler" name="/suggest">
-		<lst name="defaults">
-			<str name="spellcheck">true</str>
-			<str name="spellcheck.dictionary">suggest</str>
-			<str name="spellcheck.onlyMorePopular">true</str>
-			<str name="spellcheck.count">20</str>
-			<str name="spellcheck.collate">true</str>
-		</lst>
-		<arr name="components">
-			<str>suggest</str>
-		</arr>
-	</requestHandler>
-  
   <requestHandler name="/update"
                   class="solr.XmlUpdateRequestHandler">
     </requestHandler>

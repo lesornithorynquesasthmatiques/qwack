@@ -36,14 +36,20 @@ public class SongOptions {
 	@Option(name = "-md", aliases = {"--database"}, usage = "Mongo database, default: main") 
 	private String mongoDatabaseName = "main";
 
-	@Option(name = "-mc", aliases = {"--collection"}, usage = "Mongo collection, default: songs") 
-	private String mongoCollectionName = "songs";
+	@Option(name = "-msc", aliases = {"--songs-collection"}, usage = "Mongo songs collection, default: songs") 
+	private String mongoSongsCollectionName = "songs";
+
+	@Option(name = "-mac", aliases = {"--artists-collection"}, usage = "Mongo artists collection, default: songs") 
+	private String mongoArtistsCollectionName = "artists";
 
 	@Option(name = "-ds", aliases = {"--disable-solr"}, usage = "Disable Solr indexation, default: false") 
 	private boolean disableSolr = false;
 
 	@Option(name = "-sso", aliases = {"--solr-songs-url"}, usage = "Solr URL for Songs Core, default: http://localhost:8983/solr/songs") 
 	private String solrSongsCoreUrl = "http://localhost:8983/solr/songs";
+
+	@Option(name = "-sar", aliases = {"--solr-artists-url"}, usage = "Solr URL for Artists Core, default: http://localhost:8983/solr/artists") 
+	private String solrArtistsCoreUrl = "http://localhost:8983/solr/artists";
 
 	@Option(name = "-ssu", aliases = {"--solr-suggestions-url"}, usage = "Solr URL for Suggestions Core, default: http://localhost:8983/solr/suggestions") 
 	private String solrSuggestionsCoreUrl = "http://localhost:8983/solr/suggestions";
@@ -87,8 +93,12 @@ public class SongOptions {
 		return mongoDatabaseName;
 	}
 
-	public String getMongoCollectionName() {
-		return mongoCollectionName;
+	public String getMongoSongsCollectionName() {
+		return mongoSongsCollectionName;
+	}
+
+	public String getMongoArtistsCollectionName() {
+		return mongoArtistsCollectionName;
 	}
 
 	public boolean isDisableSolr() {
@@ -101,6 +111,14 @@ public class SongOptions {
 
 	public String getSolrSuggestionsCoreUrl() {
 		return solrSuggestionsCoreUrl;
+	}
+
+	public String getSolrArtistsCoreUrl() {
+		return solrArtistsCoreUrl;
+	}
+
+	public void setSolrArtistsCoreUrl(String solrArtistsCoreUrl) {
+		this.solrArtistsCoreUrl = solrArtistsCoreUrl;
 	}
 
 	public boolean isHelp() {
