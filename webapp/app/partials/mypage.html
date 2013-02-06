@@ -18,7 +18,7 @@
             <div  style="margin-right: 10px;"  class="left">
                 <img src="{{artist.lastfm.image[1]['#text']}}">
             </div>
-            <h6><a data-ng-click="openArtistPage(vote.artist.mbid)">{{vote.artist.name}}</a></h6>
+            <h6><a data-ng-click="openArtistPage(vote.artist.mbid)">{{artist.name}}</a></h6>
             <p ng-bind-html-unsafe="artist.lastfm.bio.summary"></p>
 
         <button class="button right">Add artist to your list</button>
