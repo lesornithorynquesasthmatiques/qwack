@@ -6,7 +6,13 @@ if (process.env.MODE == 'FRONT_DEV') {
 }
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/main');
+
+if (process.env.MODE == 'PRODUCTION') {
+    mongoose.connect('mongodb://4ever-db.aws.xebiatechevent.info/main');   
+} else {
+    mongoose.connect('mongodb://localhost/main');  
+}
+
 
 var db = mongoose.connection;
 
