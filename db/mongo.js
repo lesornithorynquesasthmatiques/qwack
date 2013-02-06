@@ -24,7 +24,7 @@ db.once('open', function() {
 var songSchema = mongoose.Schema({
 
     /** Echo Nest track ID (String) */
-    id: String,
+    _id: String,
     
     /** ID from 7digital.com or -1 (int) */
     tracksdid: Number,
@@ -51,7 +51,7 @@ var songSchema = mongoose.Schema({
 });
 
 var artistSchema = mongoose.Schema({
-	 id: String,
+	 _id: String,
 
 	/** ID from musicbrainz.org (String) */
 	mbid: String,
@@ -80,7 +80,8 @@ var artistSchema = mongoose.Schema({
 var userSchema = mongoose.Schema({
     email: String,
     password: String,
-    city: String
+    city: String,
+    favArtists:[{ artistId: String, creationDate: Date }]
 });
 
 var Songs = mongoose.model('songs', songSchema);
