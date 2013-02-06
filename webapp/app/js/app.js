@@ -12,6 +12,10 @@ angular.module('qwackApp', ['qwackServices'])
         templateUrl: 'partials/artist.html',
         controller: 'ArtistListCtrl'
       })
+      .when('/register', {
+        templateUrl: 'partials/register.html',
+        controller: 'RegisterCtrl'
+      })
       .otherwise({
         redirectTo: '/login'
       });
