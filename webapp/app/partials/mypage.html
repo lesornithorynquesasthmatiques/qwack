@@ -18,7 +18,7 @@
             <div  style="margin-right: 10px;"  class="left">
                 <img src="{{artist.lastfm.image[1]['#text']}}">
             </div>
-            <p>{{artist.lastfm.bio.summary}}</p>
+            <p ng-bind-html-unsafe="artist.lastfm.bio.summary"></p>
 
         <button class="button right">Add artist to your list</button>
     </div>
