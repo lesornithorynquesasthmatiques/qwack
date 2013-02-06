@@ -1,7 +1,11 @@
 'use strict';
 
-function NewsCtrl($scope, $http) {
+function NewsCtrl($scope, $http, $location) {
   $scope.latestVotes = [];
+  
+  $scope.openArtistPage = function(mbid) {
+    $location.path('/artist/' + mbid);
+  };
   
   $http.get('/api/latest-votes', $scope.user).
     success(function(data, status, headers, config) {

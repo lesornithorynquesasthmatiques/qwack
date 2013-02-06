@@ -2,14 +2,13 @@
     <li><a href="#mypage">Back</a></li>
 </ul>
 <div class="panel">
-    <h3>Artiste YYYY</h3>
+    <h3>{{lastFmInfo.artist.name}}</h3>
     <div class="row">
-        <h5>My preferred artists</h5>
         <div class="twelve columns">
             <div  style="margin-right: 10px;"  class="left">
-                <img src="{{$scope.lastFmInfo.artist.image[0].#text}}">
+                <img src="{{lastFmInfo.artist.image[0]['#text']}}">
             </div>
-            <p>{{$scope.lastFmInfo.artist.bio.summary}}</p>
+            <p>{{lastFmInfo.artist.bio.summary}}</p>
         </div>
     </div>
     <div class="row">
