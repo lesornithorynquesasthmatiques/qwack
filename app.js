@@ -81,6 +81,8 @@ app.get('/api/mongo-search', api.mongoSearch);
 app.get('/api/solr-search', api.solrSearch);
 app.get('/api/solr-suggest', api.solrSuggest);
 app.get('/partials/:name', routes.partials);
+
+app.get('/lastfm/events/:mbid', lastfm.getArtistEvents);
 app.get('/lastfm/artist/:mbid', lastfm.getArtistBio);
 
 app.get('/api/artists/', api.listArtists);

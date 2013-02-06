@@ -15,6 +15,23 @@ var lastfm = new LastFmNode({
 });
 
 
+exports.getArtistEvents = function (req, res){
+
+	var request = lastfm.request("artist.getEvents", {
+    mbid: req.params.mbid,
+    api_key: 'c46d90be348080de1f22870110958615',
+    limit: 20,
+    handlers: {
+        success: function(data) {
+            res.json(data);
+        },
+        error: function(error) {
+        	res.json({error: true, message: error.message});
+        }
+    }
+	});
+}
+
 // Requete contient le mbid de l'artiste
 exports.getArtistBio = function (req, res){
 
