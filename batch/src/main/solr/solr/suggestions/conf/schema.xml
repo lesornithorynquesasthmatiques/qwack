@@ -88,20 +88,20 @@
 		<field name="_version_" type="long" indexed="true" stored="true"/>
 		
 		<!-- The main text to return as the suggestion. This is not searched -->
-		<field name="textsuggest" type="text_suggest" indexed="true" stored="true" omitNorms="true" />
+		<field name="s" type="text_suggest" indexed="true" stored="true" omitNorms="true" />
 		
 		<!-- Suggest type/category. Example: person, book, category, keyword -->
-		<field name="type" type="int" indexed="true" stored="true"/>
+		<field name="t" type="int" indexed="true" stored="true"/>
 
 		<!-- Popularity -->
-		<field name="popularity" type="int" indexed="true" stored="true"/>
+		<field name="p" type="int" indexed="true" stored="true"/>
 		
-		<!-- A variant of textsuggest which only matches from the very left edge -->
-		<copyField source="textsuggest" dest="textnge"/>
+		<!-- A variant of s which only matches from the very left edge -->
+		<copyField source="s" dest="textnge"/>
 		<field name="textnge" type="autocomplete_edge" indexed="true" stored="false" />
 		
-		<!-- A variant of textsuggest which matches from the left edge of all terms (implicit truncation) -->
-		<copyField source="textsuggest" dest="textng"/>
+		<!-- A variant of s which matches from the left edge of all terms (implicit truncation) -->
+		<copyField source="s" dest="textng"/>
 		<field name="textng" type="autocomplete_ngram" indexed="true" stored="false" omitNorms="true" omitTermFreqAndPositions="true" />
 		
 	</fields>

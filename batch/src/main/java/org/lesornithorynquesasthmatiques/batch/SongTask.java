@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.lesornithorynquesasthmatiques.converter.SongConverter;
 import org.lesornithorynquesasthmatiques.hdf.CompoundDataset;
 import org.lesornithorynquesasthmatiques.hdf.SongFileReader;
+import org.lesornithorynquesasthmatiques.model.IndexedArtist;
 import org.lesornithorynquesasthmatiques.model.IndexedSong;
 import org.lesornithorynquesasthmatiques.model.Song;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
@@ -24,7 +25,7 @@ public class SongTask implements Runnable {
 	
 	private SongConverter converter;
 	
-	private MongoWriter<Song> mongoWriter;
+	private MongoWriter mongoWriter;
 
 	private SolrWriter solrWriter;
 	
@@ -42,7 +43,7 @@ public class SongTask implements Runnable {
 		this.converter = converter;
 	}
 
-	public void setMongoWriter(MongoWriter<Song> mongoWriter) {
+	public void setMongoWriter(MongoWriter mongoWriter) {
 		this.mongoWriter = mongoWriter;
 	}
 
@@ -77,7 +78,7 @@ public class SongTask implements Runnable {
 			Song song = converter.convert(analyzis, metadata, musicBrainz, tags, terms, similarArtists, reader.getFile());
 			//write
 			mongoWriter.write(song);
-			if(solrWriter != null) solrWriter.write(new IndexedSong(song));
+			if(solrWriter != null) solrWriter.write(new IndexedSong(song), new IndexedArtist(song.getArtist()));
 			LOG.debug("File read successfully: {}", reader.getFile());
 			successFiles.incrementAndGet();
 		} catch (Exception e) {

@@ -22,10 +22,9 @@ db.once('open', function() {
 });
 
 var songSchema = mongoose.Schema({
-    songid: String,
 
     /** Echo Nest track ID (String) */
-    trackid: String,
+    id: String,
     
     /** ID from 7digital.com or -1 (int) */
     tracksdid: Number,

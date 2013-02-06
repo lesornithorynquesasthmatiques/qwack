@@ -1,12 +1,12 @@
 package org.lesornithorynquesasthmatiques.mongo;
 
 import java.net.UnknownHostException;
-import java.util.List;
 
 import javax.annotation.concurrent.ThreadSafe;
 
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
+import org.lesornithorynquesasthmatiques.model.Song;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -17,31 +17,28 @@ import com.mongodb.MongoException;
  *
  */
 @ThreadSafe
-public class MongoWriter<T> {
+public class MongoWriter {
 
 	private Jongo jongo;
 
-	private MongoCollection collection;
+	private MongoCollection songs;
+
+	private MongoCollection artists;
 
 	public MongoWriter(String mongoHost, Integer mongoPort, String mongoUser,
 			String mongoPassword, String mongoWriteConcern, String mongoDatabaseName,
-			String mongoCollectionName) throws UnknownHostException, MongoException {
+			String songsCollectionName, String artistsCollectionName) throws UnknownHostException, MongoException {
 		MongoHelper.initMongo(mongoHost, mongoPort, mongoUser, mongoPassword, mongoWriteConcern);
 		Mongo mongo = MongoHelper.getMongo();
 		DB db = mongo.getDB(mongoDatabaseName);
 		jongo =  MongoHelper.getJongo(db);
-		collection = jongo.getCollection(mongoCollectionName);
+		songs = jongo.getCollection(songsCollectionName);
+		artists = jongo.getCollection(artistsCollectionName);
 	}
 	
-	public void write(T object) {
-		collection.save(object);
+	public void write(Song object) {
+		songs.save(object);
+		artists.save(object.getArtist());
 	}
 	
-	public void write(List<T> objects) {
-		//FIXME Can't Jongo optimize this??
-		for (T o : objects) {
-			write(o);
-		}
-	}
-
 }

@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.lesornithorynquesasthmatiques.converter.SongConverter;
 import org.lesornithorynquesasthmatiques.hdf.SongFileReader;
-import org.lesornithorynquesasthmatiques.model.Song;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
 import org.lesornithorynquesasthmatiques.solr.SolrWriter;
 import org.slf4j.Logger;
@@ -32,7 +31,7 @@ public class SongFileScanner extends SimpleFileVisitor<Path> {
 
 	private SongConverter converter;
 	
-	private MongoWriter<Song> mongoWriter;
+	private MongoWriter mongoWriter;
 
 	private SolrWriter solrWriter;
 
@@ -75,7 +74,7 @@ public class SongFileScanner extends SimpleFileVisitor<Path> {
 		this.converter = converter;
 	}
 
-	public void setMongoWriter(MongoWriter<Song> mongoWriter) {
+	public void setMongoWriter(MongoWriter mongoWriter) {
 		this.mongoWriter = mongoWriter;
 	}
 

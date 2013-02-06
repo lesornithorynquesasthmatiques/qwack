@@ -17,7 +17,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 import org.lesornithorynquesasthmatiques.converter.SongConverter;
-import org.lesornithorynquesasthmatiques.model.Song;
 import org.lesornithorynquesasthmatiques.mongo.MongoWriter;
 import org.lesornithorynquesasthmatiques.solr.SolrHelper;
 import org.lesornithorynquesasthmatiques.solr.SolrWriter;
@@ -98,20 +97,26 @@ public class SongBatch {
 		return status;
 	}
 
-	private MongoWriter<Song> newMongoWriter() throws UnknownHostException, MongoException {
-		MongoWriter<Song> writer = new MongoWriter<Song>(
+	private MongoWriter newMongoWriter() throws UnknownHostException, MongoException {
+		MongoWriter writer = new MongoWriter(
 			options.getMongoHost(), 
 			options.getMongoPort(), 
 			options.getMongoUser(), 
 			options.getMongoPassword(),
 			options.getMongoWriteConcern(),
 			options.getMongoDatabaseName(), 
-			options.getMongoCollectionName());
+			options.getMongoSongsCollectionName(),
+			options.getMongoArtistsCollectionName()
+		);
 		return writer;
 	}
 
 	private SolrWriter newSolrWriter() throws UnknownHostException, MongoException {
-		SolrWriter writer = new SolrWriter(options.getSolrSongsCoreUrl(), options.getSolrSuggestionsCoreUrl());
+		SolrWriter writer = new SolrWriter(
+			options.getSolrSongsCoreUrl(), 
+			options.getSolrSuggestionsCoreUrl(), 
+			options.getSolrArtistsCoreUrl()
+		);
 		return writer;
 	}
 
@@ -133,7 +138,8 @@ public class SongBatch {
 			LOG.info("Mongo port: {}", options.getMongoPort());
 			LOG.info("Mongo user: {}", options.getMongoUser());
 			LOG.info("Mongo DB: {}", options.getMongoDatabaseName());
-			LOG.info("Mongo Collection: {}", options.getMongoCollectionName());
+			LOG.info("Mongo Songs Collection: {}", options.getMongoSongsCollectionName());
+			LOG.info("Mongo Artists Collection: {}", options.getMongoArtistsCollectionName());
 			LOG.info("Solr Songs Core URL: {}", options.getSolrSongsCoreUrl());
 			LOG.info("Solr Suggestions Core URL: {}", options.getSolrSuggestionsCoreUrl());
 		}

@@ -1,19 +1,12 @@
 package org.lesornithorynquesasthmatiques.model;
 
-import org.bson.types.ObjectId;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Song {
 
-	/**
-	 * Mongo identifier.
-	 */
-	@JsonProperty("_id")
-	private ObjectId id;
-
 	/** Echo Nest song ID (String) */
-	private String songid;
+	@JsonProperty("_id")
+	private String id;
 	
 	/** Echo Nest track ID (String) */
 	private String trackid;
@@ -44,20 +37,12 @@ public class Song {
 	public Song() {
 	}
 
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getSongid() {
-		return songid;
-	}
-
-	public void setSongid(String songid) {
-		this.songid = songid;
 	}
 
 	public String getTrackid() {
