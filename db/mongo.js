@@ -1,5 +1,10 @@
 'use strict';
 
+if (process.env.MODE == 'FRONT_DEV') {
+	exports.Songs = {};
+	return;
+}
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/main');
 

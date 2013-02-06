@@ -3,7 +3,6 @@
 var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api'),
-  db = require('./db/mongo'),
   restler = require('restler');
 
 var app = module.exports = express();
@@ -15,7 +14,7 @@ app.configure(function() {
   // allows to fake "PUT" and "DELTE" methods via a "method" attribute in POST requests
   app.use(express.methodOverride());
   // serves static resources
-  app.use(express.static(__dirname + '/webapp'));
+  app.use(express.static(__dirname + '/webapp/app'));
   
   app.use(app.router);
 });

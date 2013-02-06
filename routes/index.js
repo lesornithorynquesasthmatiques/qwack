@@ -1,7 +1,7 @@
 'use strict';
 
 exports.index = function(req, res) {
-  res.sendfile('views/index.html');
+  res.sendfile('webapp/app/index.html');
 };
 
 exports.partials = function(req, res) {
