@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 
-<html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
@@ -28,21 +27,8 @@
 </head>
 <body data-ng-app="qwackApp">
 
-  <div class="row">
-    <div class="six columns">
-      <div id="welcomePanel">
-        <h2>Bienvenue sur YAWYL !</h2>
-        <form name="loginForm" data-ng-controller="LoginCtrl" data-ng-submit="login()">
-            <fieldset>
-                <p><label for="email">Email</label><input type="email" name="email" data-ng-model="user.email" required /></p>
-                <p><label for="password">Mot de passe</label><input type="password" name="passwd" data-ng-model="user.passwd" required /></p>
-                <p><input type="submit" class="button success" value="Me connecter" /><a class="right">M'inscrire</a></p>
-            </fieldset>
-        </form>
-      </div>
-    </div>
-  </div>
   
+  <div data-ng-view=""></div>
   
   <!-- Included JS Files (Uncompressed) -->
   <!--

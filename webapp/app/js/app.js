@@ -4,11 +4,15 @@
 angular.module('qwackApp', ['qwackServices'])
   .config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/login', {
+        templateUrl: 'partials/login.html',
+        controller: 'LoginCtrl'
+      })
+      .when('/artists', {
         templateUrl: 'partials/artist.html',
         controller: 'ArtistListCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/login'
       });
   }]);

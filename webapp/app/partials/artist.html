@@ -1,7 +1,7 @@
 <div class="panel">
-	<h3>Look this is a list from Angular!</h3>
+	<h3>Artists</h3>
 	<ul id="artists" class="inline-list">
-		<li ng-repeat="artist in artists | orderBy:orderProp">
+		<li data-ng-repeat="artist in artists | orderBy:orderProp">
 		  <p>{{artist.name}}</p>
 		</li>
 	</ul>

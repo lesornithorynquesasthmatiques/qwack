@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="six columns">
+      <div id="welcomePanel">
+        <h2>Bienvenue sur YAWYL !</h2>
+        <form name="loginForm" data-ng-controller="LoginCtrl" data-ng-submit="login()">
+            <fieldset>
+                <p><label for="email">Email</label><input type="email" name="email" data-ng-model="user.email" required /></p>
+                <p><label for="password">Mot de passe</label><input type="password" name="passwd" data-ng-model="user.passwd" required /></p>
+                <p><input type="submit" class="button success" value="Me connecter" /><a class="right">M'inscrire</a></p>
+            </fieldset>
+        </form>
+        
+        <a href="#artists">Liens de test vers artists</a>
+      </div>
+    </div>
+</div>
