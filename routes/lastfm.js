@@ -30,7 +30,7 @@ exports.getArtistEvents = function (req, res){
         }
     }
 	});
-}
+};
 
 // Requete contient le mbid de l'artiste
 exports.getArtistBio = function (req, res){

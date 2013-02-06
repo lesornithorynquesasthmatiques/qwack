@@ -1,7 +1,7 @@
 'use strict';
 
 function AuthenticationCtrl($scope, $location) {
-  var loggedIn = true;
+  var loggedIn = false;
   $location.path(loggedIn ? '/news' : '/login');
 }
 

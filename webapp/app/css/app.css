@@ -3,3 +3,9 @@
 .expand-width {
     width: 100%;
 }
+
+.news-item {
+	border: solid 1px #e6e6e6;
+	padding: .5em;
+	margin-bottom: 1em;
+}

@@ -158,8 +158,8 @@ exports.latestVotes = function(req, res) {
       name: "Laurène"
     },
     artist: {
-      id: "sdfgh9876sdf",
-      name: "Black Sabbath"
+      mbid: "1695c115-bf3f-4014-9966-2b0c50179193",
+      name: "Muse"
     },
     time: new Date()
   }, {
@@ -168,8 +168,8 @@ exports.latestVotes = function(req, res) {
       name: "Yann"
     },
     artist: {
-      id: "sdfgh9876sdf",
-      name: "René la Taupe"
+      mbid: "bfcc6d75-a6a5-4bc6-8282-47aec8531818",
+      name: "Cher"
     },
     time: new Date()
   }, {
@@ -178,7 +178,7 @@ exports.latestVotes = function(req, res) {
       name: "Séven"
     },
     artist: {
-      id: "sdfgh9876sdf",
+      mbid: "sdfgh9876sdf",
       name: "La Compagnie Créole"
     },
     time: new Date()
@@ -188,7 +188,7 @@ exports.latestVotes = function(req, res) {
       name: "Clément"
     },
     artist: {
-      id: "sdfgh9876sdf",
+      mbid: "sdfgh9876sdf",
       name: "Édith Piaf"
     },
     time: new Date()
@@ -198,7 +198,7 @@ exports.latestVotes = function(req, res) {
       name: "Loïc"
     },
     artist: {
-      id: "sdfgh9876sdf",
+      mbid: "sdfgh9876sdf",
       name: "Madonna"
     },
     time: new Date()

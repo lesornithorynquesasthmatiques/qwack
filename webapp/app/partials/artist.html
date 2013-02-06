@@ -2,20 +2,13 @@
     <li><a href="#mypage">Back</a></li>
 </ul>
 <div class="panel">
-    <h3>Artiste YYYY</h3>
+    <h3>{{lastFmInfo.artist.name}}</h3>
     <div class="row">
-        <div class="two columns">
-            <img src="http://placehold.it/500x500&amp;text=Image">
-        </div>
-        <div class="ten columns">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type
-                specimen book. It has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was popularised in
-                the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                and more recently with desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.</p>
+        <div class="twelve columns">
+            <div  style="margin-right: 10px;"  class="left">
+                <img src="{{artist.image[0]['#text']}}">
+            </div>
+            <p>{{artist.bio.summary}}</p>
         </div>
     </div>
     <div class="row">
@@ -39,10 +32,7 @@
         </div>
         <div class="four columns">
             <ul>
-                <li>Events</li>
-                <li>Events</li>
-                <li>Events</li>
-                <li>Events</li>
+                <li data-ng-repeat="event in events">{{event.startDate}}, {{event.venue.name}}, {{event.venue.location.city}}</li>
             </ul>
         </div>
     </div>
