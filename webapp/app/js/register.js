@@ -11,11 +11,11 @@ function RegisterCtrl($scope, $location, User) {
 				passwordVerify: $scope.passwordConfirmation,
 				city: {
 					name: $scope.city,
-					lat: $scope.lat,
-					lon: $scope.lon
+					lng: $scope.lng,
+					lat: $scope.lat
 				}
 			});
-			
+			console.log("user to create : " + JSON.stringify(user));
 			user.$save(
 				function(){
 					console.log("user is registred : " + JSON.stringify(user));
@@ -42,9 +42,9 @@ function RegisterCtrl($scope, $location, User) {
             $scope.lat = e.target.value;
         });
 	});
-	$("#lon").change(function (e) {
+	$("#lng").change(function (e) {
         $scope.$apply(function() {
-            $scope.lon = e.target.value;
+            $scope.lng = e.target.value;
         });
 	});
 

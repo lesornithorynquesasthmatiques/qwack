@@ -23,13 +23,13 @@
 				<input ng-model="lat" id="lat" type="hidden"
 					name="lat" required>
 
-				<input ng-model="loc" id="loc" type="hidden"
-					name="loc" required>
+				<input ng-model="lng" id="lng" type="hidden"
+					name="lng" required>
 				
             <div id="map_canvas" style="width:500px;height:300px;margin:10px"></div>
             
              <input
-					class="button" type="submit" value="Register" ng:click="register()">
+					class="button" type="submit" value="Register">
             	
     <script>
     
@@ -65,7 +65,7 @@
 
           $('#city').val(place.formatted_address).change();
           $('#lat').val(place.geometry.location.lat()).change();
-          $('#lon').val(place.geometry.location.lng()).change();
+          $('#lng').val(place.geometry.location.lng()).change();
 
           // If the place has a geometry, then present it on a map.
           if (place.geometry.viewport) {

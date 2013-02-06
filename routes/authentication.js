@@ -4,12 +4,12 @@ var db = require("../db/mongo");
 
 
 exports.register = function(req, res) {
-    console.log(req.body);
 
     var email = req.body.email;
     var password = req.body.password;
     var passwordVerify = req.body.passwordVerify;
     var city = req.body.city;
+    console.log("*****************************" + req.body.city);
 
     if (password == passwordVerify) {
         var user = new db.Users();
