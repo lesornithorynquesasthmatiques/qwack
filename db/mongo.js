@@ -6,7 +6,13 @@ if (process.env.MODE == 'FRONT_DEV') {
 }
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/main');
+
+if (process.env.MODE == 'PRODUCTION') {
+    mongoose.connect('mongodb://4ever-db.aws.xebiatechevent.info/main');   
+} else {
+    mongoose.connect('mongodb://localhost/main');  
+}
+
 
 var db = mongoose.connection;
 
@@ -45,8 +51,14 @@ var songSchema = mongoose.Schema({
     duration: Number
 });
 
+var userSchema = mongoose.Schema({
+    email: String,
+    password: String,
+    city: String
+});
+
 var Songs = mongoose.model('songs', songSchema);
-
-
+var Users = mongoose.model('users', userSchema);
 
 exports.Songs = Songs;
+exports.Users = Users;
