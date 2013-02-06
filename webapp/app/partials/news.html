@@ -1,7 +1,20 @@
 <dl class="tabs two-up">
     <dd class="active"><a href="#">News</a></dd>
-    <dd><a href="#/mypage">My page</a></dd>
+    <dd><a href="#mypage">My page</a></dd>
 </dl>
-<ul>
-    <li data-ng-repeat="vote in latestVotes">{{vote.user.name}} added {{vote.artist.name}}</li>
-</ul>
+
+<div class="row">
+    <div class="six columns">
+        <div class="panel">
+            <h4>What's up ?</h4>
+            <ul>
+                <li data-ng-repeat="vote in latestVotes">{{vote.user.name}} added {{vote.artist.name}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="six columns">
+        <div class="panel">
+            <h4>Events</h4>
+        </div>
+    </div>
+</div>
