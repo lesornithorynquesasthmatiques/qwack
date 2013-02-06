@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
@@ -21,74 +22,25 @@
   <link rel="stylesheet" href="foundation/stylesheets/general_foundicons.css">
   <link rel="stylesheet" href="foundation/stylesheets/app.css">
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.0/themes/base/jquery-ui.css" />
+  <link rel="stylesheet" href="css/app.css">
 
   <script src="foundation/javascripts/modernizr.foundation.js"></script>
 </head>
-<body ng-app="qwackApp">
+<body data-ng-app="qwackApp">
 
   <div class="row">
-    <div class="twelve columns">
-      <div class="panel">
-        <h2>Welcome to Foundation</h2>
-        <p>This is version <strong>3.2.5</strong> generated on January 26, 2013.</p>
-        <i class="general foundicon-page">
-          <p>page</p>
-        </i>
+    <div class="six columns">
+      <div id="welcomePanel">
+        <h2>Bienvenue sur YAWYL !</h2>
+        <form name="loginForm" data-ng-controller="LoginCtrl" data-ng-submit="login()">
+            <fieldset>
+                <p><label for="email">Email</label><input type="email" name="email" data-ng-model="user.email" required /></p>
+                <p><label for="password">Mot de passe</label><input type="password" name="passwd" data-ng-model="user.passwd" required /></p>
+                <p><input type="submit" class="button success" value="Me connecter" /><a class="right">M'inscrire</a></p>
+            </fieldset>
+        </form>
       </div>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="eight columns">
-      <div class="row">
-        <div class="twelve columns">
-          <div ng-view></div>
-        </div>
-      </div>
-
-      <a id="toggleImageSlider" class="button">Toggle the image slider</a>
-  
-      <div id="imageSlider" class="row">
-        <div class="twelve columns">
-          <h3>Orbit</h3>
-          <div id="featured">
-            <img src="holder.js/1200x250/text:Slide_1" alt="slide image">
-            <img src="holder.js/1200x250/text:Slide_2" alt="slide image">
-            <img src="holder.js/1200x250/text:Slide_3" alt="slide image">
-          </div>
-        </div>
-      </div>
-      
-      <div class="row">
-        <div class="twelve columns">
-          <h3>Reveal</h3>
-          <p><a href="#" data-reveal-id="exampleModal" class="button">Example modal</a></p>
-        </div>
-      </div>
-    </div>
-
-    <div class="four columns">
-      <h4>Getting Started</h4>
-      <p>We're stoked you want to try Foundation! To get going, this file (index.html) includes some basic styles you can modify, play around with, or totally destroy to get going.</p>
-
-      <h4>Other Resources</h4>
-      <p>Once you've exhausted the fun in this document, you should check out:</p>
-      <ul class="disc">
-        <li><a href="http://foundation.zurb.com/docs">Foundation Documentation</a><br />Everything you need to know about using the framework.</li>
-        <li><a href="http://github.com/zurb/foundation">Foundation on Github</a><br />Latest code, issue reports, feature requests and more.</li>
-        <li><a href="http://twitter.com/foundationzurb">@foundationzurb</a><br />Ping us on Twitter if you have questions. If you build something with this we'd love to see it (and send you a totally boss sticker).</li>
-      </ul>
-    </div>
-  </div>
-  
-  <div id="exampleModal" class="reveal-modal">
-    <h2>This is a modal.</h2>
-    <p>
-      Reveal makes these very easy to summon and dismiss. The close button is simple an anchor with a unicode 
-      character icon and a class of <code>close-reveal-modal</code>. Clicking anywhere outside the modal will 
-      also dismiss it.
-    </p>
-    <a class="close-reveal-modal">×</a>
   </div>
   
   
@@ -108,7 +60,8 @@
   <!-- Initialize Angular -->
   <script src="lib/angular/angular.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/controllers.js"></script>
+  <script src="js/artists.js"></script>
+  <script src="js/login.js"></script>
   <script src="js/filters.js"></script>
   <script src="js/services.js"></script>
   <script src="lib/angular/angular-resource.js"></script>
@@ -118,7 +71,6 @@
   
     <script>
     $(window).load(function(){
-      $("#featured").orbit();
     });
     </script> 
   
