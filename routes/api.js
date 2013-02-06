@@ -95,3 +95,19 @@ exports.mongoSearch = function(req, res) {
 		}
 	});
 };
+
+
+exports.addFavArtistForUser = function(req, res) {
+	  // id d'artiste
+		// id user
+	};
+
+exports.removeFavArtistForUser = function(req, res) {
+	// id d'artiste
+	// id user
+};
+
+exports.listFavArtistsForUser = function(req, res) {
+	// id d'artiste
+	// id user
+};
