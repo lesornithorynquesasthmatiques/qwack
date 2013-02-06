@@ -96,7 +96,7 @@
        <str name="echoParams">explicit</str>
        <int name="rows">10</int>
        <str name="wt">json</str>
-       <str name="qf">title release artistName locationName mbtags</str>
+       <str name="qf">name locName mbtags</str>
      </lst>
   </requestHandler>
 
