@@ -151,6 +151,24 @@ exports.listArtists = function(req, res) {
 	  });
 };
 
+exports.getFavoriteArtistsForUser = function(req, res) {
+  console.log(req.user);
+//  if (!req.user) {
+//    res.json([]);
+//    return;
+//  }
+//  var user = req.user;
+  db.Users.findOne({email: 'toto@xebia.fr'}, function(err, user) {
+    var artistIds = user.favArtists.map(function(artist) {
+      return artist.artistId;
+    });
+    console.log('favArtists', artistIds);
+    db.Artists.find({_id: {$in: artistIds}}, function(err, artists) {
+      res.json(artists);
+    });
+  });
+};
+
 exports.latestVotes = function(req, res) {
   res.json([{
     user: {
