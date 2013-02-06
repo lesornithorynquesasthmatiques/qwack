@@ -51,8 +51,14 @@ var songSchema = mongoose.Schema({
     duration: Number
 });
 
+var userSchema = mongoose.Schema({
+    email: String,
+    password: String,
+    city: String
+});
+
 var Songs = mongoose.model('songs', songSchema);
-
-
+var Users = mongoose.model('users', userSchema);
 
 exports.Songs = Songs;
+exports.Users = Users;
