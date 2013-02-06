@@ -15,7 +15,7 @@ function addRequiredFlagToSearchTerms(input){
 var solrUrl = 'http://localhost:8983/solr';
 
 if (process.env.MODE == 'PRODUCTION'){
-	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr/';
+	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr';
 }
 
 	
@@ -112,6 +112,7 @@ exports.solrArtistSearch = function(req, res) {
 	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
 	'&start=' + encodeURIComponent(offset) +
 	'&rows=' + encodeURIComponent(pageSize);
+	console.log("solr url" + url);
 	rest.get(url)
 	.on('complete', function(result) {
 		if (result instanceof Error) {
