@@ -129,6 +129,7 @@ exports.listArtists = function(req, res) {
 	    }
 	    res.json(artists);
 	  });
+};
 
 exports.latestVotes = function(req, res) {
   res.json([{
@@ -182,5 +183,4 @@ exports.latestVotes = function(req, res) {
     },
     time: new Date()
   }]);
-
 };
