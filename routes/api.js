@@ -3,21 +3,6 @@
 var db = require("../db/mongo"),
 	rest = require ("restler");
 
-exports.name = function(req, res) {
-  res.json({
-    name: 'Bob'
-  });
-};
-
-exports.loveSongs = function(req, res) {
-  db.Songs.find({ title: /.*love.*/i }, function(err, songs) {
-    if (err) {
-      console.log('arg');
-    }
-    res.json(songs);
-  });
-};
-
 function replaceLuceneSpecialChars(input){
 	var luceneChars = new RegExp('+-!(){}[]^"~*?:\&|'.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1"), "g");
 	return input.replace(luceneChars, "\\$1");
@@ -30,7 +15,7 @@ function addRequiredFlagToSearchTerms(input){
 var solrUrl = 'http://localhost:8983/solr';
 
 if (process.env.MODE == 'PRODUCTION'){
-	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr/'
+	solrUrl = 'http://4ever-db2.aws.xebiatechevent.info:8983/solr/';
 }
 
 	
@@ -38,9 +23,9 @@ exports.solrSearch = function(req, res) {
 	var offset = req.query.offset || 0;
 	var pageSize = req.query.pageSize || 10;
 	var url = solrUrl + '/songs/select?q=' + 
-	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
-	'&start=' + encodeURIComponent(offset)
-	'&rows=' + encodeURIComponent(pageSize);
+  	encodeURIComponent(addRequiredFlagToSearchTerms(replaceLuceneSpecialChars(req.query["q"]))) +
+  	'&start=' + encodeURIComponent(offset) +
+  	'&rows=' + encodeURIComponent(pageSize);
 	rest.get(url)
 	.on('complete', function(result) {
 		if (result instanceof Error) {
@@ -99,4 +84,58 @@ exports.mongoSearch = function(req, res) {
 			});
 		}
 	});
+};
+
+exports.latestVotes = function(req, res) {
+  res.json([{
+    user: {
+      id: "f57iugjkf6",
+      name: "Laurène"
+    },
+    artist: {
+      id: "sdfgh9876sdf",
+      name: "Black Sabbath"
+    },
+    time: new Date()
+  }, {
+    user: {
+      id: "f57iugjkf6",
+      name: "Yann"
+    },
+    artist: {
+      id: "sdfgh9876sdf",
+      name: "René la Taupe"
+    },
+    time: new Date()
+  }, {
+    user: {
+      id: "f57iugjkf6",
+      name: "Séven"
+    },
+    artist: {
+      id: "sdfgh9876sdf",
+      name: "La Compagnie Créole"
+    },
+    time: new Date()
+  }, {
+    user: {
+      id: "f57iugjkf6",
+      name: "Clément"
+    },
+    artist: {
+      id: "sdfgh9876sdf",
+      name: "Édith Piaf"
+    },
+    time: new Date()
+  }, {
+    user: {
+      id: "f57iugjkf6",
+      name: "Loïc"
+    },
+    artist: {
+      id: "sdfgh9876sdf",
+      name: "Madonna"
+    },
+    time: new Date()
+  }]);
 };
