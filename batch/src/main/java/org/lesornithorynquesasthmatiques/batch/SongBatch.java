@@ -72,16 +72,17 @@ public class SongBatch {
 				scanner.setTaskPool(pool);
 				Files.walkFileTree(directory, scanner);
 				LOG.info("Directory successfully scanned: {}", directory);
-				if( ! options.isDisableSolr()){
-					LOG.info("Committing Solr documents.");
-					SolrHelper.getSongsCore().commit();
-					SolrHelper.getSuggestionsCore().commit();
-				}
 				LOG.info("Shutting down thread pool.");
 				taskSynchronizer.awaitUntilAllPendingTasksCompleted();
 				pool.shutdown();
 				if( ! pool.awaitTermination(60, TimeUnit.SECONDS)) {
 					throw new IllegalStateException("Thread pool timeout");
+				}
+				if( ! options.isDisableSolr()){
+					LOG.info("Committing Solr documents.");
+					SolrHelper.getSongsCore().commit();
+					SolrHelper.getArtistsCore().commit();
+					SolrHelper.getSuggestionsCore().commit();
 				}
 				LOG.info("Total files processed: {}", scanner.getTotalFiles());
 				LOG.info("Files successfully processed: {}", scanner.getSuccessFiles());

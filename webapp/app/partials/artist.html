@@ -21,6 +21,21 @@
     <div class="row">
         <div class="eight columns">
             <div>Google Map</div>
+            
+            <div id="map_canvas" style="width:500px;height:300px;margin:10px"></div>
+            
+			<script type="text/javascript">
+				$(document).ready(
+						function() {
+							var mapOptions = {
+								center : new google.maps.LatLng(-34.397, 150.644),
+								zoom : 8,
+								mapTypeId : google.maps.MapTypeId.ROADMAP
+							};
+							var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+						});
+			</script>
+            
         </div>
         <div class="four columns">
             <ul>

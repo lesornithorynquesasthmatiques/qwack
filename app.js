@@ -11,13 +11,11 @@ var express = require('express'),
 
 var app = module.exports = express();
 
-
-
-
 app.configure(function () {
     // body parsing middleware supporting JSON, urlencoded, and multipart requests
     app.use(express.bodyParser());
-    // allows to fake "PUT" and "DELTE" methods via a "method" attribute in POST requests
+    app.use(express.cookieParser());
+    // allows to fake "PUT" and "DELETE" methods via a "method" attribute in POST requests
     app.use(express.methodOverride());
     // serves static resources
     app.use(express.static(__dirname + '/webapp/app'));
