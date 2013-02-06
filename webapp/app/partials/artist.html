@@ -7,9 +7,9 @@
         <h5>My preferred artists</h5>
         <div class="twelve columns">
             <div  style="margin-right: 10px;"  class="left">
-                <img src="http://placehold.it/80x80&amp;text=[img]">
+                <img src="{{$scope.lastFmInfo.artist.image[0].#text}}">
             </div>
-            <p>{{$scope.lastFmInfo.bio.summary}}</p>
+            <p>{{$scope.lastFmInfo.artist.bio.summary}}</p>
         </div>
     </div>
     <div class="row">
