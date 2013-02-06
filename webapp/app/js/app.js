@@ -25,6 +25,6 @@ angular.module('qwackApp', ['qwackServices'])
         controller: 'RegisterCtrl'
       })
       .otherwise({
-        redirectTo: '/login'
+        redirectTo: '/news'
       });
   }]);
