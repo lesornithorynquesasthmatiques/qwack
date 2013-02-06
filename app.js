@@ -3,12 +3,15 @@
 var express = require('express'),
     routes = require('./routes'),
     api = require('./routes/api'),
+    lastfm = require('./routes/lastfm'),
     db = require('./db/mongo'),
     restler = require('restler'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy;
 
 var app = module.exports = express();
+
+
 
 
 app.configure(function () {
@@ -78,6 +81,7 @@ app.get('/api/mongo-search', api.mongoSearch);
 app.get('/api/solr-search', api.solrSearch);
 app.get('/api/solr-suggest', api.solrSuggest);
 app.get('/partials/:name', routes.partials);
+app.get('/lastfm/artist/:mbid', lastfm.getArtistBio);
 
 // redirect all others to the index (HTML5 history)
 //app.get('*', routes.index);
