@@ -1,5 +1,10 @@
 'use strict';
 
+function AuthenticationCtrl($scope, $location) {
+  var loggedIn = true;
+  $location.path(loggedIn ? '/news' : '/login');
+}
+
 function LoginCtrl($scope, $http, $location) {
   $scope.user = {
       email: "Saisissez votre email"
