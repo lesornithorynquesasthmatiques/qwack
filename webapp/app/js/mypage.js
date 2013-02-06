@@ -29,4 +29,8 @@ function MyPageCtrl($scope, $http) {
         }
  	}
 
+    $scope.openArtistPage = function(mbid) {
+    	$location.path('/artist/' + mbid);
+  	};
+
 }
