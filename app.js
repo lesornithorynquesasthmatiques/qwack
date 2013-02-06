@@ -15,7 +15,7 @@ app.configure(function() {
   // allows to fake "PUT" and "DELTE" methods via a "method" attribute in POST requests
   app.use(express.methodOverride());
   // serves static resources
-  app.use(express.static(__dirname + '/public'));
+  app.use(express.static(__dirname + '/webapp'));
   
   app.use(app.router);
 });
