@@ -2,3 +2,6 @@
     <dd class="active"><a href="#">News</a></dd>
     <dd><a href="#/mypage">My page</a></dd>
 </dl>
+<ul>
+    <li data-ng-repeat="vote in latestVotes">{{vote.user.name}} added {{vote.artist.name}}</li>
+</ul>
