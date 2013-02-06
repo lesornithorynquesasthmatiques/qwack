@@ -8,10 +8,25 @@ function MyPageCtrl($scope, $http) {
               $http.get('/api/artists/find?q='+ this.searchKey).
 			      success(function(data, status, headers, config) {
 			          $scope.searchResult = data;
+
+			          data.docs.forEach(function (artist){
+
+			         $http.get('/lastfm/artist/' + artist.mbid).
+					        success(function(data, status, headers, config) {
+					        	artist.lastfm = data.artist;
+					      }).
+					      error(function(data, status, headers, config) {
+					          console.log("ERRORRRRR", data, status, headers, config);
+					      });
+
+
+			          })
+
 			        }).
 			      error(function(data, status, headers, config) {
 			        console.log("ERRORRRRR", data, status, headers, config);
 			      });
         }
  	}
+
 }

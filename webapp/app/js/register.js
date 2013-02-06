@@ -15,7 +15,6 @@ function RegisterCtrl($scope, $location, User) {
 					lat: $scope.lat
 				}
 			});
-			console.log("user to create : " + JSON.stringify(user));
 			user.$save(
 				function(){
 					console.log("user is registred : " + JSON.stringify(user));
