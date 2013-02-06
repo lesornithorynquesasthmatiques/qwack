@@ -19,7 +19,7 @@ function RegisterCtrl($scope, $location, User) {
 			user.$save(
 				function(){
 					console.log("user is registred : " + JSON.stringify(user));
-					$location.path('/news');
+				    $location.path('/news');
 				},
 				function(){
 					$scope.message = "Registration failed";
