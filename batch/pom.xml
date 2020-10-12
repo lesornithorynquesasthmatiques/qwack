@@ -14,7 +14,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<!-- versions -->
 		<hdf.version>2.9</hdf.version>
-		<junit.version>4.10</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<festassert.version>2.0M8</festassert.version>
 		<mockito.version>1.9.0</mockito.version>
 		<embedmongo.version>1.28</embedmongo.version>
