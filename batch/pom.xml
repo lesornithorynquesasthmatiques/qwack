@@ -25,7 +25,7 @@
 		<logback.version>1.0.6</logback.version>
 		<guava.version>11.0</guava.version>
 		<joda.version>2.1</joda.version>
-		<jackson.version>2.1.0</jackson.version>
+		<jackson.version>2.9.10.8</jackson.version>
 	</properties>
 	
 	<dependencies>
